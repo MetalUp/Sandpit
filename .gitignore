@@ -1,0 +1,5 @@
+.vs
+.antlr
+obj/
+bin/
+Compiler/Compiler.sln.DotSettings.user

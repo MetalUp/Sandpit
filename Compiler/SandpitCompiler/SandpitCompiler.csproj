@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>bc</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Antlr4.Runtime.Standard" Version="4.9.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\SandpitAntlr\SandpitAntlr.csproj" />
+		<ProjectReference Include="..\SandpitCompiler.AST\SandpitCompiler.AST.csproj" />
+		<ProjectReference Include="..\SandpitCompiler.Model\SandpitCompiler.Model.csproj" />
+		<ProjectReference Include="..\CSharpCompiler\CSharpCompiler.csproj" />
+	</ItemGroup>
+
+</Project>
