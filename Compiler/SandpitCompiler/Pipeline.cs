@@ -1,12 +1,20 @@
 ﻿using Antlr4.Runtime;
+using CSharpCompiler;
 using SandpitCompiler.AST;
 using SandpitCompiler.Model;
-using CSharpCompiler;
 
 namespace SandpitCompiler;
 
 public static class Pipeline {
-    public static void Handle(string code, string fileName) {
+    public static void Handle(Options opts) {
+        var fileName = opts.FileName;
+        var code = File.ReadAllText(fileName);
+
+        Handle(code, opts);
+    }
+
+    public static void Handle(string code,  Options? options = null) {
+        options ??= new Options();
         var parser = Parse(code);
         var ast = GenerateAst(parser);
         if (parser.NumberOfSyntaxErrors > 0) {
@@ -14,8 +22,11 @@ public static class Pipeline {
         }
 
         var model = GenerateModel(ast);
-        var csCode = GenerateCSharpCode(fileName, model);
-        CompileCsharpCode(fileName, csCode, model.HasMain);
+        var csCode = GenerateCSharpCode(options.FileName, model);
+
+        if (options.CompileCSharp == true) {
+            CompileCsharpCode(options.FileName, csCode, model.HasMain);
+        }
     }
 
     private static string FileNameRoot(string fileName) => fileName.Split('.').First();

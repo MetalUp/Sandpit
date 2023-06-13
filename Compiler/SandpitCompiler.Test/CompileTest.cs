@@ -4,13 +4,15 @@ namespace SandpitCompiler.Test;
 
 [TestClass]
 public class CompileTest {
+    private Options Options => new() { CompileCSharp = true };
+
     [TestMethod]
     public void TestMainDecl() {
         Pipeline.Handle(@"main
 var a = 1
 end main
 
-", "");
+", Options);
     }
 
     [TestMethod]
@@ -20,7 +22,7 @@ end main
 var a = 1
 endmain
 
-", "");
+", Options);
             Assert.Fail("Expect exception");
         }
         catch (AggregateException e) {
@@ -28,7 +30,7 @@ endmain
         }
     }
 
-    [TestMethod, Ignore]
+    [TestMethod] [Ignore]
     public void TestMainDeclMultipleFail() {
         try {
             Pipeline.Handle(@"main
@@ -38,7 +40,7 @@ main
 var b = 1
 end main
 
-", "");
+", Options);
             Assert.Fail("Expect exception");
         }
         catch (AggregateException e) {
@@ -53,7 +55,7 @@ var a = 1
 var b = a
 end main
 
-", "");
+", Options);
     }
 
     [TestMethod]
@@ -64,7 +66,7 @@ var a = 1
 var b = c
 end main
 
-", "");
+", Options);
             Assert.Fail("Expect exception");
         }
         catch (AggregateException e) {
@@ -75,7 +77,7 @@ end main
     [TestMethod]
     public void TestConstDecl() {
         Pipeline.Handle(@"constant pi = 3
-", "");
+", Options);
     }
 
     [TestMethod]
@@ -83,7 +85,7 @@ end main
         Pipeline.Handle(@"constant pi = 3
 constant e = 4
 
-", "");
+", Options);
     }
 
     [TestMethod]
@@ -93,6 +95,6 @@ main
 var a = pi
 end main
 
-", "");
+", Options);
     }
 }
