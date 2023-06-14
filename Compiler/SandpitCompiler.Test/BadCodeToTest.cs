@@ -28,5 +28,21 @@ var b = c
 end main
 ";
 
-    public const string Code3Message = "(9,15): error CS0103: The name 'c' does not exist in the current context";
+    public const string Code3Message = "(10,15): error CS0103: The name 'c' does not exist in the current context";
+
+    public const string Code4 = @"
+procedure p()
+  var a = b
+end procedure
+";
+
+    public const string Code4Message = "(6,19): error CS0103: The name 'b' does not exist in the current context";
+
+    public const string Code5 = @"
+procedure p()
+  var a = 1
+endprocedure
+";
+
+    public const string Code5Message = "line 4:0 extraneous input 'endprocedure' expecting {'end procedure', 'var'}";
 }

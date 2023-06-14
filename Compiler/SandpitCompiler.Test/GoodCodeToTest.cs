@@ -110,6 +110,8 @@ end procedure
     public const string Code7Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void p() { 
+    var a = 1; 
+  }  
 }";
 }

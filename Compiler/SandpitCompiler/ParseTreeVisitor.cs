@@ -27,7 +27,7 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
 
     public override ASTNode VisitProcDecl(SandpitParser.ProcDeclContext context) {
         var varNodes = context.varDecl().Select(Visit);
-        return new ProcNode(varNodes.ToArray());
+        return new ProcNode(Visit(context.ID()), varNodes.ToArray());
     }
 
     public override ASTNode VisitConstDecl(SandpitParser.ConstDeclContext context) => new ConstDeclNode(Visit(context.ID()), Visit(context.INT()));
