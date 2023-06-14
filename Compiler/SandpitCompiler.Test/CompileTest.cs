@@ -30,7 +30,7 @@ endmain
         }
     }
 
-    [TestMethod] [Ignore]
+    [TestMethod]
     public void TestMainDeclMultipleFail() {
         try {
             Pipeline.Handle(@"main
@@ -44,7 +44,7 @@ end main
             Assert.Fail("Expect exception");
         }
         catch (AggregateException e) {
-            Assert.AreEqual("line 3:0 extraneous input 'endmain' expecting {'end main', 'var'}", e.InnerException.Message);
+            Assert.AreEqual("more than one main", e.InnerException.Message);
         }
     }
 
@@ -91,6 +91,17 @@ constant e = 4
     [TestMethod]
     public void TestConstAndMain() {
         Pipeline.Handle(@"constant pi = 3
+main 
+var a = pi
+end main
+
+", Options);
+    }
+
+    [TestMethod]
+    public void TestConstAndMainWithEmptyLine() {
+        Pipeline.Handle(@"constant pi = 3
+
 main 
 var a = pi
 end main

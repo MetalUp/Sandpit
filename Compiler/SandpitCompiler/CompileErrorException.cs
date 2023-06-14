@@ -1,12 +1,5 @@
-﻿using Antlr4.Runtime;
+﻿namespace SandpitCompiler;
 
-namespace SandpitCompiler;
-
-internal class SyntaxErrorException : Exception {
-    public SyntaxErrorException(IRecognizer recognizer,
-                                IToken offendingSymbol,
-                                int line,
-                                int charPositionInLine,
-                                string msg,
-                                RecognitionException recognitionException) : base($"line {line}:{charPositionInLine} {msg}") { }
+public class CompileErrorException : Exception {
+    public CompileErrorException(string message) : base(message) { }
 }

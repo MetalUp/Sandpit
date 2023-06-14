@@ -58,4 +58,16 @@ end main
 
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, 'pi'>))", ast.ToStringTree());
     }
+
+    [TestMethod]
+    public void TestConstantAndMainWithEmptyLine() {
+        var ast = Setup(@"constant pi = 4
+
+main
+var a = pi
+end main
+");
+
+        Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, 'pi'>))", ast.ToStringTree());
+    }
 }

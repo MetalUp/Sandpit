@@ -4,11 +4,19 @@ using SandpitCompiler.AST;
 namespace SandpitCompiler;
 
 public class BasicSandpitVisitor : SandpitBaseVisitor<ASTNode> {
+
+   
+
     public override ASTNode VisitFile(SandpitParser.FileContext context) {
         var constNodes = context.constDecl().Select(Visit);
-        var mainNode = context.mainDecl() is { } main ? Visit(main) : null;
 
-        return new FileNode(constNodes, mainNode);
+        var mainDecls = context.mainDecl();
+        if (mainDecls.Count() > 1) {
+            throw new CompileErrorException("more than one main");
+        }
+
+        var mainNodes = mainDecls.Select(Visit);
+        return new FileNode(constNodes, mainNodes.SingleOrDefault());
     }
 
     public override ASTNode VisitMainDecl(SandpitParser.MainDeclContext context) {

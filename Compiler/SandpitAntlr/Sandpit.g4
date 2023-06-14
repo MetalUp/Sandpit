@@ -1,6 +1,6 @@
 grammar Sandpit;
 
-file:   constDecl* mainDecl? ;
+file:   (constDecl | mainDecl | NEWLINE)* ;
 
 mainDecl
     : 'main' NEWLINE  varDecl+  'end main' NEWLINE

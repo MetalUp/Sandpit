@@ -49,9 +49,14 @@ public static class Pipeline {
     }
 
     public static ASTNode GenerateAst(SandpitParser parser) {
-        var fileContext = parser.file();
-        var visitor = new BasicSandpitVisitor();
-        return visitor.Visit(fileContext);
+        try {
+            var fileContext = parser.file();
+            var visitor = new BasicSandpitVisitor();
+            return visitor.Visit(fileContext);
+        }
+        catch (CompileErrorException e) {
+            throw new AggregateException(e);
+        }
     }
 
     public static SandpitParser Parse(string code) {
