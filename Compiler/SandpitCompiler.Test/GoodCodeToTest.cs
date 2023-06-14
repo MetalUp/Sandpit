@@ -1,6 +1,9 @@
 ﻿namespace SandpitCompiler.Test;
 
 public static class GoodCodeToTest {
+    // code to test starts with <Code> expected result same id but ends with <Result> 
+
+
     public const string Code1 = @"
 main
 var a = 1
@@ -15,7 +18,6 @@ public static partial class GlobalConstants {
 public static class Program {
     private static void Main(string[] args) {
       var a = 1;
-        
     }
 }";
 
