@@ -9,6 +9,6 @@ public class VarDeclModel : IModel {
     private string Expr { get; }
     private string ID { get; }
 
-    public override string ToString() => $"var {ID} = {Expr};";
+    public override string ToString() => $"var {ID} = {Expr};".Trim();
     public bool HasMain => false;
 }

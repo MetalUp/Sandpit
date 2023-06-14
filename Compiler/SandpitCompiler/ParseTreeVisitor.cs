@@ -3,12 +3,13 @@ using SandpitCompiler.AST;
 
 namespace SandpitCompiler;
 
-public class BasicSandpitVisitor : SandpitBaseVisitor<ASTNode> {
+public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
 
    
 
     public override ASTNode VisitFile(SandpitParser.FileContext context) {
         var constNodes = context.constDecl().Select(Visit);
+        var procNodes = context.procDecl().Select(Visit);
 
         var mainDecls = context.mainDecl();
         if (mainDecls.Count() > 1) {
@@ -16,12 +17,17 @@ public class BasicSandpitVisitor : SandpitBaseVisitor<ASTNode> {
         }
 
         var mainNodes = mainDecls.Select(Visit);
-        return new FileNode(constNodes, mainNodes.SingleOrDefault());
+        return new FileNode(constNodes, procNodes, mainNodes.SingleOrDefault());
     }
 
     public override ASTNode VisitMainDecl(SandpitParser.MainDeclContext context) {
         var varNodes = context.varDecl().Select(Visit);
         return new MainNode(varNodes);
+    }
+
+    public override ASTNode VisitProcDecl(SandpitParser.ProcDeclContext context) {
+        var varNodes = context.varDecl().Select(Visit);
+        return new ProcNode(varNodes);
     }
 
     public override ASTNode VisitConstDecl(SandpitParser.ConstDeclContext context) => new ConstDeclNode(Visit(context.ID()), Visit(context.INT()));

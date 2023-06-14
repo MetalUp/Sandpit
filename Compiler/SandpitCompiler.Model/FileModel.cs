@@ -14,13 +14,11 @@ public class FileModel : IModel {
 using static GlobalConstants;
 
 public static partial class GlobalConstants {{
-    {ConstantsAsString()}
+  {ConstantsAsString()}
 }}
-
-{Main?.ToString() ?? ""}
-";
+{Main?.ToString() ?? ""}".Trim();
 
     public bool HasMain => Main is not null;
 
-    private string ConstantsAsString() => string.Join('\n', Constants.Select(v => v.ToString()));
+    private string ConstantsAsString() => string.Join("\r\n  ", Constants.Select(v => v.ToString())).Trim();
 }

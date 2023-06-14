@@ -42,4 +42,10 @@ public class ASTTest {
         var ast = Setup(GoodCodeToTest.Code6);
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, 'pi'>))", ast.ToStringTree());
     }
+
+    [TestMethod]
+    public void TestProcedure() {
+        var ast = Setup(GoodCodeToTest.Code7);
+        Assert.AreEqual("(ProcNode (VarDeclNode <ValueNode, 'a'><ValueNode, '1'>))", ast.ToStringTree());
+    }
 }

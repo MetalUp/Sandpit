@@ -44,14 +44,14 @@ public static class Pipeline {
     }
 
     private static IModel GenerateModel(ASTNode astNode) {
-        var astVisitor = new SandpitASTVisitor();
+        var astVisitor = new ASTVisitor();
         return astVisitor.Visit(astNode);
     }
 
     public static ASTNode GenerateAst(SandpitParser parser) {
         try {
             var fileContext = parser.file();
-            var visitor = new BasicSandpitVisitor();
+            var visitor = new ParseTreeVisitor();
             return visitor.Visit(fileContext);
         }
         catch (CompileErrorException e) {

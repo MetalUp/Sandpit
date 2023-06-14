@@ -9,6 +9,6 @@ public class ConstDeclModel : IModel {
     private string @Int { get; }
     private string ID { get; }
 
-    public override string ToString() => $"public const int {ID} = {Int};";
+    public override string ToString() => $"public const int {ID} = {Int};".Trim();
     public bool HasMain => false;
 }
