@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SandpitCompiler.AST;
+﻿namespace SandpitCompiler.AST;
 
 public class MainNode : ASTNode {
     public MainNode(IEnumerable<ASTNode> varNodes) {
@@ -14,23 +12,8 @@ public class MainNode : ASTNode {
     public VarDeclNode[] VarNodes { get; }
 
     public override string ToStringTree() {
-        var buf = new StringBuilder();
+        var varNodesAsString = VarNodes.Aggregate("", (acc, vn) => $"{acc}{vn.ToStringTree()} ").TrimEnd();
 
-        buf.Append('(');
-        buf.Append(ToString());
-        buf.Append(' ');
-
-        for (var i = 0; i < VarNodes.Length; i++) {
-            var t = VarNodes[i];
-            if (i > 0) {
-                buf.Append(' ');
-            }
-
-            buf.Append(t.ToStringTree());
-        }
-
-        buf.Append(')');
-
-        return buf.ToString();
+        return $"({ToString()} {varNodesAsString})";
     }
 }

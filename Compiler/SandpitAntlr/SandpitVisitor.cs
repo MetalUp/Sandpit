@@ -44,6 +44,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMainDecl([NotNull] SandpitParser.MainDeclContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procDecl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcDecl([NotNull] SandpitParser.ProcDeclContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.constDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

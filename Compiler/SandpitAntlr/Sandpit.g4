@@ -1,9 +1,13 @@
 grammar Sandpit;
 
-file:   (constDecl | mainDecl | NEWLINE)* ;
+file:   (constDecl | procDecl | mainDecl | NEWLINE)* ;
 
 mainDecl
     : 'main' NEWLINE  varDecl+  'end main' NEWLINE
+    ;
+
+procDecl
+    : 'procedure' ID '(' ')' NEWLINE varDecl+  'end procedure' NEWLINE
     ;
 
 constDecl

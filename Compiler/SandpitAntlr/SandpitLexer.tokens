@@ -3,12 +3,20 @@ T__1=2
 T__2=3
 T__3=4
 T__4=5
-ID=6
-INT=7
-NEWLINE=8
-WS=9
+T__5=6
+T__6=7
+T__7=8
+T__8=9
+ID=10
+INT=11
+NEWLINE=12
+WS=13
 'main'=1
 'end main'=2
-'constant'=3
-'='=4
-'var'=5
+'procedure'=3
+'('=4
+')'=5
+'end procedure'=6
+'constant'=7
+'='=8
+'var'=9

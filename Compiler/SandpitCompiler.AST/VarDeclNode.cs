@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SandpitCompiler.AST;
+﻿namespace SandpitCompiler.AST;
 
 public class VarDeclNode : ASTNode {
     public VarDeclNode(ASTNode id, ASTNode expr) {
@@ -11,19 +9,5 @@ public class VarDeclNode : ASTNode {
     public ValueNode ID { get; }
     public ValueNode Expr { get; }
 
-    public override string ToStringTree() {
-        var buf = new StringBuilder();
-
-        buf.Append('(');
-        buf.Append(ToString());
-        buf.Append(' ');
-
-        buf.Append(ID.ToStringTree());
-
-        buf.Append(Expr.ToStringTree());
-
-        buf.Append(")");
-
-        return buf.ToString();
-    }
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expr.ToStringTree()})";
 }

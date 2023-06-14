@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace SandpitCompiler.AST;
+﻿namespace SandpitCompiler.AST;
 
 public class FileNode : ASTNode {
     public FileNode(IEnumerable<ASTNode> constNodes, ASTNode? mainNode) {
@@ -22,19 +20,8 @@ public class FileNode : ASTNode {
     public ConstDeclNode[] ConstNodes { get; }
 
     public override string ToStringTree() {
-        var buf = new StringBuilder();
+        var constNodesAsString = ConstNodes.Aggregate("", (acc, cn) => $"{acc}{cn.ToStringTree()} ").TrimEnd();
 
-        for (var i = 0; i < ConstNodes.Length; i++) {
-            var t = ConstNodes[i];
-            if (i > 0) {
-                buf.Append(' ');
-            }
-
-            buf.Append(t.ToStringTree());
-        }
-
-        buf.Append(MainNode?.ToStringTree() ?? "");
-
-        return buf.ToString();
+        return $"{constNodesAsString}{MainNode?.ToStringTree() ?? ""}";
     }
 }
