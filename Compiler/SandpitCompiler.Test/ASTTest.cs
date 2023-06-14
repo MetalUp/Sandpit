@@ -1,5 +1,5 @@
-﻿using SandpitCompiler.AST;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SandpitCompiler.AST;
 
 namespace SandpitCompiler.Test;
 
@@ -9,65 +9,37 @@ public class ASTTest {
 
     [TestMethod]
     public void TestMain() {
-        var ast = Setup(@"main
-var a = 1
-end main
-
-");
-
+        var ast = Setup(GoodCodeToTest.Code1);
         Assert.AreEqual("(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, '1'>))", ast.ToStringTree());
     }
 
     [TestMethod]
     public void TestMainMultipleVar() {
-        var ast = Setup(@"main
-var a = 1
-var b = a
-end main
-
-");
-
+        var ast = Setup(GoodCodeToTest.Code2);
         Assert.AreEqual("(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, '1'>) (VarDeclNode <ValueNode, 'b'><ValueNode, 'a'>))", ast.ToStringTree());
     }
 
     [TestMethod]
     public void TestConstant() {
-        var ast = Setup(@"constant pi = 4
-");
-
+        var ast = Setup(GoodCodeToTest.Code3);
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)", ast.ToStringTree());
     }
 
     [TestMethod]
     public void TestConstants() {
-        var ast = Setup(@"constant pi = 4
-constant e = 3
-
-");
-
+        var ast = Setup(GoodCodeToTest.Code4);
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>) (ConstDeclNode <ValueNode, 'e'><ValueNode, '3'>)", ast.ToStringTree());
     }
 
     [TestMethod]
     public void TestConstantAndMain() {
-        var ast = Setup(@"constant pi = 4
-main
-var a = pi
-end main
-");
-
+        var ast = Setup(GoodCodeToTest.Code5);
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, 'pi'>))", ast.ToStringTree());
     }
 
     [TestMethod]
     public void TestConstantAndMainWithEmptyLine() {
-        var ast = Setup(@"constant pi = 4
-
-main
-var a = pi
-end main
-");
-
+        var ast = Setup(GoodCodeToTest.Code6);
         Assert.AreEqual("(ConstDeclNode <ValueNode, 'pi'><ValueNode, '4'>)(MainNode (VarDeclNode <ValueNode, 'a'><ValueNode, 'pi'>))", ast.ToStringTree());
     }
 }
