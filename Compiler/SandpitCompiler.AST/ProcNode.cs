@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class ProcNode : ASTNode {
-    public ProcNode(IEnumerable<ASTNode> varNodes) => VarNodes = varNodes.CheckType<VarDeclNode>();
+    public ProcNode(params ASTNode[] varNodes) => VarNodes = varNodes.CheckType<VarDeclNode>();
 
     private VarDeclNode[] VarNodes { get; }
 

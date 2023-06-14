@@ -1,6 +1,9 @@
 ﻿namespace SandpitCompiler.Test;
 
 public class BadCodeToTest {
+    // code to test starts with <Code> expected message same id but ends with <Message> 
+
+
     public const string Code1 = @"
 main
   var a = 1
