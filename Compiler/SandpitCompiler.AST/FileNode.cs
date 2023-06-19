@@ -1,20 +1,19 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class FileNode : ASTNode {
-    public FileNode(IEnumerable<ASTNode> constNodes, IEnumerable<ASTNode> procNodes, ASTNode? mainNode) {
-        MainNode = mainNode is MainNode mn
-            ? mn
-            : mainNode is null
-                ? null
-                : throw new ArgumentException($"mainNode is {mainNode.GetType()} expect {typeof(MainNode)}");
+    public FileNode(IEnumerable<ConstDeclNode> constNodes, IEnumerable<ProcNode> procNodes, IEnumerable<FuncNode> funcNodes, MainNode? mainNode) {
+        MainNode = mainNode;
 
-        ConstNodes = constNodes.CheckType<ConstDeclNode>();
-        ProcNodes = procNodes.CheckType<ProcNode>();
+        ConstNodes = constNodes.ToArray();
+        ProcNodes = procNodes.ToArray();
+        FuncNodes = funcNodes.ToArray();
     }
 
     public ProcNode[] ProcNodes { get; }
 
     public ConstDeclNode[] ConstNodes { get; }
+
+    public FuncNode[] FuncNodes { get; }
 
     public MainNode? MainNode { get; }
 

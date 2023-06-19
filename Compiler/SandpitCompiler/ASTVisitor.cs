@@ -4,21 +4,28 @@ using SandpitCompiler.Model;
 namespace SandpitCompiler;
 
 public class ASTVisitor {
-    private IModel BuildFileModel(FileNode fn) {
+    private FileModel BuildFileModel(FileNode fn) {
         var constants = fn.ConstNodes.Select(Visit);
         var procedures = fn.ProcNodes.Select(Visit);
+        var functions = fn.FuncNodes.Select(Visit);
         var main = fn.MainNode is { } mn ? Visit(mn) : null;
-        return new FileModel(constants, procedures, main);
+        return new FileModel(constants, procedures, functions, main);
     }
 
-    private IModel BuildMainModel(MainNode mn) {
+    private MainModel BuildMainModel(MainNode mn) {
         var vars = mn.VarNodes.Select(Visit);
         return new MainModel(vars);
     }
 
-    private IModel BuildVarDeclModel(VarDeclNode vdn) => new VarDeclModel(vdn.ID.Text ?? "", vdn.Expr.Text ?? "");
+    private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Expr.Text ?? "");
 
-    private IModel BuildConstDeclModel(ConstDeclNode vdn) => new ConstDeclModel(vdn.ID.Text ?? "", vdn.Int.Text ?? "");
+    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Int.Text ?? "");
+
+    private ProcModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.LetNodes.Select(Visit));
+
+    private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text ?? "", ldn.Expr.Text ?? "");
+
+    private ProcModel BuildProcNode(ProcNode pn) => new(pn.ID.Text ?? "", pn.VarNodes.Select(Visit));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -26,12 +33,13 @@ public class ASTVisitor {
             FileNode fn => BuildFileModel(fn),
             MainNode mn => BuildMainModel(mn),
             VarDeclNode vdn => BuildVarDeclModel(vdn),
+            LetDeclNode ldn => BuildLetDeclModel(ldn),
             ProcNode pn => BuildProcNode(pn),
+            FuncNode fn => BuildFuncNode(fn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
     }
 
-    private IModel BuildProcNode(ProcNode pn) => new ProcModel(pn.ID.Text ?? "", pn.VarNodes.Select(Visit));
+   
 }
-

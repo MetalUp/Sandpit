@@ -1,6 +1,6 @@
 grammar Sandpit;
 
-file:   (constDecl | procDecl | mainDecl | NEWLINE)* ;
+file:   (constDecl | procDecl | funcDecl | mainDecl | NEWLINE)* ;
 
 mainDecl
     : 'main' NEWLINE  varDecl+  'end main' NEWLINE
@@ -10,12 +10,20 @@ procDecl
     : 'procedure' ID '(' ')' NEWLINE varDecl+  'end procedure' NEWLINE
     ;
 
+funcDecl
+    : 'function' ID '(' ')' NEWLINE letDecl+  'end function' NEWLINE
+    ;
+
 constDecl
     : 'constant' ID '=' INT NEWLINE
     ;
 
 varDecl
-    : 'var' ID ('=' expr)? NEWLINE
+    : 'var' ID '=' expr NEWLINE
+    ;
+
+letDecl
+    : 'let' ID '=' expr NEWLINE
     ;
 
 expr 

@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SandpitCompiler.AST;
 
@@ -6,7 +7,7 @@ namespace SandpitCompiler.Test;
 
 [TestClass]
 public class ASTTest {
-    private static IEnumerable<ASTNode> Empty => Array.Empty<ASTNode>();
+    private static IEnumerable<T> Empty<T>() where T : ASTNode => Array.Empty<T>();
 
     private ASTNode Setup(string code) => Pipeline.GenerateAst(Pipeline.Parse(code));
 
@@ -17,7 +18,7 @@ public class ASTTest {
     [TestMethod]
     public void TestMain() {
         var ast = Setup(GoodCodeToTest.Code1);
-        var testAst = new FileNode(Empty, Empty, new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1"))));
+        var testAst = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1"))));
 
         AssertTreesEqual(testAst, ast);
     }
@@ -25,7 +26,7 @@ public class ASTTest {
     [TestMethod]
     public void TestMainMultipleVar() {
         var ast = Setup(GoodCodeToTest.Code2);
-        var testAst = new FileNode(Empty, Empty, new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1")), new VarDeclNode(ValueNode("b"), ValueNode("a"))));
+        var testAst = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1")), new VarDeclNode(ValueNode("b"), ValueNode("a"))));
 
         AssertTreesEqual(testAst, ast);
     }
@@ -33,7 +34,7 @@ public class ASTTest {
     [TestMethod]
     public void TestConstant() {
         var ast = Setup(GoodCodeToTest.Code3);
-        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty, null);
+        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
 
         AssertTreesEqual(testAst, ast);
     }
@@ -41,7 +42,7 @@ public class ASTTest {
     [TestMethod]
     public void TestConstants() {
         var ast = Setup(GoodCodeToTest.Code4);
-        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")), new ConstDeclNode(ValueNode("e"), ValueNode("3")) }, Empty, null);
+        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")), new ConstDeclNode(ValueNode("e"), ValueNode("3")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
 
         AssertTreesEqual(testAst, ast);
     }
@@ -49,7 +50,7 @@ public class ASTTest {
     [TestMethod]
     public void TestConstantAndMain() {
         var ast = Setup(GoodCodeToTest.Code5);
-        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty, new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
+        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
 
         AssertTreesEqual(testAst, ast);
     }
@@ -57,7 +58,7 @@ public class ASTTest {
     [TestMethod]
     public void TestConstantAndMainWithEmptyLine() {
         var ast = Setup(GoodCodeToTest.Code6);
-        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty, new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
+        var testAst = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
 
         AssertTreesEqual(testAst, ast);
     }
@@ -65,7 +66,7 @@ public class ASTTest {
     [TestMethod]
     public void TestProcedure() {
         var ast = Setup(GoodCodeToTest.Code7);
-        var testAst = new FileNode(Empty, new[] { new ProcNode(ValueNode("p"), new VarDeclNode(ValueNode("a"), ValueNode("1"))) }, null);
+        var testAst = new FileNode(Empty<ConstDeclNode>(), new[] { new ProcNode(ValueNode("p"), new VarDeclNode(ValueNode("a"), ValueNode("1"))) },  Empty<FuncNode>(), null);
 
         AssertTreesEqual(testAst, ast);
     }

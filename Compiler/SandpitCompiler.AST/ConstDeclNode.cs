@@ -1,9 +1,9 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class ConstDeclNode : ASTNode {
-    public ConstDeclNode(ASTNode id, ASTNode @int) {
-        ID = (ValueNode)id;
-        Int = (ValueNode)@int;
+    public ConstDeclNode(ValueNode id, ValueNode @int) {
+        ID = id;
+        Int = @int;
     }
 
     public ValueNode ID { get; }

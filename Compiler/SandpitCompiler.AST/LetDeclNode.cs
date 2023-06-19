@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.AST;
 
-public class VarDeclNode : ASTNode {
-    public VarDeclNode(ValueNode id, ValueNode expr) {
+public class LetDeclNode : ASTNode {
+    public LetDeclNode(ValueNode id, ValueNode expr) {
         ID = id;
         Expr = expr;
     }

@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class MainNode : ASTNode {
-    public MainNode(params ASTNode[] varNodes) => VarNodes = varNodes.CheckType<VarDeclNode>();
+    public MainNode(params VarDeclNode[] varNodes) => VarNodes = varNodes;
 
     public VarDeclNode[] VarNodes { get; }
 

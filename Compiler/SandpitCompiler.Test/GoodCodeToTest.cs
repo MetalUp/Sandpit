@@ -114,4 +114,18 @@ public static partial class GlobalConstants {
     var a = 1; 
   }  
 }";
+
+    public const string Code8 = @"
+function f()
+let a = 1
+end function
+";
+
+    public const string Code8Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static void f() { 
+    var a = 1; 
+  }  
+}";
 }

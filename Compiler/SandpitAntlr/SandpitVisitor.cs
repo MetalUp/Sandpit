@@ -50,6 +50,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProcDecl([NotNull] SandpitParser.ProcDeclContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.funcDecl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncDecl([NotNull] SandpitParser.FuncDeclContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.constDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -61,6 +67,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitVarDecl([NotNull] SandpitParser.VarDeclContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.letDecl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetDecl([NotNull] SandpitParser.LetDeclContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.expr"/>.
 	/// </summary>
