@@ -8,17 +8,14 @@ public class ProcModel : IModel {
     }
 
     private string ID { get; }
-    public IEnumerable<IModel> Parms { get; }
+    private IEnumerable<IModel> Parms { get; }
 
     private IEnumerable<IModel> Vars { get; }
 
     public override string ToString() =>
-        $@"public static void {ID}({ParmsAsString()}) {{
-          {VarsAsString()}
+        $@"public static void {ID}({Parms.AsCommaSeparatedString()}) {{
+          {Vars.AsLineSeparatedString()}
         }}".Trim();
 
     public bool HasMain => false;
-
-    private string VarsAsString() => string.Join("\r\n  ", Vars.Select(v => v.ToString())).Trim();
-    private string ParmsAsString() => string.Join(", ", Parms.Select(v => v.ToString())).Trim();
 }

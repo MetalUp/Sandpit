@@ -9,20 +9,15 @@ public class FuncModel : IModel {
     }
 
     private string ID { get; }
-    public string Type { get; }
-    public IEnumerable<IModel> Parms { get; }
-
+    private string Type { get; }
+    private IEnumerable<IModel> Parms { get; }
     private IEnumerable<IModel> Vars { get; }
 
     public override string ToString() =>
-        $@"public static {ModelHelpers.TypeLookup[Type]} {ID}({ParmsAsString()}) {{
-          {VarsAsString()}
+        $@"public static {ModelHelpers.TypeLookup[Type]} {ID}({Parms.AsCommaSeparatedString()}) {{
+          {Vars.AsLineSeparatedString()}
           return 1; // placeholder  
         }}".Trim();
 
     public bool HasMain => false;
-
-    private string VarsAsString() => string.Join("\r\n  ", Vars.Select(v => v.ToString())).Trim();
-
-    private string ParmsAsString() => string.Join(", ", Parms.Select(v => v.ToString())).Trim();
 }

@@ -8,12 +8,10 @@ public class MainModel : IModel {
     public override string ToString() =>
         $@"public static class Program {{
     private static void Main(string[] args) {{
-      {VarsAsString()}
+      {Vars.AsLineSeparatedString()}
         
     }}
 }}".Trim();
 
     public bool HasMain => false;
-
-    private string VarsAsString() => string.Join("\r\n      ", Vars.Select(v => v.ToString())).Trim();
 }
