@@ -44,11 +44,12 @@ procedure p()
 endprocedure
 ";
 
-    public const string Code5Message = "line 4:0 extraneous input 'endprocedure' expecting {'end procedure', 'var'}";
+    public const string Code5Message = "line 4:0 mismatched input 'endprocedure' expecting 'end procedure'";
 
     public const string Code6 = @"
 function p() : Integer
   var a = 1
+  return a
 end function
 ";
 

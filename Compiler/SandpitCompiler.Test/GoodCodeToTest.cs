@@ -118,6 +118,7 @@ public static partial class GlobalConstants {
     public const string Code8 = @"
 function f() : Integer
 let a = 1
+return a
 end function
 ";
 
@@ -126,7 +127,7 @@ end function
 public static partial class GlobalConstants {
   public static int f() { 
     var a = 1; 
-    return 1; // placeholder
+    return a;
   }  
 }";
 

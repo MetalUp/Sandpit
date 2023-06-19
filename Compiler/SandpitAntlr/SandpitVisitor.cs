@@ -91,4 +91,16 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitType([NotNull] SandpitParser.TypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcBody([NotNull] SandpitParser.ProcBodyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.funcBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncBody([NotNull] SandpitParser.FuncBodyContext context);
 }

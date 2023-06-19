@@ -21,7 +21,7 @@ public class ASTVisitor {
 
     private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Int.Text ?? "");
 
-    private FuncModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.Type.Text ?? "", fn.ParamNodes.Select(Visit), fn.LetNodes.Select(Visit));
+    private FuncModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.Type.Text ?? "", fn.Return.Text ?? "", fn.ParamNodes.Select(Visit), fn.LetNodes.Select(Visit));
 
     private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text ?? "", ldn.Expr.Text ?? "");
 

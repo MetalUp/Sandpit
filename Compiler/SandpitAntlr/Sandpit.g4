@@ -7,11 +7,11 @@ mainDecl
     ;
 
 procDecl
-    : 'procedure' ID '(' (param)* ')' NEWLINE varDecl+  'end procedure' NEWLINE
+    : 'procedure' ID '(' (param)* ')' NEWLINE procBody 'end procedure' NEWLINE
     ;
 
 funcDecl
-    : 'function' ID '(' (param)* ')' ':' type  NEWLINE letDecl+  'end function' NEWLINE
+    : 'function' ID '(' (param)* ')' ':' type  NEWLINE funcBody 'end function' NEWLINE
     ;
 
 constDecl
@@ -38,6 +38,15 @@ expr
 type 
     : 'Integer'
     ;
+
+procBody
+    : varDecl+
+    ;
+
+funcBody
+    : letDecl+ 'return' expr NEWLINE
+    ;
+
 
 ID  :   LETTER (LETTER | [0-9])* ;
 

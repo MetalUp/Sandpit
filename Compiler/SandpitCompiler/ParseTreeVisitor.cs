@@ -32,17 +32,19 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
     }
 
     public override ASTNode VisitProcDecl(SandpitParser.ProcDeclContext context) {
-        var varNodes = context.varDecl().Select(Visit<VarDeclNode>);
+        var varNodes = context.procBody().varDecl().Select(Visit<VarDeclNode>);
         var paramNodes = context.param().Select(Visit<ParamNode>);
         return new ProcNode(Visit<ValueNode>(context.ID()), paramNodes.ToArray(), varNodes.ToArray());
     }
 
     public override ASTNode VisitFuncDecl(SandpitParser.FuncDeclContext context) {
-        var letNodes = context.letDecl().Select(Visit<LetDeclNode>);
-        var typeNode = Visit<ValueNode>(context.type());
-        var paramNodes = context.param().Select(Visit<ParamNode>);
         var idNode = Visit<ValueNode>(context.ID());
-        return new FuncNode(idNode, typeNode, paramNodes.ToArray(),  letNodes.ToArray());
+        var paramNodes = context.param().Select(Visit<ParamNode>);
+        var typeNode = Visit<ValueNode>(context.type());
+        var letNodes = context.funcBody().letDecl().Select(Visit<LetDeclNode>);
+        var returnNode = Visit<ValueNode>(context.funcBody().expr());
+       
+        return new FuncNode(idNode, typeNode, returnNode, paramNodes.ToArray(),  letNodes.ToArray());
     }
 
     public override ASTNode VisitConstDecl(SandpitParser.ConstDeclContext context) => new ConstDeclNode(Visit<ValueNode>(context.ID()), Visit<ValueNode>(context.INT()));
