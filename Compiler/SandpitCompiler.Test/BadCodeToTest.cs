@@ -45,4 +45,12 @@ endprocedure
 ";
 
     public const string Code5Message = "line 4:0 extraneous input 'endprocedure' expecting {'end procedure', 'var'}";
+
+    public const string Code6 = @"
+function p() : Integer
+  var a = 1
+end function
+";
+
+    public const string Code6Message = "line 3:2 mismatched input 'var' expecting 'let'";
 }

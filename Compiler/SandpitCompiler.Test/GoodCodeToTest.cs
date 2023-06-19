@@ -116,7 +116,7 @@ public static partial class GlobalConstants {
 }";
 
     public const string Code8 = @"
-function f()
+function f() : Integer
 let a = 1
 end function
 ";
@@ -124,8 +124,23 @@ end function
     public const string Code8Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  public static void f() { 
+  public static int f() { 
     var a = 1; 
+    return 1; // placeholder
+  }  
+}";
+
+    public const string Code9 = @"
+procedure p(z : Integer)
+var a = z
+end procedure
+";
+
+    public const string Code9Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static void p(int z) { 
+    var a = z; 
   }  
 }";
 }

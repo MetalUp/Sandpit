@@ -66,7 +66,7 @@ public class ASTTest {
     [TestMethod]
     public void TestProcedure() {
         var ast = Setup(GoodCodeToTest.Code7);
-        var testAst = new FileNode(Empty<ConstDeclNode>(), new[] { new ProcNode(ValueNode("p"), new VarDeclNode(ValueNode("a"), ValueNode("1"))) },  Empty<FuncNode>(), null);
+        var testAst = new FileNode(Empty<ConstDeclNode>(), new[] { new ProcNode(ValueNode("p"), Empty<ParamNode>().ToArray(),  new VarDeclNode(ValueNode("a"), ValueNode("1"))) },  Empty<FuncNode>(), null);
 
         AssertTreesEqual(testAst, ast);
     }

@@ -21,11 +21,14 @@ public class ASTVisitor {
 
     private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Int.Text ?? "");
 
-    private ProcModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.LetNodes.Select(Visit));
+    private FuncModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.Type.Text ?? "", fn.ParamNodes.Select(Visit), fn.LetNodes.Select(Visit));
 
     private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text ?? "", ldn.Expr.Text ?? "");
 
-    private ProcModel BuildProcNode(ProcNode pn) => new(pn.ID.Text ?? "", pn.VarNodes.Select(Visit));
+    private ProcModel BuildProcNode(ProcNode pn) => new(pn.ID.Text ?? "", pn.ParamNodes.Select(Visit), pn.VarNodes.Select(Visit));
+
+
+    private ParamModel BuildParamNode(ParamNode pn)  => new(pn.ID.Text ?? "", pn.Type.Text ?? "");
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -36,6 +39,7 @@ public class ASTVisitor {
             LetDeclNode ldn => BuildLetDeclModel(ldn),
             ProcNode pn => BuildProcNode(pn),
             FuncNode fn => BuildFuncNode(fn),
+            ParamNode pn => BuildParamNode(pn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
