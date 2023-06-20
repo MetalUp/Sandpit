@@ -11,5 +11,5 @@ public class ProcNode : ASTNode {
     public ParamNode[] ParamNodes { get; }
     public VarDeclNode[] VarNodes { get; }
 
-    public override string ToStringTree() => $"({ToString()} {VarNodes.AsString()})";
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {ParamNodes.AsString()} {VarNodes.AsString()})";
 }

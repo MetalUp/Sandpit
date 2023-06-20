@@ -190,15 +190,19 @@ public static partial class GlobalConstants {
   }  
 }";
 
-    public static readonly ASTNode Code1AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1"))));
+    public static readonly ASTNode Code1AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "1")));
 
-    public static readonly ASTNode Code2AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1")), new VarDeclNode(ValueNode("b"), ValueNode("a"))));
+    public static readonly ASTNode Code2AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "1"), ("b", "a")));
 
-    public static readonly ASTNode Code3AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+    public static readonly ASTNode Code3AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), null);
 
-    public static readonly ASTNode Code4AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")), new ConstDeclNode(ValueNode("e"), ValueNode("3")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+    public static readonly ASTNode Code4AST = new FileNode(new[] { CDN("pi", "4"), CDN("e", "3") }, Empty<ProcNode>(), Empty<FuncNode>(), null);
 
-    public static readonly ASTNode Code5AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
+    public static readonly ASTNode Code5AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "pi")));
 
-    public static readonly ASTNode Code6AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
+    public static readonly ASTNode Code6AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "pi")));
+
+    private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => new VarDeclNode(ValueNode(t.Item1), ValueNode(t.Item2))).ToArray());
+
+    private static ConstDeclNode CDN(string id, string v) => new(ValueNode(id), ValueNode(v));
 }

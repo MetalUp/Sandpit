@@ -64,11 +64,11 @@ public class CompileTest {
             var id = codeField.Name;
             var resultField = typeof(GoodCode).GetField($"{id}AST");
             var code = GetValue(codeField);
-            var testAST = CreateAST(code);
-            var result = resultField?.GetValue(null) as ASTNode;
+            var ast = CreateAST(code);
+            var expected = resultField?.GetValue(null) as ASTNode;
 
-            if (result is not null) {
-                AssertTreesEqual(testAST, result);
+            if (expected is not null) {
+                AssertTreesEqual(expected, ast, id);
 
                 Console.WriteLine($"Tested AST {id}");
             }
