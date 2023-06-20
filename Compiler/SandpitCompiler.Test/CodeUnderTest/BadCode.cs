@@ -1,8 +1,7 @@
-﻿namespace SandpitCompiler.Test;
+﻿namespace SandpitCompiler.Test.CodeUnderTest;
 
-public class BadCodeToTest {
+public class BadCode {
     // code to test starts with <Code> expected message same id but ends with <Message> 
-
 
     public const string Code1 = @"
 main

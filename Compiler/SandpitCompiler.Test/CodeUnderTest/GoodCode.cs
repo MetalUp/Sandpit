@@ -1,8 +1,10 @@
-﻿namespace SandpitCompiler.Test;
+﻿using SandpitCompiler.AST;
+using static SandpitCompiler.Test.TestHelpers;
 
-public static class GoodCodeToTest {
+namespace SandpitCompiler.Test.CodeUnderTest;
+
+public static class GoodCode {
     // code to test starts with <Code> expected result same id but ends with <Result> 
-
 
     public const string Code1 = @"
 main
@@ -40,7 +42,6 @@ public static class Program {
         
     }
 }";
-
 
     public const string Code3 = @"
 constant pi = 4 
@@ -188,4 +189,16 @@ public static partial class GlobalConstants {
     return b;
   }  
 }";
+
+    public static readonly ASTNode Code1AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1"))));
+
+    public static readonly ASTNode Code2AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("1")), new VarDeclNode(ValueNode("b"), ValueNode("a"))));
+
+    public static readonly ASTNode Code3AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+
+    public static readonly ASTNode Code4AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")), new ConstDeclNode(ValueNode("e"), ValueNode("3")) }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+
+    public static readonly ASTNode Code5AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
+
+    public static readonly ASTNode Code6AST = new FileNode(new[] { new ConstDeclNode(ValueNode("pi"), ValueNode("4")) }, Empty<ProcNode>(), Empty<FuncNode>(), new MainNode(new VarDeclNode(ValueNode("a"), ValueNode("pi"))));
 }
