@@ -10,7 +10,7 @@ main
 endmain
 ";
 
-    public const string Code1Message = "line 4:0 extraneous input 'endmain' expecting {'end main', 'var'}";
+    public const string Code1Message = "line 4:0 mismatched input 'endmain' expecting 'end main'";
 
     public const string Code2 = @"main
 var a = 1
@@ -53,5 +53,13 @@ function p() : Integer
 end function
 ";
 
-    public const string Code6Message = "line 3:2 mismatched input 'var' expecting 'let'";
+    public const string Code6Message = "line 3:2 mismatched input 'var' expecting {'let', 'return'}";
+
+    public const string Code7 = @"
+procedure p()
+  let a = 1
+end procedure
+";
+
+    public const string Code7Message = "line 3:2 mismatched input 'let' expecting 'var'";
 }

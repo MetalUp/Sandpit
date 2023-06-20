@@ -3,7 +3,7 @@ grammar Sandpit;
 file:   (constDecl | procDecl | funcDecl | mainDecl | NEWLINE)* ;
 
 mainDecl
-    : 'main' NEWLINE  varDecl+  'end main' NEWLINE
+    : 'main' NEWLINE  procBody 'end main' NEWLINE
     ;
 
 procDecl
@@ -44,7 +44,7 @@ procBody
     ;
 
 funcBody
-    : letDecl+ 'return' expr NEWLINE
+    : letDecl* 'return' expr NEWLINE
     ;
 
 

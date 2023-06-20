@@ -144,4 +144,48 @@ public static partial class GlobalConstants {
     var a = z; 
   }  
 }";
+
+    public const string Code10 = @"
+function f() : Integer
+return 1
+end function
+";
+
+    public const string Code10Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static int f() { 
+    return 1;
+  }  
+}";
+
+    public const string Code11 = @"
+function f(a : Integer) : Integer
+return a
+end function
+";
+
+    public const string Code11Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static int f(int a) { 
+    return a;
+  }  
+}";
+
+    public const string Code12 = @"
+function f(a : Integer) : Integer
+let b = a
+return b
+end function
+";
+
+    public const string Code12Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static int f(int a) {
+    var b = a;
+    return b;
+  }  
+}";
 }
