@@ -15,7 +15,9 @@ public abstract class ASTNode {
 
     public string Text => Token?.Text ?? "";
 
-    public int TokenType => Token?.Type ?? -1; 
+    public int TokenType => Token?.Type ?? -1;
+
+    public string TokenName => SandpitParser.DefaultVocabulary.GetSymbolicName(TokenType);
 
     public override string ToString() {
         var typeName = GetType().Name;

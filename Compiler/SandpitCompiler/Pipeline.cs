@@ -64,8 +64,9 @@ public static class Pipeline {
         catch (CompileErrorException e) {
             throw new AggregateException(e);
         }
-        catch (Exception) {
+        catch (Exception e) {
             // AST building failed - fall through for errors 
+            Console.WriteLine(e.Message);
         }
         return null;
     }

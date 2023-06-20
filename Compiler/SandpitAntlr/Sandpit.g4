@@ -33,7 +33,7 @@ param
 constVal
     : INT
     | STRING
-    | '{' constVal* '}'
+    | '{' constVal? (',' constVal)* '}'
     ;
 
 expr 

@@ -6,6 +6,9 @@ namespace SandpitCompiler.Test.CodeUnderTest;
 public static class GoodCode {
     // code to test starts with <Code> expected result same id but ends with <Result> 
 
+   
+
+
     public const string Code1 = @"
 main
 var a = 1
@@ -215,6 +218,17 @@ constant name = ""bill""
 
 public static partial class GlobalConstants {
   public const string name = ""bill"";
+}";
+
+    public const string Code15 = @"
+constant names = {""bill"",""ben""} 
+";
+
+    public const string Code15Result = @"using static GlobalConstants;
+using System.Collections.Immutable;
+
+public static partial class GlobalConstants {
+   public static readonly IList<string> Strings = new List<string> { ""bill"", ""ben"" }.ToImmutableList();
 }";
 
 
