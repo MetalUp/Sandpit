@@ -7,9 +7,7 @@ using SandpitCompiler.AST;
 namespace SandpitCompiler.Test;
 
 public static partial class TestHelpers {
-    public static IEnumerable<T> Empty<T>() where T : ASTNode => Array.Empty<T>();
-
-    public static ValueNode ValueNode(string v) => new(new CommonToken(1, v));
+   
 
     public static string GetValue(FieldInfo? f) => f?.GetValue(null) as string ?? "";
 

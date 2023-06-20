@@ -1,5 +1,5 @@
-﻿using SandpitCompiler.AST;
-using static SandpitCompiler.Test.TestHelpers;
+﻿using Antlr4.Runtime;
+using SandpitCompiler.AST;
 
 namespace SandpitCompiler.Test.CodeUnderTest;
 
@@ -190,19 +190,55 @@ public static partial class GlobalConstants {
   }  
 }";
 
-    public static readonly ASTNode Code1AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "1")));
+    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1")));
 
-    public static readonly ASTNode Code2AST = new FileNode(Empty<ConstDeclNode>(), Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "1"), ("b", "a")));
+    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1"), ("b", "a")));
 
-    public static readonly ASTNode Code3AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+    public static readonly ASTNode Code3AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code4AST = new FileNode(new[] { CDN("pi", "4"), CDN("e", "3") }, Empty<ProcNode>(), Empty<FuncNode>(), null);
+    public static readonly ASTNode Code4AST = FN(ARR(CDN("pi", "4"), CDN("e", "3")), E<ProcNode>(), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code5AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "pi")));
+    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(("a", "pi")));
 
-    public static readonly ASTNode Code6AST = new FileNode(new[] { CDN("pi", "4") }, Empty<ProcNode>(), Empty<FuncNode>(), MN(("a", "pi")));
+    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(("a", "pi")));
 
-    private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => new VarDeclNode(ValueNode(t.Item1), ValueNode(t.Item2))).ToArray());
+    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), ARR(("a", "1")))), E<FuncNode>(), null);
+
+    public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", ARR(("a", "1"))))), null);
+
+    public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Integer")), ARR(("a", "z")))), E<FuncNode>(), null);
+
+    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", E<(string, string)>()))), null);
+
+    public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("a", E<(string, string)>()))), null);
+
+    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("b", ARR(("b", "a"))))), null);
+
+    #region AST DSL
+
+    private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, MainNode?, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
+
+    private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
 
     private static ConstDeclNode CDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+
+    private static VarDeclNode VDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+
+    private static LetDeclNode LDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+
+    private static ParamNode PMN(string id, string v) => new(ValueNode(id), ValueNode(v));
+
+    private static ProcNode PN(string id, (string, string)[] param, (string, string)[] vars) => new(ValueNode(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
+
+    private static FuncBodyNode FBN(string ret, (string, string)[] lets) => new(ValueNode(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
+
+    private static FuncNode FNN(string id, string typ, (string, string)[] param, FuncBodyNode body) => new(ValueNode(id), ValueNode(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
+
+    private static T[] E<T>() => Array.Empty<T>();
+
+    private static T[] ARR<T>(params T[] v) => v;
+
+    private static ValueNode ValueNode(string v) => new(new CommonToken(1, v));
+
+    #endregion
 }
