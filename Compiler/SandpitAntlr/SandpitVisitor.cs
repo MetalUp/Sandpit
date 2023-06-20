@@ -80,6 +80,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitParam([NotNull] SandpitParser.ParamContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.constVal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConstVal([NotNull] SandpitParser.ConstValContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>

@@ -1,13 +1,16 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class ConstDeclNode : ASTNode {
-    public ConstDeclNode(ValueNode id, ValueNode @int) {
+    public ConstDeclNode(ValueNode id, ValueNode val) {
         ID = id;
-        Int = @int;
+        Val = val;
+        InferredType = ASTHelpers.NodeToType[val.TokenType];
     }
 
     public ValueNode ID { get; }
-    public ValueNode Int { get; }
+    public ValueNode Val { get; }
 
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Int.ToStringTree()})".TrimEnd();
+    public string InferredType { get; }
+
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Val.ToStringTree()})".TrimEnd();
 }

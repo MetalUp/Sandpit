@@ -15,6 +15,8 @@ public abstract class ASTNode {
 
     public string Text => Token?.Text ?? "";
 
+    public int TokenType => Token?.Type ?? -1; 
+
     public override string ToString() {
         var typeName = GetType().Name;
         return Token is not null ? $"<{typeName}, '{Token.Text}'>" : typeName;

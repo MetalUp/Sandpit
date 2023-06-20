@@ -190,6 +190,37 @@ public static partial class GlobalConstants {
   }  
 }";
 
+    public const string Code13 = @"
+main
+var a = ""fred""
+end main
+";
+
+    public const string Code13Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  
+}
+public static class Program {
+    private static void Main(string[] args) {
+      var a = ""fred"";
+    }
+}";
+
+    public const string Code14 = @"
+constant name = ""bill"" 
+";
+
+    public const string Code14Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public const string name = ""bill"";
+}";
+
+
+
+
+
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1")));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1"), ("b", "a")));
@@ -213,6 +244,8 @@ public static partial class GlobalConstants {
     public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("a", E<(string, string)>()))), null);
 
     public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("b", ARR(("b", "a"))))), null);
+
+    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "\"fred\"")));
 
     #region AST DSL
 
@@ -238,7 +271,7 @@ public static partial class GlobalConstants {
 
     private static T[] ARR<T>(params T[] v) => v;
 
-    private static ValueNode ValueNode(string v) => new(new CommonToken(1, v));
+    private static ValueNode ValueNode(string v) => new(new CommonToken(20, v));
 
     #endregion
 }

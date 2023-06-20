@@ -15,7 +15,7 @@ funcDecl
     ;
 
 constDecl
-    : 'constant' ID '=' INT NEWLINE
+    : 'constant' ID '=' constVal NEWLINE
     ;
 
 varDecl
@@ -30,13 +30,20 @@ param
     : (ID ':' type)
     ;
 
-expr 
+constVal
     : INT
+    | STRING
+    | '{' constVal* '}'
+    ;
+
+expr 
+    : constVal
     | ID
     ;
 
 type 
     : 'Integer'
+    | 'String'
     ;
 
 procBody
@@ -54,6 +61,8 @@ fragment
 LETTER : [a-zA-Z] ;
 
 INT :   [0-9]+ ;
+
+STRING : '"' [ a-zA-Z0-9]* '"' ;
 
 NEWLINE
   : '\r'? '\n'
