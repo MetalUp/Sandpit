@@ -13,18 +13,25 @@ public static class Pipeline {
         Handle(code, opts);
     }
 
-    public static void Handle(string code,  Options? options = null) {
+    public static void Handle(string code, Options? options = null) {
         options ??= new Options();
         var parser = Parse(code);
+
         var ast = GenerateAst(parser);
+
         if (parser.NumberOfSyntaxErrors > 0) {
             throw new AggregateException(parser.ErrorListeners.OfType<ErrorListener>().First().SyntaxErrors.Cast<Exception>().ToArray());
         }
 
+        if (ast is null) {
+            throw new AggregateException(new CompileErrorException("failed to build AST"));
+        }
+
+
         var model = GenerateModel(ast);
         var csCode = GenerateCSharpCode(options.FileName, model);
 
-        if (options.CompileCSharp == true) {
+        if (options.CompileCSharp) {
             CompileCsharpCode(options.FileName, csCode, model.HasMain);
         }
     }
@@ -48,7 +55,7 @@ public static class Pipeline {
         return astVisitor.Visit(astNode);
     }
 
-    public static ASTNode GenerateAst(SandpitParser parser) {
+    public static ASTNode? GenerateAst(SandpitParser parser) {
         try {
             var fileContext = parser.file();
             var visitor = new ParseTreeVisitor();
@@ -57,6 +64,10 @@ public static class Pipeline {
         catch (CompileErrorException e) {
             throw new AggregateException(e);
         }
+        catch (Exception) {
+            // AST building failed - fall through for errors 
+        }
+        return null;
     }
 
     public static SandpitParser Parse(string code) {

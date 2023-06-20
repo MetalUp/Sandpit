@@ -1,4 +1,5 @@
-﻿using SandpitCompiler.AST;
+﻿using System.Runtime.CompilerServices;
+using SandpitCompiler.AST;
 using SandpitCompiler.Model;
 
 namespace SandpitCompiler;
@@ -17,18 +18,21 @@ public class ASTVisitor {
         return new MainModel(vars);
     }
 
-    private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Expr.Text ?? "");
+    private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 
-    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text ?? "", vdn.Int.Text ?? "");
+    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text, vdn.Int.Text);
 
-    private FuncModel BuildFuncNode(FuncNode fn) => new(fn.ID.Text ?? "", fn.Type.Text ?? "", fn.Return.Text ?? "", fn.ParamNodes.Select(Visit), fn.LetNodes.Select(Visit));
+    private FuncModel BuildFuncModel(FuncNode fn) => new(fn.ID.Text, fn.Type.Text, fn.ParamNodes.Select(Visit), Visit(fn.Body));
 
-    private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text ?? "", ldn.Expr.Text ?? "");
+    private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
-    private ProcModel BuildProcNode(ProcNode pn) => new(pn.ID.Text ?? "", pn.ParamNodes.Select(Visit), pn.VarNodes.Select(Visit));
+    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.ParamNodes.Select(Visit), pn.VarNodes.Select(Visit));
 
+    private ParamModel BuildParamModel(ParamNode pn)  => new(pn.ID.Text, pn.Type.Text);
 
-    private ParamModel BuildParamNode(ParamNode pn)  => new(pn.ID.Text ?? "", pn.Type.Text ?? "");
+    private FuncBodyModel  BuildFuncBodyModel(FuncBodyNode bn) {
+        return new FuncBodyModel(bn.Return.Text, bn.LetNodes.Select(Visit));
+    }
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -37,12 +41,15 @@ public class ASTVisitor {
             MainNode mn => BuildMainModel(mn),
             VarDeclNode vdn => BuildVarDeclModel(vdn),
             LetDeclNode ldn => BuildLetDeclModel(ldn),
-            ProcNode pn => BuildProcNode(pn),
-            FuncNode fn => BuildFuncNode(fn),
-            ParamNode pn => BuildParamNode(pn),
+            ProcNode pn => BuildProcModel(pn),
+            FuncNode fn => BuildFuncModel(fn),
+            ParamNode pn => BuildParamModel(pn),
+            FuncBodyNode bn => BuildFuncBodyModel(bn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
+
+     
     }
 
    

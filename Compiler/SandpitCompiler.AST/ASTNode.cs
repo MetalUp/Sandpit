@@ -13,7 +13,7 @@ public abstract class ASTNode {
 
     public bool IsNil => Token is null;
 
-    public string? Text => Token?.Text;
+    public string Text => Token?.Text ?? "";
 
     public override string ToString() {
         var typeName = GetType().Name;

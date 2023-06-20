@@ -1,19 +1,17 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class FuncNode : ASTNode {
-    public FuncNode(ValueNode id, ValueNode type, ValueNode @return, ParamNode[] paramNodes, params LetDeclNode[] letNodes) {
+    public FuncNode(ValueNode id, ValueNode type, ParamNode[] paramNodes, FuncBodyNode body) {
         ID = id;
         Type = type;
-        Return = @return;
         ParamNodes = paramNodes;
-        LetNodes = letNodes;
+        Body = body;
     }
 
     public ValueNode ID { get; }
     public ValueNode Type { get; }
-    public ValueNode Return { get; }
     public ParamNode[] ParamNodes { get; }
-    public LetDeclNode[] LetNodes { get; }
+    public FuncBodyNode Body { get; }
 
-    public override string ToStringTree() => $"({ToString()} {LetNodes.AsString()})";
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {ParamNodes.AsString()} {Type.ToStringTree()} {Body.ToStringTree()})";
 }
