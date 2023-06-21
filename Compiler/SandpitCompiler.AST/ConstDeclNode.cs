@@ -4,7 +4,7 @@ public class ConstDeclNode : ASTNode {
     public ConstDeclNode(ValueNode id, ValueNode val) {
         ID = id;
         Val = val;
-        InferredType = ASTHelpers.TokenToType[val.TokenName];
+        InferredType = ASTHelpers.TokenToType(val.TokenName);
     }
 
     public ValueNode ID { get; }

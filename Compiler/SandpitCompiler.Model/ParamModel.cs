@@ -9,6 +9,6 @@ public class ParamModel : IModel {
     private string Type { get; }
     private string ID { get; }
 
-    public override string ToString() => $"{ModelHelpers.TypeLookup[Type]} {ID}".Trim();
+    public override string ToString() => $"{ModelHelpers.TypeLookup(Type)} {ID}".Trim();
     public bool HasMain => false;
 }
