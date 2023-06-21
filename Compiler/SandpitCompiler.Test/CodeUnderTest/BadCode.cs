@@ -60,6 +60,6 @@ procedure p()
 end procedure
 ";
 
-    public const string Code7Message = "line 3:2 mismatched input 'let' expecting 'var'";
+    public const string Code7Message = "line 3:2 no viable alternative at input 'let'";
 
 }

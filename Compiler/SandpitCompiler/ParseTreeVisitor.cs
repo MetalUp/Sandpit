@@ -34,8 +34,8 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
     public override ASTNode VisitProcDecl(SandpitParser.ProcDeclContext context) {
         var idNode = Visit<ValueNode>(context.ID());
         var paramNodes = context.param().Select(Visit<ParamNode>);
-        var varNodes = context.procBody().varDecl().Select(Visit<VarDeclNode>);
-        return new ProcNode(idNode, paramNodes.ToArray(), varNodes.ToArray());
+        var bodyNode = Visit<BodyNode>(context.procBody());
+        return new ProcNode(idNode, paramNodes.ToArray(), bodyNode);
     }
 
     public override ASTNode VisitFuncDecl(SandpitParser.FuncDeclContext context) {
@@ -70,8 +70,14 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
         return new FuncBodyNode(returnNode, letNodes.ToArray());
     }
 
-    public override ASTNode VisitProcBody(SandpitParser.ProcBodyContext context) => base.VisitProcBody(context);
+    public override ASTNode VisitProcBody(SandpitParser.ProcBodyContext context) {
+        var varNodes = context.varDecl().Select(Visit<VarDeclNode>);
+
+        return new BodyNode(varNodes.ToArray());
+    }
 
     public override ASTNode VisitConstVal(SandpitParser.ConstValContext context) =>
         (context.INT() ?? context.STRING()) is { } tn ? Visit(tn) : new ListNode(context.constVal().Select(Visit<ValueNode>).ToArray());
+
+    public override ASTNode VisitWhileStat(SandpitParser.WhileStatContext context) => base.VisitWhileStat(context);
 }

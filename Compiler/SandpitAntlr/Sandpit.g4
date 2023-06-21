@@ -26,6 +26,8 @@ letDecl
     : 'let' ID '=' expr NEWLINE
     ;
 
+whileStat : 'while' expr NEWLINE procBody NEWLINE 'end while' ;
+
 param
     : (ID ':' type)
     ;
@@ -48,12 +50,12 @@ type
 
 procBody
     : varDecl+
+    | whileStat*
     ;
 
 funcBody
     : letDecl* 'return' expr NEWLINE
     ;
-
 
 ID  :   LETTER (LETTER | [0-9])* ;
 

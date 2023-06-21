@@ -25,11 +25,13 @@ public class ASTVisitor {
 
     private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
-    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.ParamNodes.Select(Visit), pn.VarNodes.Select(Visit));
+    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.ParamNodes.Select(Visit), Visit(pn.BodyNode));
 
     private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
 
     private FuncBodyModel BuildFuncBodyModel(FuncBodyNode bn) => new(bn.Return.Text, bn.LetNodes.Select(Visit));
+
+    private BodyModel BuildBodyModel(BodyNode bn) => new(bn.VarNodes.Select(Visit));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -43,6 +45,7 @@ public class ASTVisitor {
             ParamNode pn => BuildParamModel(pn),
             FuncBodyNode bn => BuildFuncBodyModel(bn),
             ValueNode vn => BuildValueModel(vn),
+            BodyNode bn => BuildBodyModel(bn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
@@ -54,6 +57,5 @@ public class ASTVisitor {
             ListNode ln => new ValueModel(ln.Texts, ln.InferredType),
             _ => throw new NotImplementedException()
         };
-
     }
 }

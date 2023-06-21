@@ -241,11 +241,11 @@ public static partial class GlobalConstants {
 
     public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(("a", "pi")));
 
-    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), ARR(("a", "1")))), E<FuncNode>(), null);
+    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), BN(ARR(("a", "1"))))), E<FuncNode>(), null);
 
     public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", ARR(("a", "1"))))), null);
 
-    public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Integer")), ARR(("a", "z")))), E<FuncNode>(), null);
+    public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Integer")), BN(ARR(("a", "z"))))), E<FuncNode>(), null);
 
     public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", E<(string, string)>()))), null);
 
@@ -275,9 +275,11 @@ public static partial class GlobalConstants {
 
     private static ParamNode PMN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static ProcNode PN(string id, (string, string)[] param, (string, string)[] vars) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
+    private static ProcNode PN(string id, (string, string)[] param, BodyNode body) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
     private static FuncBodyNode FBN(string ret, (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
+
+    private static BodyNode BN((string, string)[] vars) => new(vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
 
     private static FuncNode FNN(string id, string typ, (string, string)[] param, FuncBodyNode body) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
@@ -285,7 +287,7 @@ public static partial class GlobalConstants {
 
     private static T[] ARR<T>(params T[] v) => v;
 
-    private static ScalarValueNode SVN(string v) => new(new CommonToken(21, v));
+    private static ScalarValueNode SVN(string v) => new(new CommonToken(SandpitParser.INT, v));
 
     private static ListNode LN(string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
 
