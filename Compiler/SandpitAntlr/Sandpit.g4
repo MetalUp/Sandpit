@@ -26,7 +26,9 @@ letDecl
     : 'let' ID '=' expr NEWLINE
     ;
 
-whileStat : 'while' expr NEWLINE procBody NEWLINE 'end while' ;
+whileStat 
+    : 'while' expr NEWLINE procBody 'end while' NEWLINE 
+    ;
 
 param
     : (ID ':' type)
@@ -35,6 +37,7 @@ param
 constVal
     : INT
     | STRING
+    | BOOL
     | '{' constVal? (',' constVal)* '}'
     ;
 
@@ -43,15 +46,19 @@ expr
     | ID
     ;
 
+stat
+    : varDecl
+    | whileStat
+    ;
+
 type 
     : 'Integer'
     | 'String'
+    | 'Boolean'
     ;
 
 procBody
-    : varDecl+
-    | whileStat*
-    ;
+    : stat+ ;
 
 funcBody
     : letDecl* 'return' expr NEWLINE
@@ -63,6 +70,8 @@ fragment
 LETTER : [a-zA-Z] ;
 
 INT :   [0-9]+ ;
+
+BOOL : 'true' | 'false' ;
 
 STRING : '"' [ a-zA-Z0-9]* '"' ;
 

@@ -1,15 +1,16 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class MainModel : IModel {
-    public MainModel(IEnumerable<IModel> vars) => Vars = vars;
+    private IModel Body { get; }
 
-    private IEnumerable<IModel> Vars { get; }
+    public MainModel(IModel body) {
+        Body = body;
+    }
 
     public override string ToString() =>
         $@"public static class Program {{
     private static void Main(string[] args) {{
-      {Vars.AsLineSeparatedString()}
-        
+      {Body}
     }}
 }}".Trim();
 

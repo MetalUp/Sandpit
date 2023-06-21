@@ -1,7 +1,13 @@
 ﻿namespace SandpitCompiler.AST;
 
-public class WhileNode : ASTNode {
-    public WhileNode() { }
+public class WhileNode : StatNode {
+    public WhileNode(ValueNode expr, BodyNode body) {
+        Expr = expr;
+        Body = body;
+    }
 
-    public override string ToStringTree() => $"({ToString()} )";
+    public ValueNode Expr { get; }
+    public BodyNode Body { get; }
+
+    public override string ToStringTree() => $"({ToString()} {Expr.ToStringTree()} {Body.ToStringTree()} )";
 }

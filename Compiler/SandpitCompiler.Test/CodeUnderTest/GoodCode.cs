@@ -229,17 +229,38 @@ public static partial class GlobalConstants {
    public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
 }";
 
-    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1")));
+    public const string Code16 = @"
+main
+while true
+  var a = 1
+end while 
+end main
+";
 
-    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1"), ("b", "a")));
+    public const string Code16Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  
+}
+public static class Program {
+    private static void Main(string[] args) {
+      while (true) {
+        var a = 1;
+      }
+    }
+}";
+
+    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "1")))));
+
+    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "1"), ("b", "a")))));
 
     public static readonly ASTNode Code3AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), null);
 
     public static readonly ASTNode Code4AST = FN(ARR(CDN("pi", "4"), CDN("e", "3")), E<ProcNode>(), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(("a", "pi")));
+    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "pi")))));
 
-    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(("a", "pi")));
+    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "pi")))));
 
     public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), BN(ARR(("a", "1"))))), E<FuncNode>(), null);
 
@@ -253,7 +274,7 @@ public static partial class GlobalConstants {
 
     public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("b", ARR(("b", "a"))))), null);
 
-    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "\"fred\"")));
+    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "\"fred\"")))));
 
     public static readonly ASTNode Code14AST = FN(ARR(CDN("name", "\"bill\"")), E<ProcNode>(), E<FuncNode>(), null);
 
@@ -263,7 +284,7 @@ public static partial class GlobalConstants {
 
     private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, MainNode?, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
 
-    private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
+    private static MainNode MN(BodyNode body) => new(body);
 
     private static ConstDeclNode CDN(string id, string v) => new(SVN(id), SVN(v));
 

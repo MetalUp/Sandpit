@@ -12,10 +12,7 @@ public class ASTVisitor {
         return new FileModel(constants, procedures, functions, main);
     }
 
-    private MainModel BuildMainModel(MainNode mn) {
-        var vars = mn.VarNodes.Select(Visit);
-        return new MainModel(vars);
-    }
+    private MainModel BuildMainModel(MainNode mn) => new(Visit(mn.Body));
 
     private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 
@@ -31,7 +28,7 @@ public class ASTVisitor {
 
     private FuncBodyModel BuildFuncBodyModel(FuncBodyNode bn) => new(bn.Return.Text, bn.LetNodes.Select(Visit));
 
-    private BodyModel BuildBodyModel(BodyNode bn) => new(bn.VarNodes.Select(Visit));
+    private BodyModel BuildBodyModel(BodyNode bn) => new(bn.StatNodes.Select(Visit));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -46,12 +43,15 @@ public class ASTVisitor {
             FuncBodyNode bn => BuildFuncBodyModel(bn),
             ValueNode vn => BuildValueModel(vn),
             BodyNode bn => BuildBodyModel(bn),
+            WhileNode sn => BuildWhileModel(sn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
     }
 
-    private IModel BuildValueModel(ValueNode vn) {
+    private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Expr), Visit(sn.Body));
+
+    private ValueModel BuildValueModel(ValueNode vn) {
         return vn switch {
             ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
             ListNode ln => new ValueModel(ln.Texts, ln.InferredType),

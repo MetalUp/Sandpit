@@ -1,11 +1,9 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class MainNode : ASTNode {
-    public MainNode(params VarDeclNode[] varNodes) => VarNodes = varNodes;
+    public MainNode(BodyNode body) => Body = body;
 
-    public VarDeclNode[] VarNodes { get; }
+    public BodyNode Body { get; }
 
-    public override string ToStringTree() {
-        return $"({ToString()} {VarNodes.AsString()})".TrimEnd();
-    }
+    public override string ToStringTree() => $"({ToString()} {Body})".TrimEnd();
 }

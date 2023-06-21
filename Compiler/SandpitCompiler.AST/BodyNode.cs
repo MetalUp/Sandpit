@@ -1,9 +1,9 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class BodyNode : ASTNode {
-    public BodyNode(params VarDeclNode[] varNodes) => VarNodes = varNodes;
+    public BodyNode(params StatNode[] statNodes) => StatNodes = statNodes;
 
-    public VarDeclNode[] VarNodes { get; }
+    public StatNode[] StatNodes { get; }
 
-    public override string ToStringTree() => $"({ToString()} {VarNodes.AsString()})";
+    public override string ToStringTree() => $"({ToString()} {StatNodes.AsString()})";
 }
