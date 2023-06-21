@@ -250,6 +250,30 @@ public static class Program {
     }
 }";
 
+    public const string Code17 = @"
+main
+var a = 1
+while a == 1
+  var b = 1
+end while 
+end main
+";
+
+    public const string Code17Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  
+}
+public static class Program {
+    private static void Main(string[] args) {
+      var a = 1;
+      while (a == 1) {
+        var b = 1;
+      }
+    }
+}";
+
+
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "1")))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(("a", "1"), ("b", "a")))));

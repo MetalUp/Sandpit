@@ -44,6 +44,7 @@ constVal
 expr 
     : constVal
     | ID
+    | expr '==' expr
     ;
 
 stat

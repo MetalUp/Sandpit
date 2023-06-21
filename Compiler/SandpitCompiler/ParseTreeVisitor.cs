@@ -52,7 +52,21 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
 
     public override ASTNode VisitLetDecl(SandpitParser.LetDeclContext context) => new LetDeclNode(Visit<ValueNode>(context.ID()), Visit<ValueNode>(context.expr()));
 
-    public override ASTNode VisitExpr(SandpitParser.ExprContext context) => context.ID() is { } id ? Visit(id) : Visit(context.constVal());
+    public override ASTNode VisitExpr(SandpitParser.ExprContext context) {
+        if (context.ID() is { } id) {
+            return Visit(id);
+        }
+
+        if (context.constVal() is { } cv) {
+            return Visit(cv);
+        }
+
+        var lhs = Visit<ValueNode>(context.expr().First());
+        var rhs = Visit<ValueNode>(context.expr().Last());
+        var op = Visit<ValueNode>(context.GetChild(1));
+
+        return new BinaryOperatorNode(op!, lhs, rhs);
+    }
 
     public override ASTNode VisitChildren(IRuleNode node) => base.VisitChildren(node);
 

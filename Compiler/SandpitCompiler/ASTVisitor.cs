@@ -51,10 +51,11 @@ public class ASTVisitor {
 
     private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Expr), Visit(sn.Body));
 
-    private ValueModel BuildValueModel(ValueNode vn) {
+    private IModel BuildValueModel(ValueNode vn) {
         return vn switch {
             ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
             ListNode ln => new ValueModel(ln.Texts, ln.InferredType),
+            BinaryOperatorNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
             _ => throw new NotImplementedException()
         };
     }
