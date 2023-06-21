@@ -1,16 +1,16 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class ConstDeclModel : IModel {
-    public ConstDeclModel(string id, string val, string type) {
-        Val = val;
-        Type = type;
+    public ConstDeclModel(string id, ValueModel value) {
         ID = id;
+        Value = value;
     }
 
-    private string Val { get; }
-    public string Type { get; }
     private string ID { get; }
+    private ValueModel Value { get; }
 
-    public override string ToString() => $"public const {ModelHelpers.TypeLookup[Type]} {ID} = {Val};".Trim();
+    public bool IsList => Value.IsList;
+
+    public override string ToString() => $"public {Value.Prefix} {Value.Type} {ID} = {Value.Val};".Trim();
     public bool HasMain => false;
 }

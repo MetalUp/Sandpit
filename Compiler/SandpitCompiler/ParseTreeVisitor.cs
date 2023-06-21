@@ -59,7 +59,7 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
 
     public override ASTNode VisitErrorNode(IErrorNode node) => base.VisitErrorNode(node);
 
-    public override ASTNode VisitTerminal(ITerminalNode node) => new ValueNode(node.Symbol);
+    public override ASTNode VisitTerminal(ITerminalNode node) => new ScalarValueNode(node.Symbol);
 
     public override ASTNode VisitParam(SandpitParser.ParamContext context) => new ParamNode(Visit<ValueNode>(context.ID()), Visit<ValueNode>(context.type()));
 

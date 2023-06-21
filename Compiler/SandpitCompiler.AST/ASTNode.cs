@@ -5,15 +5,15 @@ namespace SandpitCompiler.AST;
 public abstract class ASTNode {
     protected ASTNode() { }
 
-    protected ASTNode(IToken token) => Token = token;
+    protected ASTNode(IToken? token) => Token = token;
 
-    private IToken? Token { get; }
+    public IToken? Token { get; }
 
     public IList<ASTNode> Children { get; set; } = new List<ASTNode>();
 
     public bool IsNil => Token is null;
 
-    public string Text => Token?.Text ?? "";
+    public virtual string Text => Token?.Text ?? "";
 
     public int TokenType => Token?.Type ?? -1;
 

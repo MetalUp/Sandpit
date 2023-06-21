@@ -16,6 +16,8 @@ public class FileModel : IModel {
 
     public override string ToString() =>
         $@"
+{(UsesCollections ? "using System.Collections.Generic;" : "")}
+{(UsesCollections ? "using System.Collections.Immutable;" : "")}
 using static GlobalConstants;
 
 public static partial class GlobalConstants {{
@@ -24,6 +26,8 @@ public static partial class GlobalConstants {{
 {Functions.AsLineSeparatedString(2)}
 }}
 {Main?.ToString() ?? ""}".Trim();
+
+    private bool UsesCollections => Constants.Any(c => c is ConstDeclModel and { IsList: true });
 
     public bool HasMain => Main is not null;
 }

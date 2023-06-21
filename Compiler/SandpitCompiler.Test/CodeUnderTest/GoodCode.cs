@@ -224,16 +224,13 @@ public static partial class GlobalConstants {
 constant names = {""bill"",""ben""} 
 ";
 
-    public const string Code15Result = @"using static GlobalConstants;
+    public const string Code15Result = @"using System.Collections.Generic;
 using System.Collections.Immutable;
+using static GlobalConstants;
 
 public static partial class GlobalConstants {
-   public static readonly IList<string> Strings = new List<string> { ""bill"", ""ben"" }.ToImmutableList();
+   public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
 }";
-
-
-
-
 
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "1")));
 
@@ -267,25 +264,25 @@ public static partial class GlobalConstants {
 
     private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
 
-    private static ConstDeclNode CDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+    private static ConstDeclNode CDN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static VarDeclNode VDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+    private static VarDeclNode VDN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static LetDeclNode LDN(string id, string v) => new(ValueNode(id), ValueNode(v));
+    private static LetDeclNode LDN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static ParamNode PMN(string id, string v) => new(ValueNode(id), ValueNode(v));
+    private static ParamNode PMN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static ProcNode PN(string id, (string, string)[] param, (string, string)[] vars) => new(ValueNode(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
+    private static ProcNode PN(string id, (string, string)[] param, (string, string)[] vars) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
 
-    private static FuncBodyNode FBN(string ret, (string, string)[] lets) => new(ValueNode(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
+    private static FuncBodyNode FBN(string ret, (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
 
-    private static FuncNode FNN(string id, string typ, (string, string)[] param, FuncBodyNode body) => new(ValueNode(id), ValueNode(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
+    private static FuncNode FNN(string id, string typ, (string, string)[] param, FuncBodyNode body) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
     private static T[] E<T>() => Array.Empty<T>();
 
     private static T[] ARR<T>(params T[] v) => v;
 
-    private static ValueNode ValueNode(string v) => new(new CommonToken(20, v));
+    private static ScalarValueNode SVN(string v) => new(new CommonToken(21, v));
 
     #endregion
 }

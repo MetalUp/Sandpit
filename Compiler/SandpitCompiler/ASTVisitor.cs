@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using SandpitCompiler.AST;
+﻿using SandpitCompiler.AST;
 using SandpitCompiler.Model;
 
 namespace SandpitCompiler;
@@ -20,7 +19,7 @@ public class ASTVisitor {
 
     private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 
-    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text, vdn.Val.Text, vdn.InferredType);
+    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
 
     private FuncModel BuildFuncModel(FuncNode fn) => new(fn.ID.Text, fn.Type.Text, fn.ParamNodes.Select(Visit), Visit(fn.Body));
 
@@ -28,11 +27,9 @@ public class ASTVisitor {
 
     private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.ParamNodes.Select(Visit), pn.VarNodes.Select(Visit));
 
-    private ParamModel BuildParamModel(ParamNode pn)  => new(pn.ID.Text, pn.Type.Text);
+    private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
 
-    private FuncBodyModel  BuildFuncBodyModel(FuncBodyNode bn) {
-        return new FuncBodyModel(bn.Return.Text, bn.LetNodes.Select(Visit));
-    }
+    private FuncBodyModel BuildFuncBodyModel(FuncBodyNode bn) => new(bn.Return.Text, bn.LetNodes.Select(Visit));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -45,12 +42,18 @@ public class ASTVisitor {
             FuncNode fn => BuildFuncModel(fn),
             ParamNode pn => BuildParamModel(pn),
             FuncBodyNode bn => BuildFuncBodyModel(bn),
+            ValueNode vn => BuildValueModel(vn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
-
-     
     }
 
-   
+    private IModel BuildValueModel(ValueNode vn) {
+        return vn switch {
+            ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
+            ListNode ln => new ValueModel(ln.Texts, ln.InferredType),
+            _ => throw new NotImplementedException()
+        };
+
+    }
 }

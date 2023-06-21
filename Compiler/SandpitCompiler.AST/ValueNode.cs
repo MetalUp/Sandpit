@@ -2,8 +2,10 @@
 
 namespace SandpitCompiler.AST;
 
-public class ValueNode : ASTNode {
-    public ValueNode(IToken nodeSymbol) : base(nodeSymbol) { }
+public abstract class ValueNode : ASTNode {
+    protected ValueNode(IToken? nodeSymbol) : base(nodeSymbol) { }
+
+    public string InferredType => ASTHelpers.TokenToType[TokenName];
 
     public override string ToStringTree() => ToString();
 }

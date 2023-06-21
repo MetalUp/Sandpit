@@ -1,10 +1,11 @@
 ﻿namespace SandpitCompiler.AST;
 
-public class ListNode : ASTNode {
+public class ListNode : ValueNode {
+    public ListNode(params ValueNode[] valueNodes) : base(valueNodes[0]?.Token) => ValueNodes = valueNodes;
+
     public ValueNode[] ValueNodes { get; }
-    public ListNode(params ValueNode[] valueNodes) {
-        ValueNodes = valueNodes;
-    }
+
+    public string[] Texts => ValueNodes.Select(vn => vn.Text).ToArray();
 
     public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }
