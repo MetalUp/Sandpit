@@ -7,5 +7,10 @@ public class ListNode : ValueNode {
 
     public string[] Texts => ValueNodes.Select(vn => vn.Text).ToArray();
 
+    public override string ToString() {
+        var typeName = GetType().Name;
+        return typeName;
+    }
+
     public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }

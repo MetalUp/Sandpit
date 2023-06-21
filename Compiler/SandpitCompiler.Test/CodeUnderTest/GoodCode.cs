@@ -6,9 +6,6 @@ namespace SandpitCompiler.Test.CodeUnderTest;
 public static class GoodCode {
     // code to test starts with <Code> expected result same id but ends with <Result> 
 
-   
-
-
     public const string Code1 = @"
 main
 var a = 1
@@ -258,6 +255,10 @@ public static partial class GlobalConstants {
 
     public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(("a", "\"fred\"")));
 
+    public static readonly ASTNode Code14AST = FN(ARR(CDN("name", "\"bill\"")), E<ProcNode>(), E<FuncNode>(), null);
+
+    public static readonly ASTNode Code15AST = FN(ARR(CDN("names", new[] { "\"bill\"", "\"ben\"" })), E<ProcNode>(), E<FuncNode>(), null);
+
     #region AST DSL
 
     private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, MainNode?, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
@@ -265,6 +266,8 @@ public static partial class GlobalConstants {
     private static MainNode MN(params (string, string)[] vars) => new(vars.Select(t => VDN(t.Item1, t.Item2)).ToArray());
 
     private static ConstDeclNode CDN(string id, string v) => new(SVN(id), SVN(v));
+
+    private static ConstDeclNode CDN(string id, string[] vs) => new(SVN(id), LN(vs));
 
     private static VarDeclNode VDN(string id, string v) => new(SVN(id), SVN(v));
 
@@ -283,6 +286,8 @@ public static partial class GlobalConstants {
     private static T[] ARR<T>(params T[] v) => v;
 
     private static ScalarValueNode SVN(string v) => new(new CommonToken(21, v));
+
+    private static ListNode LN(string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
 
     #endregion
 }
