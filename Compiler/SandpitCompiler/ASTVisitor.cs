@@ -8,7 +8,7 @@ public class ASTVisitor {
         var constants = fn.ConstNodes.Select(Visit);
         var procedures = fn.ProcNodes.Select(Visit);
         var functions = fn.FuncNodes.Select(Visit);
-        var main = fn.MainNode is { } mn ? Visit(mn) : null;
+        var main = fn.MainNode.Select(Visit).SingleOrDefault();
         return new FileModel(constants, procedures, functions, main);
     }
 

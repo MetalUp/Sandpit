@@ -1,12 +1,11 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class FileNode : ASTNode {
-    public FileNode(IEnumerable<ConstDeclNode> constNodes, IEnumerable<ProcNode> procNodes, IEnumerable<FuncNode> funcNodes, MainNode? mainNode) {
-        MainNode = mainNode;
-
+    public FileNode(IEnumerable<ConstDeclNode> constNodes, IEnumerable<ProcNode> procNodes, IEnumerable<FuncNode> funcNodes, IEnumerable<MainNode> mainNodes) {
         ConstNodes = constNodes.ToArray();
         ProcNodes = procNodes.ToArray();
         FuncNodes = funcNodes.ToArray();
+        MainNode = mainNodes.ToArray();
     }
 
     public ProcNode[] ProcNodes { get; }
@@ -15,7 +14,7 @@ public class FileNode : ASTNode {
 
     public FuncNode[] FuncNodes { get; }
 
-    public MainNode? MainNode { get; }
+    public MainNode[] MainNode { get; }
 
-    public override string ToStringTree() => $"{ConstNodes.AsString()}{ProcNodes.AsString()}{MainNode?.ToStringTree() ?? ""}";
+    public override string ToStringTree() => $"{ConstNodes.AsString()}{ProcNodes.AsString()}{MainNode.AsString()}";
 }
