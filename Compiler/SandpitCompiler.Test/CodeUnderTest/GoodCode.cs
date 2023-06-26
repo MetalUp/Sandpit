@@ -274,39 +274,39 @@ public static class Program {
 }";
 
 
-    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "1")))));
+    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "1"))));
 
-    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "1"), VDN("b", "a")))));
+    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "1"), VDN("b", "a"))));
 
     public static readonly ASTNode Code3AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), null);
 
     public static readonly ASTNode Code4AST = FN(ARR(CDN("pi", "4"), CDN("e", "3")), E<ProcNode>(), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "pi")))));
+    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "pi"))));
 
-    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "pi")))));
+    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "pi"))));
 
-    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), BN(ARR(VDN("a", "1"))))), E<FuncNode>(), null);
+    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", BN(VDN("a", "1")), E<(string, string)>())), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", ARR(("a", "1"))))), null);
+    public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("1", ("a", "1")), E<(string, string)>())), null);
 
-    public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Integer")), BN(ARR(VDN("a", "z"))))), E<FuncNode>(), null);
+    public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", BN(VDN("a", "z")), ("z", "Integer"))), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", E<(string, string)>(), FBN("1", E<(string, string)>()))), null);
+    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("1", E<(string, string)>()), E<(string, string)>())), null);
 
-    public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("a", E<(string, string)>()))), null);
+    public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("a", E<(string, string)>()), ("a", "Integer"))), null);
 
-    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", ARR(("a", "Integer")), FBN("b", ARR(("b", "a"))))), null);
+    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("b", ("b", "a")), ("a", "Integer"))), null);
 
-    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "\"fred\"")))));
+    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "\"fred\""))));
 
     public static readonly ASTNode Code14AST = FN(ARR(CDN("name", "\"bill\"")), E<ProcNode>(), E<FuncNode>(), null);
 
     public static readonly ASTNode Code15AST = FN(ARR(CDN("names", new[] { "\"bill\"", "\"ben\"" })), E<ProcNode>(), E<FuncNode>(), null);
 
-    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(WN(SVN("true"), BN(ARR(VDN("a", "1"))))))));
+    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(WN(SVN("true"), BN(VDN("a", "1"))))));
 
-    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(ARR(VDN("a", "1"), WN(BON(SVN("true"), SVN(""), SVN("")) , BN(ARR(VDN("a", "1"))))))));
+    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), MN(BN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")) , BN(VDN("b", "1"))))));
 
     #region AST DSL
 
@@ -318,7 +318,7 @@ public static class Program {
 
     private static ConstDeclNode CDN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static ConstDeclNode CDN(string id, string[] vs) => new(SVN(id), LN(vs));
+    private static ConstDeclNode CDN(string id, params string[] vs) => new(SVN(id), LN(vs));
 
     private static StatNode VDN(string id, string v) => new VarDeclNode(SVN(id), SVN(v));
 
@@ -326,14 +326,14 @@ public static class Program {
 
     private static ParamNode PMN(string id, string v) => new(SVN(id), SVN(v));
 
-    private static ProcNode PN(string id, (string, string)[] param, BodyNode body) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
+    private static ProcNode PN(string id, BodyNode body, params (string, string)[] param) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
-    private static FuncBodyNode FBN(string ret, (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
+    private static FuncBodyNode FBN(string ret, params (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
 
-    private static BodyNode BN(StatNode[] statNodes) => new(statNodes);
+    private static BodyNode BN(params StatNode[] statNodes) => new(statNodes);
 
 
-    private static FuncNode FNN(string id, string typ, (string, string)[] param, FuncBodyNode body) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
+    private static FuncNode FNN(string id, string typ, FuncBodyNode body, params (string, string)[] param) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
     private static T[] E<T>() => Array.Empty<T>();
 
@@ -341,7 +341,7 @@ public static class Program {
 
     private static ValueNode SVN(string v) => new ScalarValueNode(new CommonToken(SandpitParser.INT, v));
 
-    private static ListNode LN(string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
+    private static ListNode LN(params string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
 
 
     private static ValueNode BON(ValueNode op, ValueNode lhs, ValueNode rhs) => new BinaryOperatorNode(op, lhs, rhs);
