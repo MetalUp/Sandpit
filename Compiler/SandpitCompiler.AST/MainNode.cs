@@ -5,5 +5,5 @@ public class MainNode : ASTNode {
 
     public BodyNode Body { get; }
 
-    public override string ToStringTree() => $"({ToString()} {Body})".TrimEnd();
+    public override string ToStringTree() => $"({ToString()} {Body.ToStringTree()})".TrimEnd();
 }

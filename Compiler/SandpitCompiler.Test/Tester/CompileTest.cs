@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SandpitCompiler.AST;
 using SandpitCompiler.Test.CodeUnderTest;
 using static SandpitCompiler.Test.TestHelpers;
@@ -21,6 +22,22 @@ public class CompileTest {
         }
         catch (AggregateException e) {
             Assert.AreEqual(ClearWs(message), ClearWs(e.InnerException?.Message ?? ""), $"{fn} Failed");
+        }
+    }
+
+    private void TestASTs(IEnumerable<FieldInfo> codeFields) {
+        foreach (var codeField in codeFields) {
+            var id = codeField.Name;
+            var resultField = typeof(GoodCode).GetField($"{id}AST");
+            var code = GetValue(codeField);
+            var ast = CreateAST(code);
+            var expected = resultField?.GetValue(null) as ASTNode;
+
+            if (expected is not null) {
+                AssertTreesEqual(expected, ast, id);
+
+                Console.WriteLine($"Tested AST {id}");
+            }
         }
     }
 
@@ -57,21 +74,18 @@ public class CompileTest {
     }
 
     [TestMethod]
-    public void TestASTs() {
+    public void TestAllASTs() {
         var codeFields = typeof(GoodCode).GetFields().Where(f => f.Name.StartsWith("Code") && !(f.Name.EndsWith("Result") || f.Name.EndsWith("AST")));
+        TestASTs(codeFields);
+    }
 
-        foreach (var codeField in codeFields) {
-            var id = codeField.Name;
-            var resultField = typeof(GoodCode).GetField($"{id}AST");
-            var code = GetValue(codeField);
-            var ast = CreateAST(code);
-            var expected = resultField?.GetValue(null) as ASTNode;
+    private void DebugHelperTestAST(string name) {
+        var codeFields = typeof(GoodCode).GetFields().Where(f => f.Name == name);
+        TestASTs(codeFields);
+    }
 
-            if (expected is not null) {
-                AssertTreesEqual(expected, ast, id);
-
-                Console.WriteLine($"Tested AST {id}");
-            }
-        }
+    [TestMethod]
+    public void DebugTestAST() {
+       DebugHelperTestAST("Code17");
     }
 }

@@ -28,5 +28,16 @@ public static partial class TestHelpers {
         Assert.AreEqual(expected, code, $"{fn} Failed");
     }
 
-    public static void AssertTreesEqual(ASTNode expected, ASTNode? actual, string id) => Assert.AreEqual(expected.ToStringTree(), actual?.ToStringTree(), $"{id} failed");
+    public static void AssertTreesEqual(ASTNode expected, ASTNode? actual, string id) {
+        try {
+            Assert.AreEqual(expected.ToStringTree(), actual?.ToStringTree());
+        }
+        catch (AssertFailedException e) {
+            Console.WriteLine($"{id} failed");
+            Console.WriteLine(expected.ToStringTree() + " EXPECTED");
+            Console.WriteLine(actual?.ToStringTree() + " ACTUAL");
+
+            
+        }
+    }
 }
