@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Tree;
 
 namespace SandpitCompiler.AST;
 
@@ -13,7 +14,27 @@ public static class ASTFactory {
         return mainDecls;
     }
 
-    public static ASTNode BuildFile(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FileContext context) {
+    public static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParserRuleContext context) {
+        return context switch {
+            SandpitParser.FileContext c => visitor.BuildFile(c),
+            SandpitParser.ProcBodyContext c => visitor.BuildProcBody(c),
+            SandpitParser.WhileStatContext c => visitor.BuildWhileStat(c),
+            SandpitParser.StatContext c => visitor.BuildStat(c),
+            SandpitParser.ConstValContext c => visitor.BuildConstVal(c),
+            SandpitParser.FuncBodyContext c => visitor.BuildFuncBody(c),
+            SandpitParser.ParamContext c => visitor.BuildParam(c),
+            SandpitParser.MainDeclContext c => visitor.BuildMainDecl(c),
+            SandpitParser.FuncDeclContext c => visitor.BuildFuncDecl(c),
+            SandpitParser.ProcDeclContext c => visitor.BuildProcDecl(c),
+            SandpitParser.ConstDeclContext c => visitor.BuildConstDecl(c),
+            SandpitParser.VarDeclContext c => visitor.BuildVarDecl(c),
+            SandpitParser.LetDeclContext c => visitor.BuildLetDecl(c),
+            SandpitParser.ExprContext c => visitor.BuildExpr(c),
+            _ => throw new NotImplementedException(context?.GetType().FullName ?? null)
+        };
+    }
+
+    private static ASTNode BuildFile(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FileContext context) {
         var mainDecls = OnlyOneMainRule(context.mainDecl());
 
         var constNodes = context.constDecl().Select(visitor.Visit<ConstDeclNode>);
@@ -24,44 +45,44 @@ public static class ASTFactory {
         return new FileNode(constNodes, procNodes, funcNodes, mainNodes.SingleOrDefault());
     }
 
-    public static ASTNode BuildProcBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcBodyContext context) {
+    private static ASTNode BuildProcBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcBodyContext context) {
         var statNodes = context.stat().Select(visitor.Visit<StatNode>);
         return new BodyNode(statNodes.ToArray());
     }
 
-    public static ASTNode BuildWhileStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.WhileStatContext context) {
+    private static ASTNode BuildWhileStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.WhileStatContext context) {
         var expr = visitor.Visit<ValueNode>(context.expr());
         var body = visitor.Visit<BodyNode>(context.procBody());
 
         return new WhileNode(expr, body);
     }
 
-    public static ASTNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.StatContext context) =>
+    private static ASTNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.StatContext context) =>
         context.varDecl() is { } vd ? visitor.Visit(vd) : visitor.Visit(context.whileStat());
 
-    public static ASTNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
+    private static ASTNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
         (context.INT() ?? context.STRING()) is { } tn ? visitor.Visit(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
 
-    public static ASTNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
+    private static ASTNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
         var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);
         var returnNode = visitor.Visit<ValueNode>(context.expr());
 
         return new FuncBodyNode(returnNode, letNodes.ToArray());
     }
 
-    public static ASTNode BuildParam(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ParamContext context) =>
+    private static ASTNode BuildParam(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ParamContext context) =>
         new ParamNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.type()));
 
-    public static ASTNode BuildMainDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.MainDeclContext context) => new MainNode(visitor.Visit<BodyNode>(context.procBody()));
+    private static ASTNode BuildMainDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.MainDeclContext context) => new MainNode(visitor.Visit<BodyNode>(context.procBody()));
 
-    public static ASTNode BuildProcDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcDeclContext context) {
+    private static ASTNode BuildProcDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcDeclContext context) {
         var idNode = visitor.Visit<ValueNode>(context.ID());
         var paramNodes = context.param().Select(visitor.Visit<ParamNode>);
         var bodyNode = visitor.Visit<BodyNode>(context.procBody());
         return new ProcNode(idNode, paramNodes.ToArray(), bodyNode);
     }
 
-    public static ASTNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncDeclContext context) {
+    private static ASTNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncDeclContext context) {
         var idNode = visitor.Visit<ValueNode>(context.ID());
         var paramNodes = context.param().Select(visitor.Visit<ParamNode>);
         var typeNode = visitor.Visit<ValueNode>(context.type());
@@ -70,13 +91,13 @@ public static class ASTFactory {
         return new FuncNode(idNode, typeNode, paramNodes.ToArray(), bodyNode);
     }
 
-    public static ASTNode BuildConstDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstDeclContext context) => new ConstDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.constVal()));
+    private static ASTNode BuildConstDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstDeclContext context) => new ConstDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.constVal()));
 
-    public static ASTNode BuildVarDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.VarDeclContext context) => new VarDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
+    private static ASTNode BuildVarDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.VarDeclContext context) => new VarDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
 
-    public static ASTNode BuildLetDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.LetDeclContext context) => new LetDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
+    private static ASTNode BuildLetDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.LetDeclContext context) => new LetDeclNode(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
 
-    public static ASTNode BuildExpr(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ExprContext context) {
+    private static ASTNode BuildExpr(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ExprContext context) {
         if (context.ID() is { } id) {
             return visitor.Visit(id);
         }
