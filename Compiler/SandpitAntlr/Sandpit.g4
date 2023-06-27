@@ -36,8 +36,8 @@ param
 
 constVal
     : INT
-    | STRING
     | BOOL
+    | STRING
     | '{' constVal? (',' constVal)* '}'
     ;
 
@@ -65,16 +65,16 @@ funcBody
     : letDecl* 'return' expr NEWLINE
     ;
 
-ID  :   LETTER (LETTER | [0-9])* ;
-
-fragment
-LETTER : [a-zA-Z] ;
-
 INT :   [0-9]+ ;
 
 BOOL : 'true' | 'false' ;
 
 STRING : '"' [ a-zA-Z0-9]* '"' ;
+
+ID  :   LETTER (LETTER | [0-9])* ;
+
+fragment
+LETTER : [a-zA-Z] ;
 
 NEWLINE
   : '\r'? '\n'

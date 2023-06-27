@@ -7,7 +7,8 @@ public static class ASTFactory {
     private static readonly IList<Func<ASTNode, ASTNode>> Rules = new List<Func<ASTNode, ASTNode>>();
 
     static ASTFactory() {
-        Rules.Add(CompileRules.OnlyOneMainRule);
+        Rules.Add(CompilerRules.OnlyOneMainRule);
+        Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
     }
 
     private static T Visit<T>(this SandpitBaseVisitor<ASTNode> visitor, IParseTree pt) where T : ASTNode => (T)visitor.Visit(pt);
@@ -58,7 +59,7 @@ public static class ASTFactory {
         context.varDecl() is { } vd ? visitor.Visit<VarDeclNode>(vd) : visitor.Visit<WhileNode>(context.whileStat());
 
     private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
-        (context.INT() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
+        (context.INT()?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
 
     private static FuncBodyNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
         var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);
