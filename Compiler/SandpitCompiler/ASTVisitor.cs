@@ -22,7 +22,7 @@ public class ASTVisitor {
 
     private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
-    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.ParamNodes.Select(Visit), Visit(pn.BodyNode));
+    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), Visit(pn.Body));
 
     private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
 
@@ -44,10 +44,13 @@ public class ASTVisitor {
             ValueNode vn => BuildValueModel(vn),
             BodyNode bn => BuildBodyModel(bn),
             WhileNode sn => BuildWhileModel(sn),
+            ProcStatNode sn => BuildProcStatModel(sn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
     }
+
+    private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
 
     private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Expr), Visit(sn.Body));
 

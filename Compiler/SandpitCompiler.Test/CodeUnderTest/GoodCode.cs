@@ -273,6 +273,29 @@ public static class Program {
     }
 }";
 
+    public const string Code18 = @"
+procedure printtest(s : String)
+var a = s
+end procedure
+
+main
+  printtest(""test"")
+end main
+";
+
+    public const string Code18Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static void printtest(string s) { 
+    var a = s; 
+  }
+}
+public static class Program {
+    private static void Main(string[] args) {
+      printtest(""test"");
+    }
+}";
+
 
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "1")))));
 
@@ -308,6 +331,8 @@ public static class Program {
 
     public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")), BN(VDN("b", "1")))))));
 
+    public static readonly ASTNode Code18AST = FN(E<ConstDeclNode>(), ARR(PN("printtest", BN(VDN("a", "s")), ("s", "String"))), E<FuncNode>(), ARR(MN(BN(PSN("printtest", "\"test\"")))));
+
     #region AST DSL
 
     private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, IEnumerable<MainNode>, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
@@ -315,6 +340,8 @@ public static class Program {
     private static MainNode MN(BodyNode body) => new(body);
 
     private static StatNode WN(ValueNode vn, BodyNode body) => new WhileNode(vn, body);
+
+    private static StatNode PSN(string id, params string[] parms) => new ProcStatNode(SVN(id), parms.Select(SVN).ToArray());
 
     private static ConstDeclNode CDN(string id, string v) => new(SVN(id), SVN(v));
 
@@ -332,7 +359,6 @@ public static class Program {
 
     private static BodyNode BN(params StatNode[] statNodes) => new(statNodes);
 
-
     private static FuncNode FNN(string id, string typ, FuncBodyNode body, params (string, string)[] param) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
 
     private static T[] E<T>() => Array.Empty<T>();
@@ -342,7 +368,6 @@ public static class Program {
     private static ValueNode SVN(string v) => new ScalarValueNode(new CommonToken(SandpitParser.INT, v));
 
     private static ListNode LN(params string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
-
 
     private static ValueNode BON(ValueNode op, ValueNode lhs, ValueNode rhs) => new BinaryOperatorNode(op, lhs, rhs);
 

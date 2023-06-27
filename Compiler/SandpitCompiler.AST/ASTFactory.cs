@@ -31,6 +31,7 @@ public static class ASTFactory {
             SandpitParser.VarDeclContext c => visitor.BuildVarDecl(c),
             SandpitParser.LetDeclContext c => visitor.BuildLetDecl(c),
             SandpitParser.ExprContext c => visitor.BuildExpr(c),
+            SandpitParser.ProcStatContext c => visitor.BuildProcStat(c),
             _ => throw new NotImplementedException(context?.GetType().FullName ?? null)
         });
 
@@ -55,8 +56,17 @@ public static class ASTFactory {
         return new WhileNode(expr, body);
     }
 
-    private static StatNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.StatContext context) =>
-        context.varDecl() is { } vd ? visitor.Visit<VarDeclNode>(vd) : visitor.Visit<WhileNode>(context.whileStat());
+    private static StatNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.StatContext context) {
+        if (context.varDecl() is { } vd) {
+            return visitor.Visit<VarDeclNode>(vd);
+        }
+        else if (context.procStat() is { } ps) {
+            return visitor.Visit<ProcStatNode>(ps);
+        }
+        else {
+            return visitor.Visit<WhileNode>(context.whileStat());
+        }
+    }
 
     private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
         (context.INT()?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
@@ -78,6 +88,12 @@ public static class ASTFactory {
         var paramNodes = context.param().Select(visitor.Visit<ParamNode>);
         var bodyNode = visitor.Visit<BodyNode>(context.procBody());
         return new ProcNode(idNode, paramNodes.ToArray(), bodyNode);
+    }
+
+    private static ProcStatNode BuildProcStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcStatContext context) {
+        var idNode = visitor.Visit<ValueNode>(context.ID());
+        var paramNodes = context.expr().Select(visitor.Visit<ValueNode>);
+        return new ProcStatNode(idNode, paramNodes.ToArray());
     }
 
     private static FuncNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncDeclContext context) {

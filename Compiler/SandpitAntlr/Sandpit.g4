@@ -30,6 +30,10 @@ whileStat
     : 'while' expr NEWLINE procBody 'end while' NEWLINE 
     ;
 
+procStat 
+    : ID '(' expr? (',' expr)*  ')' NEWLINE 
+    ;
+
 param
     : (ID ':' type)
     ;
@@ -50,6 +54,7 @@ expr
 stat
     : varDecl
     | whileStat
+    | procStat
     ;
 
 type 

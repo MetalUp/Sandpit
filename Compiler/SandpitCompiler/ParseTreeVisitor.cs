@@ -33,4 +33,6 @@ public class ParseTreeVisitor : SandpitBaseVisitor<ASTNode> {
     public override ASTNode VisitWhileStat(SandpitParser.WhileStatContext context) => this.Build(context);
 
     public override ASTNode VisitStat(SandpitParser.StatContext context) => this.Build(context);
+
+    public override ASTNode VisitProcStat(SandpitParser.ProcStatContext context) => this.Build(context);
 }

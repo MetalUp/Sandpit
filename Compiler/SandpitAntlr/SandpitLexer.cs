@@ -65,7 +65,7 @@ public partial class SandpitLexer : Lexer {
 	private static readonly string[] _LiteralNames = {
 		null, "'main'", "'end main'", "'procedure'", "'('", "')'", "'end procedure'", 
 		"'function'", "':'", "'end function'", "'constant'", "'='", "'var'", "'let'", 
-		"'while'", "'end while'", "'{'", "','", "'}'", "'=='", "'Integer'", "'String'", 
+		"'while'", "'end while'", "','", "'{'", "'}'", "'=='", "'Integer'", "'String'", 
 		"'Boolean'", "'return'"
 	};
 	private static readonly string[] _SymbolicNames = {
@@ -248,8 +248,8 @@ public partial class SandpitLexer : Lexer {
 		'\x9E', '\x9F', '\a', 'y', '\x2', '\x2', '\x9F', '\xA0', '\a', 'j', '\x2', 
 		'\x2', '\xA0', '\xA1', '\a', 'k', '\x2', '\x2', '\xA1', '\xA2', '\a', 
 		'n', '\x2', '\x2', '\xA2', '\xA3', '\a', 'g', '\x2', '\x2', '\xA3', ' ', 
-		'\x3', '\x2', '\x2', '\x2', '\xA4', '\xA5', '\a', '}', '\x2', '\x2', '\xA5', 
-		'\"', '\x3', '\x2', '\x2', '\x2', '\xA6', '\xA7', '\a', '.', '\x2', '\x2', 
+		'\x3', '\x2', '\x2', '\x2', '\xA4', '\xA5', '\a', '.', '\x2', '\x2', '\xA5', 
+		'\"', '\x3', '\x2', '\x2', '\x2', '\xA6', '\xA7', '\a', '}', '\x2', '\x2', 
 		'\xA7', '$', '\x3', '\x2', '\x2', '\x2', '\xA8', '\xA9', '\a', '\x7F', 
 		'\x2', '\x2', '\xA9', '&', '\x3', '\x2', '\x2', '\x2', '\xAA', '\xAB', 
 		'\a', '?', '\x2', '\x2', '\xAB', '\xAC', '\a', '?', '\x2', '\x2', '\xAC', 

@@ -1,17 +1,17 @@
 ﻿namespace SandpitCompiler.AST;
 
 public class ProcNode : ASTNode {
-    public ProcNode(ValueNode id, ParamNode[] paramNodes, BodyNode bodyNode) {
+    public ProcNode(ValueNode id, ParamNode[] parameters, BodyNode body) {
         ID = id;
-        ParamNodes = paramNodes;
-        BodyNode = bodyNode;
+        Parameters = parameters;
+        Body = body;
      
     }
 
     public ValueNode ID { get; }
-    public ParamNode[] ParamNodes { get; }
-    public BodyNode BodyNode { get; }
+    public ParamNode[] Parameters { get; }
+    public BodyNode Body { get; }
    
 
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {ParamNodes.AsString()} {BodyNode.ToString()})";
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {Body.ToString()})";
 }
