@@ -1,18 +1,11 @@
 ﻿namespace SandpitCompiler.Test.CodeUnderTest;
 
 public class BadCode {
-    // code to test starts with <Code> expected message same id but ends with <Message> 
-
-    private static string NL = @"\r\n";
-
-
     public const string Code1 = @"
 main
   var a = 1
 endmain
 ";
-
-    public static readonly string Code1Message = $"line 4:7 mismatched input '{NL}' expecting '('";
 
     public const string Code2 = @"main
 var a = 1
@@ -46,8 +39,6 @@ procedure p()
 endprocedure
 ";
 
-    public static readonly string Code5Message = $"line 4:12 mismatched input '{NL}' expecting '('";
-
     public const string Code6 = @"
 function p() : Integer
   var a = 1
@@ -74,5 +65,11 @@ end main
 ";
 
     public const string Code8Message = "control expression must be bool";
+    // code to test starts with <Code> expected message same id but ends with <Message> 
 
+    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
+
+    public static readonly string Code1Message = $"line 4:7 mismatched input '{NL}' expecting '('";
+
+    public static readonly string Code5Message = $"line 4:12 mismatched input '{NL}' expecting '('";
 }
