@@ -3,13 +3,16 @@
 public class BadCode {
     // code to test starts with <Code> expected message same id but ends with <Message> 
 
+    private static string NL = @"\r\n";
+
+
     public const string Code1 = @"
 main
   var a = 1
 endmain
 ";
 
-    public const string Code1Message = @"line 4:7 mismatched input '\r\n' expecting '('";
+    public static readonly string Code1Message = $"line 4:7 mismatched input '{NL}' expecting '('";
 
     public const string Code2 = @"main
 var a = 1
@@ -43,7 +46,7 @@ procedure p()
 endprocedure
 ";
 
-    public const string Code5Message = @"line 4:12 mismatched input '\r\n' expecting '('";
+    public static readonly string Code5Message = $"line 4:12 mismatched input '{NL}' expecting '('";
 
     public const string Code6 = @"
 function p() : Integer
