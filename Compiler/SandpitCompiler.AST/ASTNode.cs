@@ -9,7 +9,7 @@ public abstract class ASTNode {
 
     public IToken? Token { get; }
 
-    public IList<ASTNode> Children { get; set; } = new List<ASTNode>();
+    public abstract IList<ASTNode> Children { get; }
 
     public bool IsNil => Token is null;
 

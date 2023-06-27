@@ -5,11 +5,12 @@ public class ConstDeclNode : ASTNode {
         ID = id;
         Val = val;
         InferredType = ASTHelpers.TokenToType(val.TokenName);
+        Children = new List<ASTNode> { ID, Val };
     }
 
     public ValueNode ID { get; }
     public ValueNode Val { get; }
     public string InferredType { get; }
-
+    public override IList<ASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Val.ToStringTree()})".TrimEnd();
 }

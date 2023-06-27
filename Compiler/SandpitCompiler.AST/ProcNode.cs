@@ -5,13 +5,13 @@ public class ProcNode : ASTNode {
         ID = id;
         Parameters = parameters;
         Body = body;
-     
+        Children = new List<ASTNode> { id, body }.Union(parameters).ToList();
     }
 
     public ValueNode ID { get; }
     public ParamNode[] Parameters { get; }
     public BodyNode Body { get; }
-   
 
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {Body.ToString()})";
+    public override IList<ASTNode> Children { get; }
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {Body})";
 }

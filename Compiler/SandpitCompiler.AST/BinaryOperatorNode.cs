@@ -5,11 +5,13 @@ public class BinaryOperatorNode : ValueNode {
         Op = op;
         Lhs = lhs;
         Rhs = rhs;
+        Children = new List<ASTNode> { op, lhs, rhs };
     }
 
     public ValueNode Op { get; }
     public ValueNode Lhs { get; }
     public ValueNode Rhs { get; }
 
+    public override IList<ASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 }

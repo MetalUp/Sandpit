@@ -6,6 +6,7 @@ public class FuncNode : ASTNode {
         Type = type;
         ParamNodes = paramNodes;
         Body = body;
+        Children = new List<ASTNode>() { id, type, body }.Union(ParamNodes).ToList();
     }
 
     public ValueNode ID { get; }
@@ -13,5 +14,6 @@ public class FuncNode : ASTNode {
     public ParamNode[] ParamNodes { get; }
     public FuncBodyNode Body { get; }
 
+    public override IList<ASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {ParamNodes.AsString()} {Type.ToStringTree()} {Body.ToStringTree()})";
 }
