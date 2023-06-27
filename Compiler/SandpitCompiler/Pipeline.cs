@@ -51,7 +51,7 @@ public static class Pipeline {
     }
 
     private static IModel GenerateModel(ASTNode astNode) {
-        var astVisitor = new ASTVisitor();
+        var astVisitor = new CodeModelASTVisitor();
         return astVisitor.Visit(astNode);
     }
 

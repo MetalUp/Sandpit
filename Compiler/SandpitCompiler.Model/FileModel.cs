@@ -9,6 +9,16 @@ public class FileModel : IModel {
         Main = main;
     }
 
+    private string printFunction = $@"
+public static void print(string s) {{ System.Console.WriteLine(s); }}
+";
+
+    private string assertFunction = $@"
+public static void assert(bool b) {{ if (b) throw new System.Exception(""Assert Failed""); }}
+";
+
+
+
     private IEnumerable<IModel> Constants { get; }
     private IEnumerable<IModel> Procedures { get; }
     private IEnumerable<IModel> Functions { get; }
@@ -30,4 +40,5 @@ public static partial class GlobalConstants {{
     private bool UsesCollections => Constants.Any(c => c is ConstDeclModel and { IsList: true });
 
     public bool HasMain => Main is not null;
+
 }

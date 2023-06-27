@@ -7,7 +7,6 @@ public class WhileModel : IModel {
     public WhileModel(IModel expr, IModel body) {
         Expr = expr;
         Body = body;
-       
     }
 
     public override string ToString() =>

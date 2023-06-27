@@ -3,7 +3,7 @@ using SandpitCompiler.Model;
 
 namespace SandpitCompiler;
 
-public class ASTVisitor {
+public class SymbolTableASTVisitor {
     private FileModel BuildFileModel(FileNode fn) {
         var constants = fn.ConstNodes.Select(Visit);
         var procedures = fn.ProcNodes.Select(Visit);
