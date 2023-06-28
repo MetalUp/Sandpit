@@ -31,7 +31,7 @@ public static class Pipeline {
 
         var symbolTable = GenerateSymbolTable(ast);
 
-        var model = GenerateModel(ast);
+        var model = GenerateModel(ast, symbolTable);
         var csCode = GenerateCSharpCode(options.FileName, model);
 
         if (options.CompileCSharp) {
@@ -53,8 +53,20 @@ public static class Pipeline {
         return csCode;
     }
 
-    private static IModel GenerateModel(ASTNode astNode) {
-        var astVisitor = new CodeModelASTVisitor();
+    private static IDictionary<string, bool> SetFlags(SymbolTable symbolTable) {
+        IDictionary<string, bool> flags = new Dictionary<string, bool>();
+        // extract rules 
+
+
+
+
+
+        return flags;
+    }
+
+
+    private static IModel GenerateModel(ASTNode astNode, SymbolTable symbolTable) {
+        var astVisitor = new CodeModelASTVisitor(SetFlags(symbolTable));
         return astVisitor.Visit(astNode);
     }
 

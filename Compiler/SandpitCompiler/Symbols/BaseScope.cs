@@ -9,6 +9,7 @@ public abstract class BaseScope : IScope {
 
     public abstract string ScopeName { get; }
     public abstract IScope? EnclosingScope { get; }
+    public IEnumerable<IScope> ChildScopes => symbols.Values.OfType<IScope>();
 
     public virtual void Define(ISymbol symbol) {
         symbols[symbol.Name] = symbol;

@@ -1,10 +1,17 @@
-﻿using SandpitCompiler.AST.Node;
+﻿using System.Collections.Immutable;
+using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
 using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
 
 public class CodeModelASTVisitor {
+
+    private IDictionary<string, bool> Flags { get; set; }
+
+    public CodeModelASTVisitor(IDictionary<string, bool> flags) {
+        Flags = flags.ToImmutableDictionary();
+    }
 
     private FileModel BuildFileModel(FileNode fn) {
         var constants = fn.ConstNodes.Select(Visit);
