@@ -1,4 +1,4 @@
-﻿using SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
 using SandpitCompiler.SymbolTree;
 

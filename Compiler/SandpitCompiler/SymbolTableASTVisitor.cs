@@ -1,65 +1,57 @@
-﻿using SandpitCompiler.AST;
-using SandpitCompiler.Model;
+﻿using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
 
 public class SymbolTableASTVisitor {
-    private FileModel BuildFileModel(FileNode fn) {
-        var constants = fn.ConstNodes.Select(Visit);
-        var procedures = fn.ProcNodes.Select(Visit);
-        var functions = fn.FuncNodes.Select(Visit);
-        var main = fn.MainNode.Select(Visit).SingleOrDefault();
-        return new FileModel(constants, procedures, functions, main);
-    }
+    private IScope currentScope;
 
-    private MainModel BuildMainModel(MainNode mn) => new(Visit(mn.Body));
+    public SymbolTable SymbolTable { get; } = new();
 
-    private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
+    public SymbolTableASTVisitor() => currentScope = SymbolTable.GlobalScope;
 
-    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
-
-    private FuncModel BuildFuncModel(FuncNode fn) => new(fn.ID.Text, fn.Type.Text, fn.ParamNodes.Select(Visit), Visit(fn.Body));
-
-    private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
-
-    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), Visit(pn.Body));
-
-    private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
-
-    private FuncBodyModel BuildFuncBodyModel(FuncBodyNode bn) => new(bn.Return.Text, bn.LetNodes.Select(Visit));
-
-    private BodyModel BuildBodyModel(BodyNode bn) => new(bn.StatNodes.Select(Visit));
-
-    public IModel Visit(ASTNode astNode) {
+    public IASTNode Visit(IASTNode astNode) {
         return astNode switch {
-            ConstDeclNode cdn => BuildConstDeclModel(cdn),
-            FileNode fn => BuildFileModel(fn),
-            MainNode mn => BuildMainModel(mn),
-            VarDeclNode vdn => BuildVarDeclModel(vdn),
-            LetDeclNode ldn => BuildLetDeclModel(ldn),
-            ProcNode pn => BuildProcModel(pn),
-            FuncNode fn => BuildFuncModel(fn),
-            ParamNode pn => BuildParamModel(pn),
-            FuncBodyNode bn => BuildFuncBodyModel(bn),
-            ValueNode vn => BuildValueModel(vn),
-            BodyNode bn => BuildBodyModel(bn),
-            WhileNode sn => BuildWhileModel(sn),
-            ProcStatNode sn => BuildProcStatModel(sn),
+            IDecl dn => VisitDeclNode(dn),
+            IBlock bn => VisitBlockNode(bn),
+            IProc pn => VisitProcNode(pn),
+            FileNode fn => VisitChildren(fn),
+            ValueNode vn => VisitChildren(vn),
+            WhileNode sn => VisitChildren(sn),
+            ProcStatNode sn => VisitChildren(sn),
             null => throw new NotImplementedException("null"),
-            _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
+            _ => VisitChildren(astNode),
         };
     }
 
-    private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
+    private IASTNode VisitDeclNode(IDecl dn) {
+        var vs = new VariableSymbol(dn.ID.Text, null);
+        currentScope.Define(vs);
+        return dn;
+    }
 
-    private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Expr), Visit(sn.Body));
+    private IASTNode VisitBlockNode(IBlock bn) {
+        currentScope = new LocalScope(currentScope);
+        VisitChildren(bn);
+        currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
+        return bn;
+    }
 
-    private IModel BuildValueModel(ValueNode vn) {
-        return vn switch {
-            ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
-            ListNode ln => new ValueModel(ln.Texts, ln.InferredType),
-            BinaryOperatorNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
-            _ => throw new NotImplementedException()
-        };
+    private IASTNode VisitProcNode(IProc pn) {
+        var ms = new MethodSymbol(pn.ID.Text, null, currentScope);
+        currentScope.Define(ms);
+        currentScope = ms;
+        VisitChildren(pn);
+        currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
+        return pn;
+    }
+
+    private IASTNode VisitChildren(IASTNode node) {
+        foreach (var child in node.Children) {
+            Visit(child);
+        }
+
+        return node;
     }
 }

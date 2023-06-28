@@ -1,12 +1,16 @@
-﻿namespace SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.RoleInterface;
 
-public class FuncNode : ASTNode {
-    public FuncNode(ValueNode id, ValueNode type, ParamNode[] paramNodes, FuncBodyNode body) {
+namespace SandpitCompiler.AST.Node;
+
+public class FuncNode : ASTNode, IProc
+{
+    public FuncNode(ValueNode id, ValueNode type, ParamNode[] paramNodes, FuncBodyNode body)
+    {
         ID = id;
         Type = type;
         ParamNodes = paramNodes;
         Body = body;
-        Children = new List<ASTNode>() { id, type, body }.Union(ParamNodes).ToList();
+        Children = new List<IASTNode>() { id, type, body }.Union(ParamNodes).ToList();
     }
 
     public ValueNode ID { get; }
@@ -14,6 +18,6 @@ public class FuncNode : ASTNode {
     public ParamNode[] ParamNodes { get; }
     public FuncBodyNode Body { get; }
 
-    public override IList<ASTNode> Children { get; }
+    public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {ParamNodes.AsString()} {Type.ToStringTree()} {Body.ToStringTree()})";
 }

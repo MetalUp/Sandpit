@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using SandpitCompiler.AST;
+using SandpitCompiler.AST.Node;
 
 namespace SandpitCompiler.Test.CodeUnderTest;
 

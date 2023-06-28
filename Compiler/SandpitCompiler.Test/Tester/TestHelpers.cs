@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using Antlr4.Runtime;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SandpitCompiler.AST;
+using SandpitCompiler.AST.Node;
 
 namespace SandpitCompiler.Test;
 

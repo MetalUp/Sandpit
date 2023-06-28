@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
+using SandpitCompiler.AST.Node;
 
 namespace SandpitCompiler.AST;
 

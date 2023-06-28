@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SandpitCompiler.AST;
+using SandpitCompiler.AST.Node;
 using SandpitCompiler.Test.CodeUnderTest;
 using static SandpitCompiler.Test.TestHelpers;
 

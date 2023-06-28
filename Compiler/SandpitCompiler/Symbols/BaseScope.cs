@@ -12,6 +12,7 @@ public abstract class BaseScope : IScope {
 
     public virtual void Define(ISymbol symbol) {
         symbols[symbol.Name] = symbol;
+        symbol.Scope = this;
     }
 
     public virtual ISymbol? Resolve(string name) => symbols.ContainsKey(name) ? symbols[name] : EnclosingScope?.Resolve(name);
@@ -21,4 +22,6 @@ public abstract class BaseScope : IScope {
         Define(new BuiltInTypeSymbol("String"));
         Define(new BuiltInTypeSymbol("Boolean"));
     }
+
+    public override string ToString() => string.Join(',', symbols.Keys);
 }

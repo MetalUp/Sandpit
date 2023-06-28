@@ -1,15 +1,17 @@
 ﻿using Antlr4.Runtime;
+using SandpitCompiler.AST.RoleInterface;
 
-namespace SandpitCompiler.AST;
+namespace SandpitCompiler.AST.Node;
 
-public abstract class ASTNode {
+public abstract class ASTNode : IASTNode
+{
     protected ASTNode() { }
 
     protected ASTNode(IToken? token) => Token = token;
 
     public IToken? Token { get; }
 
-    public abstract IList<ASTNode> Children { get; }
+    public abstract IList<IASTNode> Children { get; }
 
     public bool IsNil => Token is null;
 
@@ -19,7 +21,8 @@ public abstract class ASTNode {
 
     public string TokenName => SandpitParser.DefaultVocabulary.GetSymbolicName(TokenType);
 
-    public override string ToString() {
+    public override string ToString()
+    {
         var typeName = GetType().Name;
         return Token is not null ? $"<{typeName}, '{Token.Text}'>" : typeName;
     }

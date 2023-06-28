@@ -1,15 +1,19 @@
-﻿namespace SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.RoleInterface;
 
-public class ListNode : ValueNode {
+namespace SandpitCompiler.AST.Node;
+
+public class ListNode : ValueNode
+{
     public ListNode(params ValueNode[] valueNodes) : base(valueNodes.Any() ? valueNodes.First().Token : null) => Children = ValueNodes = valueNodes;
 
     private ValueNode[] ValueNodes { get; }
 
     public string[] Texts => ValueNodes.Select(vn => vn.Text).ToArray();
 
-    public override IList<ASTNode> Children { get; }
+    public override IList<IASTNode> Children { get; }
 
-    public override string ToString() {
+    public override string ToString()
+    {
         var typeName = GetType().Name;
         return typeName;
     }

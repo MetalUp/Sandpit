@@ -1,7 +1,9 @@
 ﻿using Antlr4.Runtime;
 using CSharpCompiler;
 using SandpitCompiler.AST;
+using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
+using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
 
@@ -27,6 +29,7 @@ public static class Pipeline {
             throw new AggregateException(new CompileErrorException("failed to build AST"));
         }
 
+        var symbolTable = GenerateSymbolTable(ast);
 
         var model = GenerateModel(ast);
         var csCode = GenerateCSharpCode(options.FileName, model);
@@ -53,6 +56,12 @@ public static class Pipeline {
     private static IModel GenerateModel(ASTNode astNode) {
         var astVisitor = new CodeModelASTVisitor();
         return astVisitor.Visit(astNode);
+    }
+
+    private static SymbolTable GenerateSymbolTable(ASTNode astNode) {
+        var astVisitor = new SymbolTableASTVisitor();
+        astVisitor.Visit(astNode);
+        return astVisitor.SymbolTable;
     }
 
     public static ASTNode? GenerateAst(SandpitParser parser) {

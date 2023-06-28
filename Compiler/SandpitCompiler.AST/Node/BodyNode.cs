@@ -1,8 +1,11 @@
-﻿namespace SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.RoleInterface;
 
-public class BodyNode : ASTNode {
+namespace SandpitCompiler.AST.Node;
+
+public class BodyNode : ASTNode
+{
     public BodyNode(params StatNode[] statNodes) => Children = StatNodes = statNodes;
     public StatNode[] StatNodes { get; }
-    public override IList<ASTNode> Children { get; }
+    public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {StatNodes.AsString()})";
 }

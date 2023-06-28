@@ -1,4 +1,6 @@
-﻿namespace SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.Node;
+
+namespace SandpitCompiler.AST;
 
 public static class ASTHelpers {
     private static readonly IDictionary<string, string> TokenToTypeDict = new Dictionary<string, string> { { "INT", "Integer" }, { "STRING", "String" } };

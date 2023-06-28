@@ -1,4 +1,6 @@
-﻿namespace SandpitCompiler.AST;
+﻿using SandpitCompiler.AST.Node;
+
+namespace SandpitCompiler.AST;
 
 public static class CompilerRules {
     public static ASTNode OnlyOneMainRule(ASTNode node) {
