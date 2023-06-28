@@ -1,13 +1,13 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class ProcStatModel : IModel {
-    public string ID { get; }
-    public IModel[] Parameters { get; }
-
     public ProcStatModel(string id, IModel[] parameters) {
         ID = id;
         Parameters = parameters;
     }
+
+    public string ID { get; }
+    public IModel[] Parameters { get; }
 
     public override string ToString() =>
         $@"

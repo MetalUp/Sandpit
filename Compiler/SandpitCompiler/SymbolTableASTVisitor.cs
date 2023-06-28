@@ -7,9 +7,9 @@ namespace SandpitCompiler;
 public class SymbolTableASTVisitor {
     private IScope currentScope;
 
-    public SymbolTable SymbolTable { get; } = new();
-
     public SymbolTableASTVisitor() => currentScope = SymbolTable.GlobalScope;
+
+    public SymbolTable SymbolTable { get; } = new();
 
     public IASTNode Visit(IASTNode astNode) {
         return astNode switch {
@@ -21,12 +21,12 @@ public class SymbolTableASTVisitor {
             WhileNode sn => VisitChildren(sn),
             ProcStatNode sn => VisitChildren(sn),
             null => throw new NotImplementedException("null"),
-            _ => VisitChildren(astNode),
+            _ => VisitChildren(astNode)
         };
     }
 
     private IASTNode VisitDeclNode(IDecl dn) {
-        var vs = new VariableSymbol(dn.ID.Text, null);
+        var vs = new VariableSymbol(dn.Id, dn.SymbolType);
         currentScope.Define(vs);
         return dn;
     }

@@ -1,11 +1,9 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class MainModel : IModel {
-    private IModel Body { get; }
+    public MainModel(IModel body) => Body = body;
 
-    public MainModel(IModel body) {
-        Body = body;
-    }
+    private IModel Body { get; }
 
     public override string ToString() =>
         $@"public static class Program {{

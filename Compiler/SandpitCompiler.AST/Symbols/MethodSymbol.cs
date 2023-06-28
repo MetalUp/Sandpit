@@ -1,4 +1,6 @@
-﻿namespace SandpitCompiler.SymbolTree;
+﻿using SandpitCompiler.AST.Symbols;
+
+namespace SandpitCompiler.SymbolTree;
 
 public class MethodSymbol : BaseScope, ISymbol {
     public MethodSymbol(string name, ISymbolType? symbolType, IScope scope) {

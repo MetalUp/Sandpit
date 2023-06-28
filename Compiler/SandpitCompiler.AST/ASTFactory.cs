@@ -61,16 +61,16 @@ public static class ASTFactory {
         if (context.varDecl() is { } vd) {
             return visitor.Visit<VarDeclNode>(vd);
         }
-        else if (context.procStat() is { } ps) {
+
+        if (context.procStat() is { } ps) {
             return visitor.Visit<ProcStatNode>(ps);
         }
-        else {
-            return visitor.Visit<WhileNode>(context.whileStat());
-        }
+
+        return visitor.Visit<WhileNode>(context.whileStat());
     }
 
     private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
-        (context.INT()?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
+        (context.INT() ?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
 
     private static FuncBodyNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
         var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);

@@ -2,10 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class BinaryOperatorNode : ValueNode
-{
-    public BinaryOperatorNode(ValueNode op, ValueNode lhs, ValueNode rhs) : base(op.Token)
-    {
+public class BinaryOperatorNode : ValueNode {
+    public BinaryOperatorNode(ValueNode op, ValueNode lhs, ValueNode rhs) : base(op.Token) {
         Op = op;
         Lhs = lhs;
         Rhs = rhs;

@@ -7,7 +7,7 @@ public class FuncBodyModel : IModel {
     }
 
     private string Return { get; }
-   
+
     private IEnumerable<IModel> Lets { get; }
 
     public override string ToString() =>

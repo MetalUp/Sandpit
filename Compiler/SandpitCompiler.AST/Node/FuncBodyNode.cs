@@ -2,10 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class FuncBodyNode : ASTNode
-{
-    public FuncBodyNode(ValueNode @return, params LetDeclNode[] letNodes)
-    {
+public class FuncBodyNode : ASTNode {
+    public FuncBodyNode(ValueNode @return, params LetDeclNode[] letNodes) {
         Return = @return;
         LetNodes = letNodes;
         Children = new List<IASTNode> { @return }.Union(LetNodes).ToList();

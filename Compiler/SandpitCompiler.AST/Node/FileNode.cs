@@ -2,10 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class FileNode : ASTNode
-{
-    public FileNode(IEnumerable<ConstDeclNode> constNodes, IEnumerable<ProcNode> procNodes, IEnumerable<FuncNode> funcNodes, IEnumerable<MainNode> mainNodes)
-    {
+public class FileNode : ASTNode {
+    public FileNode(IEnumerable<ConstDeclNode> constNodes, IEnumerable<ProcNode> procNodes, IEnumerable<FuncNode> funcNodes, IEnumerable<MainNode> mainNodes) {
         ConstNodes = constNodes.ToArray();
         ProcNodes = procNodes.ToArray();
         FuncNodes = funcNodes.ToArray();

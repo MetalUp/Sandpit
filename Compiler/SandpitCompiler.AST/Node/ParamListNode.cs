@@ -2,13 +2,11 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class ParamListNode : ASTNode
-{
-    public ParamListNode(ValueNode id, params VarDeclNode[] varNodes)
-    {
+public class ParamListNode : ASTNode {
+    public ParamListNode(ValueNode id, params VarDeclNode[] varNodes) {
         ID = id;
         VarNodes = varNodes;
-        Children = new List<IASTNode>() { id }.Union(varNodes).ToList();
+        Children = new List<IASTNode> { id }.Union(varNodes).ToList();
     }
 
     public ValueNode ID { get; }

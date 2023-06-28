@@ -2,10 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class MainNode : ASTNode, IBlock
-{
-    public MainNode(BodyNode body)
-    {
+public class MainNode : ASTNode, IBlock {
+    public MainNode(BodyNode body) {
         Body = body;
         Children = new List<IASTNode> { body };
     }

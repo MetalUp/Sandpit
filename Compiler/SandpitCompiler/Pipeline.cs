@@ -55,15 +55,12 @@ public static class Pipeline {
 
     private static IDictionary<string, bool> SetFlags(SymbolTable symbolTable) {
         IDictionary<string, bool> flags = new Dictionary<string, bool>();
-        // extract rules 
+        // TODO extract rules 
 
-
-
-
+        // any use of collections 
 
         return flags;
     }
-
 
     private static IModel GenerateModel(ASTNode astNode, SymbolTable symbolTable) {
         var astVisitor = new CodeModelASTVisitor(SetFlags(symbolTable));
@@ -89,6 +86,7 @@ public static class Pipeline {
             // AST building failed - fall through for errors 
             Console.WriteLine(e.Message);
         }
+
         return null;
     }
 
