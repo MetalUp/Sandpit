@@ -6,6 +6,8 @@ public interface IScope {
 
     public IEnumerable<IScope> ChildScopes { get; }
 
+    public IEnumerable<ISymbol> Symbols { get; }
+
     public void Define(ISymbol symbol);
     public ISymbol? Resolve(string name);
 }

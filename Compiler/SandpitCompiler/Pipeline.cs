@@ -3,6 +3,7 @@ using CSharpCompiler;
 using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
+using SandpitCompiler.Symbols;
 using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
@@ -58,6 +59,8 @@ public static class Pipeline {
         // TODO extract rules 
 
         // any use of collections 
+        flags["CollectionsUsed"] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);
+
 
         return flags;
     }
