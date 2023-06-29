@@ -54,12 +54,12 @@ public static class Pipeline {
         return csCode;
     }
 
-    private static IDictionary<string, bool> SetFlags(SymbolTable symbolTable) {
-        IDictionary<string, bool> flags = new Dictionary<string, bool>();
+    private static IDictionary<ModelFlags, bool> SetFlags(SymbolTable symbolTable) {
+        IDictionary<ModelFlags, bool> flags = new Dictionary<ModelFlags, bool>();
         // TODO extract rules 
 
         // any use of collections 
-        flags["CollectionsUsed"] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);
+        flags[ModelFlags.UsesCollections] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);
 
 
         return flags;

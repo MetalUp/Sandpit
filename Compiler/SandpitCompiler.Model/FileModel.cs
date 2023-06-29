@@ -1,6 +1,8 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class FileModel : IModel {
+    private readonly IDictionary<ModelFlags, bool> flags;
+
     private string assertFunction = @"
 public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 ";
@@ -10,11 +12,13 @@ public static void print(string s) { System.Console.WriteLine(s); }
 ";
 
     // TODO do we need this structure - or just globals and main ?
-    public FileModel(IEnumerable<IModel> constants, IEnumerable<IModel> procedures, IEnumerable<IModel> functions, IModel? main) {
+    public FileModel(IDictionary<ModelFlags, bool> flags, IEnumerable<IModel> constants, IEnumerable<IModel> procedures, IEnumerable<IModel> functions, IModel? main) {
+        this.flags = flags;
         Constants = constants;
         Procedures = procedures;
         Functions = functions;
         Main = main;
+
     }
 
     private IEnumerable<IModel> Constants { get; }
@@ -22,12 +26,10 @@ public static void print(string s) { System.Console.WriteLine(s); }
     private IEnumerable<IModel> Functions { get; }
     private IModel? Main { get; }
 
-    private bool UsesCollections => Constants.Any(c => c is ConstDeclModel and { IsList: true });
-
     public override string ToString() =>
         $@"
-{(UsesCollections ? "using System.Collections.Generic;" : "")}
-{(UsesCollections ? "using System.Collections.Immutable;" : "")}
+{(flags[ModelFlags.UsesCollections] ? "using System.Collections.Generic;" : "")}
+{(flags[ModelFlags.UsesCollections] ? "using System.Collections.Immutable;" : "")}
 using static GlobalConstants;
 
 public static partial class GlobalConstants {{

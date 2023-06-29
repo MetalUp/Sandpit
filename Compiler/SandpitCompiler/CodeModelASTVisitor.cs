@@ -5,16 +5,16 @@ using SandpitCompiler.Model;
 namespace SandpitCompiler;
 
 public class CodeModelASTVisitor {
-    public CodeModelASTVisitor(IDictionary<string, bool> flags) => Flags = flags.ToImmutableDictionary();
+    public CodeModelASTVisitor(IDictionary<ModelFlags, bool> flags) => Flags = flags.ToImmutableDictionary();
 
-    private IDictionary<string, bool> Flags { get; set; }
+    private IDictionary<ModelFlags, bool> Flags { get; set; }
 
     private FileModel BuildFileModel(FileNode fn) {
         var constants = fn.ConstNodes.Select(Visit);
         var procedures = fn.ProcNodes.Select(Visit);
         var functions = fn.FuncNodes.Select(Visit);
         var main = fn.MainNode.Select(Visit).SingleOrDefault();
-        return new FileModel(constants, procedures, functions, main);
+        return new FileModel(Flags, constants, procedures, functions, main);
     }
 
     private MainModel BuildMainModel(MainNode mn) => new(Visit(mn.Body));
