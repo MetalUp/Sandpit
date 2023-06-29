@@ -33,6 +33,8 @@ public static void print(string s) { System.Console.WriteLine(s); }
 using static GlobalConstants;
 
 public static partial class GlobalConstants {{
+{printFunction}
+{assertFunction}
 {Constants.AsLineSeparatedString(2)}
 {Procedures.AsLineSeparatedString(2)}
 {Functions.AsLineSeparatedString(2)}

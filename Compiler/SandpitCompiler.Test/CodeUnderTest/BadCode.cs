@@ -31,7 +31,7 @@ var b = c
 end main
 ";
 
-    public const string Code3Message = "(11,9): error CS0103: The name 'c' does not exist in the current context";
+    public const string Code3Message = "(17,9): error CS0103: The name 'c' does not exist in the current context";
 
     public const string Code4 = @"
 procedure p()
@@ -39,7 +39,7 @@ procedure p()
 end procedure
 ";
 
-    public const string Code4Message = "(6,19): error CS0103: The name 'b' does not exist in the current context";
+    public const string Code4Message = "(12,19): error CS0103: The name 'b' does not exist in the current context";
 
     public const string Code5 = @"
 procedure p()

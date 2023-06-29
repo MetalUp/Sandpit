@@ -32,7 +32,9 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitBlockNode(IBlock bn) {
-        currentScope = new LocalScope(currentScope);
+        var ms = new MethodSymbol("main", null, currentScope);
+        currentScope.Define(ms);
+        currentScope = ms;
         VisitChildren(bn);
         currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
         return bn;

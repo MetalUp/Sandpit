@@ -56,7 +56,7 @@ public static class Pipeline {
 
     private static IDictionary<ModelFlags, bool> SetFlags(SymbolTable symbolTable) {
         IDictionary<ModelFlags, bool> flags = new Dictionary<ModelFlags, bool>();
-        // TODO extract rules 
+        // TODO extract rules into factory, rework flags 
 
         // any use of collections 
         flags[ModelFlags.UsesCollections] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);

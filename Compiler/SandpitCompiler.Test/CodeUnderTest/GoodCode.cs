@@ -17,7 +17,8 @@ end main
     public const string Code1Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -35,7 +36,8 @@ end main
     public const string Code2Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -52,6 +54,8 @@ constant pi = 4
     public const string Code3Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public const int pi = 4;
 }";
 
@@ -63,6 +67,8 @@ constant e = 3
     public const string Code4Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public const int pi = 4;
   public const int e = 3;
 }";
@@ -76,6 +82,8 @@ end main
     public const string Code5Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public const int pi = 4;
 }
 public static class Program {
@@ -95,6 +103,8 @@ end main
     public const string Code6Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public const int pi = 4;
 }
 public static class Program {
@@ -113,6 +123,8 @@ end procedure
     public const string Code7Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static void p() { 
     var a = 1; 
   }  
@@ -128,6 +140,8 @@ end function
     public const string Code8Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static int f() { 
     var a = 1; 
     return a;
@@ -143,6 +157,8 @@ end procedure
     public const string Code9Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static void p(int z) { 
     var a = z; 
   }  
@@ -157,6 +173,8 @@ end function
     public const string Code10Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static int f() { 
     return 1;
   }  
@@ -171,6 +189,8 @@ end function
     public const string Code11Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static int f(int a) { 
     return a;
   }  
@@ -186,6 +206,8 @@ end function
     public const string Code12Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static int f(int a) {
     var b = a;
     return b;
@@ -201,7 +223,8 @@ end main
     public const string Code13Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -216,6 +239,8 @@ constant name = ""bill""
     public const string Code14Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public const string name = ""bill"";
 }";
 
@@ -228,7 +253,9 @@ using System.Collections.Immutable;
 using static GlobalConstants;
 
 public static partial class GlobalConstants {
-   public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+  public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
 }";
 
     public const string Code16 = @"
@@ -242,7 +269,8 @@ end main
     public const string Code16Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -264,7 +292,8 @@ end main
     public const string Code17Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
-  
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -288,6 +317,8 @@ end main
     public const string Code18Result = @"using static GlobalConstants;
 
 public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
   public static void printtest(string s) { 
     var a = s; 
   }
@@ -295,6 +326,24 @@ public static partial class GlobalConstants {
 public static class Program {
     private static void Main(string[] args) {
       printtest(""test"");
+    }
+}";
+
+    public const string Code19 = @"
+main
+  print(""test string"")
+end main
+";
+
+    public const string Code19Result = @"using static GlobalConstants;
+
+public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+}
+public static class Program {
+    private static void Main(string[] args) {
+      print(""test string"");
     }
 }";
 
