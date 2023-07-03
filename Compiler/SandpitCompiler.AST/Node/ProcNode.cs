@@ -3,18 +3,18 @@
 namespace SandpitCompiler.AST.Node;
 
 public class ProcNode : ASTNode, IProc {
-    public ProcNode(ValueNode id, ParamNode[] parameters, BodyNode body) {
+    public ProcNode(ValueNode id, ParamNode[] parameters, AggregateNode<StatNode> procedureBlock) {
         ID = id;
         Parameters = parameters;
-        Body = body;
-        Children = new List<IASTNode> { id, body }.Union(parameters).ToList();
+        ProcedureBlock = procedureBlock.Nodes;
+        Children = new List<IASTNode> { id }.Union(parameters).Union(procedureBlock.Nodes).ToList();
     }
 
     public ParamNode[] Parameters { get; }
-    public BodyNode Body { get; }
+    public IList<StatNode> ProcedureBlock { get; }
 
     public ValueNode ID { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {Body})";
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {ProcedureBlock.AsString()})";
 }

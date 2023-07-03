@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.Model;
 
 public static class ModelHelpers {
-    private static readonly IDictionary<string, string> TypeLookupDict = new Dictionary<string, string> { { "LITERAL_INTEGER", "int" }, { "String", "string" } };
+    private static readonly IDictionary<string, string> TypeLookupDict = new Dictionary<string, string> { { SandpitCompiler.AST.Constants.Bacon_Integer, "int" }, { "String", "string" } };
 
     public static string TypeLookup(string t) => TypeLookupDict.ContainsKey(t) ? TypeLookupDict[t] : t;
 

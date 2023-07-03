@@ -27,7 +27,7 @@ public class CodeModelASTVisitor {
 
     private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
-    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), Visit(pn.Body));
+    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
     private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
 

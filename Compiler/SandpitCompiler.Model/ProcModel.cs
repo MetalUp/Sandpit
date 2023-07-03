@@ -1,19 +1,19 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class ProcModel : IModel {
-    public ProcModel(string id, IEnumerable<IModel> parms, IModel body) {
+    public ProcModel(string id, IEnumerable<IModel> parms, IEnumerable<IModel> stats) {
         ID = id;
         Parms = parms;
-        Body = body;
+        Stats = stats;
     }
 
     private string ID { get; }
     private IEnumerable<IModel> Parms { get; }
-    public IModel Body { get; }
+    public IEnumerable<IModel> Stats { get; }
 
     public override string ToString() =>
         $@"public static void {ID}({Parms.AsCommaSeparatedString()}) {{
-          {Body.ToString()}
+          {Stats.AsLineSeparatedString()}
         }}".Trim();
 
     public bool HasMain => false;
