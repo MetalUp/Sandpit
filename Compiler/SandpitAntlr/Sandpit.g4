@@ -12,133 +12,103 @@ main
       SOL END MAIN 
     ;
 
-constantDef
-	: SOL CONSTANT constantName ASSIGN expression 
-	;
+constantDef: SOL CONSTANT constantName ASSIGN expression;
 
-classDef
-	: mutableClass | immutableClass
-	;
+classDef: mutableClass | immutableClass;
 
-mutableClass
-	: SOL CLASS className 
-      (SOL (constructor | PRIVATE? property | PRIVATE? methodDef))*
-      SOL END CLASS
+mutableClass: 
+	SOL CLASS className 
+    (SOL (constructor | property | functionMethod | procedureMethod | constantDef))*
+    SOL END CLASS
 	;
 
 immutableClass
 	: SOL IMMUTABLE CLASS className 
-    (SOL (constructor | PRIVATE? property | PRIVATE? functionDef))*
+    (SOL (constructor | property | functionMethod | constantDef))*
     SOL END CLASS 
 	;
 
-methodDef
-    : SOL METHOD (functionSignatureAndBody | procedureSignatureAndBody)
-	  SOL END METHOD
+procedureMethod:
+	SOL PRIVATE? METHOD procedureSignature
+	procedureBlock
+	SOL END METHOD
 	;
 
-functionDef
-	: SOL FUNCTION functionSignatureAndBody
-      SOL END FUNCTION
+functionMethod:
+	SOL PRIVATE? METHOD functionSignature  //TODO Doesn't currently permit expression syntax for function methods
+	functionBlock
+	SOL END METHOD
 	;
 
-functionSignatureAndBody
-	: functionName OPEN_BRACKET parameterList CLOSE_BRACKET ARROW type 
-      letDef*
-      SOL RETURN expression 
+functionDef: functionWithBody | expressionFunction;
+
+functionWithBody: 
+	SOL FUNCTION functionSignature
+	functionBlock 
+    SOL END FUNCTION
 	;
 
-procedureDef
-	: SOL PROCEDURE procedureSignatureAndBody
-      SOL END PROCEDURE
+expressionFunction:
+	SOL FUNCTION functionSignature SOL? ARROW SOL? expression; 
+   
+functionSignature: functionName OPEN_BRACKET parameterList CLOSE_BRACKET ARROW type;
+
+procedureDef:
+	SOL PROCEDURE procedureSignature
+	procedureBlock
+    SOL END PROCEDURE
 	;
 
-procedureSignatureAndBody
-	: procedureName OPEN_BRACKET parameterList CLOSE_BRACKET 
-      procedureBlock
+procedureSignature: procedureName OPEN_BRACKET parameterList CLOSE_BRACKET;
+
+constructor: 
+	SOL CONSTRUCTOR (OPEN_BRACKET parameterList CLOSE_BRACKET)? 
+    procedureBlock
+	SOL END CONSTRUCTOR
 	;
 
-constructor
-	: SOL CONSTRUCTOR (OPEN_BRACKET parameterList CLOSE_BRACKET)? 
-      procedureBlock
-	  SOL END CONSTRUCTOR
-	;
+property: SOL PRIVATE? PROPERTY propertyName ( type | (ASSIGN literal));
 
-property
-	: SOL PRIVATE?? PROPERTY propertyName ( type | (ASSIGN literal))
-	;
+procedureBlock:  (procedureStatement)*;
 
-letDef
-	: SOL LET letName ASSIGN expression
-	;
+functionBlock:  (functionStatement)* ;
 
-procedureBlock
-	:  (procedureStatement)*
-	;
+procedureStatement: functionStatement | procedureCall |  systemCall;
 
-procedureStatement
-	: constantDef | varDef | assignment | procedureCall | controlFlowStatement
-	;
+functionStatement: constantDef | varDef | assignment | controlFlowStatement;
 
-varDef
-	: SOL VAR variableName ASSIGN expression
-	;
+systemCall: SOL VAR variableName ASSIGN (INPUT | RANDOM | TODAY | NOW); 
 
-assignment
-	: SOL assignableValue (ASSIGN | assignmentOp)  expression
-	;
+varDef: SOL VAR variableName ASSIGN expression;
 
-procedureCall
-	: SOL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	;
+assignment: SOL (PROP|PARAM)? assignableValue (ASSIGN | assignmentOp)  expression	;
 
-argumentList
-	: expression (COMMA expression)*  //TODO should support any expression but need to get round mutual self-recursion
-	;
+procedureCall: SOL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
-parameterList
-	: parameter  (COMMA parameter)*
-	;
+argumentList: expression (COMMA expression)*;  //TODO should support any expression but need to get round mutual self-recursion
 
-parameter
-	: LINE_CONTINUATION? parameterName type
-	;
+parameterList: parameter  (COMMA parameter)*;
 
+parameter: SOL? parameterName type;
 
-assignmentOp
-	: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV
-    ; 
+assignmentOp: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV; 
 
-unaryOp
-	: MINUS | OP_NOT
-	;
+unaryOp: MINUS | OP_NOT;
 
-binaryOp
-	: arithmeticOp | logicalOp | conditionalOp //TODO check for precedence
-	;
+binaryOp: arithmeticOp | logicalOp | conditionalOp ;//TODO check for precedence
 
-arithmeticOp
-	:  POWER | MULT | DIVIDE | MOD | INT_DIV | PLUS | MINUS 
-	;
+arithmeticOp:  POWER | MULT | DIVIDE | MOD | INT_DIV | PLUS | MINUS;
 
-logicalOp
-	: OP_AND | OP_OR | OP_XOR
-	;
+logicalOp: OP_AND | OP_OR | OP_XOR;
 
-conditionalOp
-	: GT | LT | OP_GE | OP_LE | OP_EQ | OP_NE
-	;
+conditionalOp: GT | LT | OP_GE | OP_LE | OP_EQ | OP_NE;
 
-controlFlowStatement
-	: if  | for |  forIn | while | repeat | try | switch
-	;
+controlFlowStatement: if  | for |  forIn | while | repeat | try | switch;
 
-condition 
-	: expression conditionalOp expression
-	;
+condition: expression conditionalOp expression;
  
-if
-	: SOL IF  condition THEN
+if:
+	SOL IF  condition THEN
     procedureBlock
     SOL (ELSE IF condition THEN
     procedureBlock)*
@@ -147,14 +117,14 @@ if
     SOL END IF
 	;
 
-for
-	: SOL FOR variableName ASSIGN expression 'to'  expression 
+for: 
+	SOL FOR variableName ASSIGN expression 'to'  expression 
 	procedureBlock
 	SOL ((END FOR) | (NEXT variableName))
 	;
 
-forIn
-	: SOL FOR variableName IN expression 
+forIn: 
+	SOL FOR variableName IN expression 
     procedureBlock
     SOL ((END FOR) | (NEXT variableName))
 	;
@@ -209,20 +179,16 @@ expression
 	| IF expression THEN expression ELSE expression
 	| OPEN_BRACKET expression CLOSE_BRACKET
 	| lambda
+	| letIn expression
 	;
 
-lambda
-	: LAMBDA argumentList ARROW expression
-	; 
+lambda: LAMBDA argumentList ARROW expression; 
 
-simpleExpression
-	: literal 
-	| valueName 
-	; 
+letIn: LET varDef (COMMA varDef)* IN; 
 
-indexedValue
-	: valueName OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET
-	; 
+simpleExpression: literal | (PROP/PARAM)? valueName;
+
+indexedValue: valueName OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET; 
  
 sliceOfList: valueName OPEN_SQ_BRACKET range CLOSE_SQ_BRACKET;
 
@@ -232,25 +198,15 @@ range
 	| DOUBLE_DOT expression 
 	; 
 
-assignableValue 
-    : valueName | indexedValue | tupleDecomp | listDecomp
-	; 
+assignableValue: valueName | indexedValue | tupleDecomp | listDecomp; 
 
-tupleDecomp
-	: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET
-	;
+tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
 
-listDecomp
-	: OPEN_BRACE valueName COLON valueName CLOSE_BRACE
-	;
+listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
 
-literal
-	: literalValue | literalDataStructure
-	;
+literal: literalValue | literalDataStructure;
 
-literalValue
-	:  bool | integer | float | decimal | char | string 
-	;
+literalValue:  bool | integer | float | decimal | char | string;
 
 bool: BOOL;
 integer: LITERAL_INTEGER;
@@ -259,101 +215,43 @@ decimal : LITERAL_DECIMAL;
 char: LITERAL_CHAR;
 string:  LITERAL_STRING;
 
-literalDataStructure
-	: literalList | literalDictionary
-	;
+literalDataStructure: literalList | literalDictionary;
 
-literalList
-	: OPEN_BRACE (listMember (COMMA listMember)*)? CLOSE_BRACE
-	;
+literalList: OPEN_BRACE (literal (COMMA literal)*)? CLOSE_BRACE;
 
-listMember
-	: literal
-	;
+literalDictionary: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE;
 
-literalDictionary
-	: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE
-	;
+kvp: literal COLON literal;
 
-kvp
-	: literal COLON literal
-	;
+functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
-functionCall
-	: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	;
-
-instantiation
-	: NEW type OPEN_BRACKET (argumentList)? CLOSE_BRACKET (withClause)?
+instantiation:
+	NEW type OPEN_BRACKET (argumentList)? CLOSE_BRACKET (withClause)?
 	| valueName withClause
 	;
 
-withClause
-	: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE
-	;
+withClause: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE;
 
-type
-	: VALUE_TYPE | dataStructureType | className | funcType
-    ;
+type: VALUE_TYPE | dataStructureType | className | funcType;
 
+dataStructureType: arrayType | listType | dictionaryType;
 
-dataStructureType
-	: arrayType | listType | dictionaryType
-    ;
+arrayType: ARRAY generic;
 
-arrayType
-	: ARRAY generic
-    ;
+listType: LIST generic;
 
-listType
-	: LIST generic
-	;
-
-dictionaryType
-	: DICTIONARY generic
-    ;
+dictionaryType: DICTIONARY generic;
     
-generic
-	: LT type GT
-    ;
+generic: LT type GT;
     
-funcType
-	: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET
-    ;
+funcType: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET;
     
-className
-	: TYPENAME
-    ;
-    
-valueName
-	: constantName | variableName | letName 
-    ;
-    
-constantName
-	: IDENTIFIER
-    ;
-    
-propertyName
-	: IDENTIFIER
-    ;
-    
-parameterName
-	: IDENTIFIER
-    ;
-    
-variableName
-	: IDENTIFIER
-    ;
-    
-letName
-	: IDENTIFIER
-    ;
-
-procedureName
-	: IDENTIFIER
-    ;
-    
-functionName
-	: IDENTIFIER
-    ;
-    
+className: TYPENAME;  
+valueName: constantName | variableName | letName; 
+constantName: IDENTIFIER;  
+propertyName: IDENTIFIER;  
+parameterName: IDENTIFIER;
+variableName: IDENTIFIER;
+letName: IDENTIFIER;
+procedureName: IDENTIFIER;
+functionName: IDENTIFIER;

@@ -17,7 +17,7 @@ public class CodeModelASTVisitor {
         return new FileModel(Flags, constants, procedures, functions, main);
     }
 
-    private MainModel BuildMainModel(MainNode mn) => new(Visit(mn.Body));
+    private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
     private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 

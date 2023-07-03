@@ -3,12 +3,12 @@
 namespace SandpitCompiler.AST.Node;
 
 public class MainNode : ASTNode, IBlock {
-    public MainNode(BodyNode body) {
-        Body = body;
-        Children = new List<IASTNode> { body };
+    public MainNode(AggregateNode<StatNode> procedureBlock) {
+        ProcedureBlock = procedureBlock.Nodes;
+        Children = procedureBlock.Children;
     }
 
-    public BodyNode Body { get; }
+    public IList<StatNode> ProcedureBlock { get; }
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()} {Body.ToStringTree()})".TrimEnd();
+    public override string ToStringTree() => $"({ToString()} {ProcedureBlock.AsString()})".TrimEnd();
 }

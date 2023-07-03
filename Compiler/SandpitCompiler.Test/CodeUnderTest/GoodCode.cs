@@ -26,95 +26,95 @@ public static class Program {
     }
 }";
 
-    public const string Code2 = @"
-main
-var a = 1
-var b = a
-end main
-";
+//    public const string Code2 = @"
+//main
+//var a = 1
+//var b = a
+//end main
+//";
 
-    public const string Code2Result = @"using static GlobalConstants;
+//    public const string Code2Result = @"using static GlobalConstants;
 
-public static partial class GlobalConstants {
-  public static void print(string s) { System.Console.WriteLine(s); }
-  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-}
-public static class Program {
-    private static void Main(string[] args) {
-      var a = 1;
-      var b = a;
+//public static partial class GlobalConstants {
+//  public static void print(string s) { System.Console.WriteLine(s); }
+//  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//}
+//public static class Program {
+//    private static void Main(string[] args) {
+//      var a = 1;
+//      var b = a;
         
-    }
-}";
+//    }
+//}";
 
-    public const string Code3 = @"
-    constant pi = 4 
-    ";
+//    public const string Code3 = @"
+//    constant pi = 4 
+//    ";
 
-    public const string Code3Result = @"using static GlobalConstants;
+//    public const string Code3Result = @"using static GlobalConstants;
 
-    public static partial class GlobalConstants {
-      public static void print(string s) { System.Console.WriteLine(s); }
-      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-      public const int pi = 4;
-    }";
+//    public static partial class GlobalConstants {
+//      public static void print(string s) { System.Console.WriteLine(s); }
+//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//      public const int pi = 4;
+//    }";
 
-    public const string Code4 = @"
-    constant pi = 4 
-    constant e = 3
-    ";
+//    public const string Code4 = @"
+//    constant pi = 4 
+//    constant e = 3
+//    ";
 
-    public const string Code4Result = @"using static GlobalConstants;
+//    public const string Code4Result = @"using static GlobalConstants;
 
-    public static partial class GlobalConstants {
-      public static void print(string s) { System.Console.WriteLine(s); }
-      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-      public const int pi = 4;
-      public const int e = 3;
-    }";
+//    public static partial class GlobalConstants {
+//      public static void print(string s) { System.Console.WriteLine(s); }
+//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//      public const int pi = 4;
+//      public const int e = 3;
+//    }";
 
-    public const string Code5 = @"
-    constant pi = 4
-    main
-    var a = pi
-    end main
-    ";
+//    public const string Code5 = @"
+//    constant pi = 4
+//    main
+//    var a = pi
+//    end main
+//    ";
 
-    public const string Code5Result = @"using static GlobalConstants;
+//    public const string Code5Result = @"using static GlobalConstants;
 
-    public static partial class GlobalConstants {
-      public static void print(string s) { System.Console.WriteLine(s); }
-      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-      public const int pi = 4;
-    }
-    public static class Program {
-        private static void Main(string[] args) {
-          var a = pi;
+//    public static partial class GlobalConstants {
+//      public static void print(string s) { System.Console.WriteLine(s); }
+//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//      public const int pi = 4;
+//    }
+//    public static class Program {
+//        private static void Main(string[] args) {
+//          var a = pi;
 
-        }
-    }";
+//        }
+//    }";
 
-    public const string Code6 = @"
-    constant pi = 4
+//    public const string Code6 = @"
+//    constant pi = 4
 
-    main
-    var a = pi
-    end main
-    ";
+//    main
+//    var a = pi
+//    end main
+//    ";
 
-    public const string Code6Result = @"using static GlobalConstants;
+//    public const string Code6Result = @"using static GlobalConstants;
 
-    public static partial class GlobalConstants {
-      public static void print(string s) { System.Console.WriteLine(s); }
-      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-      public const int pi = 4;
-    }
-    public static class Program {
-        private static void Main(string[] args) {
-          var a = pi;
+//    public static partial class GlobalConstants {
+//      public static void print(string s) { System.Console.WriteLine(s); }
+//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//      public const int pi = 4;
+//    }
+//    public static class Program {
+//        private static void Main(string[] args) {
+//          var a = pi;
 
-        }
-    }";
+//        }
+//    }";
 
     //public const string Code7 = @"
     //procedure p()
@@ -350,17 +350,17 @@ public static class Program {
     //}";
 
 
-    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "1")))));
+    public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"))));
 
-    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "1"), VDN("b", "a")))));
+    public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
 
     public static readonly ASTNode Code3AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
     public static readonly ASTNode Code4AST = FN(ARR(CDN("pi", "4"), CDN("e", "3")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "pi")))));
+    public static readonly ASTNode Code5AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "pi"))));
 
-    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "pi")))));
+    public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "pi"))));
 
     public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", BN(VDN("a", "1")), E<(string, string)>())), E<FuncNode>(), E<MainNode>());
 
@@ -374,23 +374,23 @@ public static class Program {
 
     public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("b", ("b", "a")), ("a", "Integer"))), E<MainNode>());
 
-    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "\"fred\"")))));
+    public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "\"fred\""))));
 
     public static readonly ASTNode Code14AST = FN(ARR(CDN("name", "\"bill\"")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
     public static readonly ASTNode Code15AST = FN(ARR(CDN("names", new[] { "\"bill\"", "\"ben\"" })), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(WN(SVN("true"), BN(VDN("a", "1")))))));
+    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(WN(SVN("true"), BN(VDN("a", "1"))))));
 
-    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(BN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")), BN(VDN("b", "1")))))));
+    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")), BN(VDN("b", "1"))))));
 
-    public static readonly ASTNode Code18AST = FN(E<ConstDeclNode>(), ARR(PN("printtest", BN(VDN("a", "s")), ("s", "String"))), E<FuncNode>(), ARR(MN(BN(PSN("printtest", "\"test\"")))));
+    public static readonly ASTNode Code18AST = FN(E<ConstDeclNode>(), ARR(PN("printtest", BN(VDN("a", "s")), ("s", "String"))), E<FuncNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
     #region AST DSL
 
     private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, IEnumerable<MainNode>, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
 
-    private static MainNode MN(BodyNode body) => new(body);
+    private static MainNode MN(params StatNode[] stats) => new(new AggregateNode<StatNode>(stats));
 
     private static StatNode WN(ValueNode vn, BodyNode body) => new WhileNode(vn, body);
 

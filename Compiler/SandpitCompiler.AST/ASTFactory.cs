@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using SandpitCompiler.AST.Node;
+using static SandpitParser;
 
 namespace SandpitCompiler.AST;
 
@@ -18,25 +19,126 @@ public static class ASTFactory {
 
     public static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParserRuleContext context) =>
         ApplyRules(context switch {
-            SandpitParser.FileContext c => visitor.BuildFile(c),
-            SandpitParser.ProcedureBlockContext c => visitor.BuildProcBody(c),
-            SandpitParser.WhileContext c => visitor.BuildWhileStat(c),
-            SandpitParser.ProcedureStatementContext c => visitor.BuildStat(c),
-            //SandpitParser.ConstValContext c => visitor.BuildConstVal(c),
-            //SandpitParser.FuncBodyContext c => visitor.BuildFuncBody(c),
-            SandpitParser.ParameterContext c => visitor.BuildParam(c),
-            SandpitParser.MainContext c => visitor.BuildMainDecl(c),
-            SandpitParser.FunctionDefContext c => visitor.BuildFuncDecl(c),
-            SandpitParser.ProcedureDefContext c => visitor.BuildProcDecl(c),
-            SandpitParser.ConstantDefContext c => visitor.BuildConstDecl(c),
-            SandpitParser.VarDefContext c => visitor.BuildVarDecl(c),
-            SandpitParser.LetDefContext c => visitor.BuildLetDecl(c),
-            SandpitParser.ExpressionContext c => visitor.BuildExpr(c),
-            //SandpitParser.ProcedureStatementContext c => visitor.BuildProcStat(c),
+            ArgumentListContext c => visitor.Build(c),
+            ArithmeticOpContext c => visitor.Build(c),
+            ArrayTypeContext c => visitor.Build(c),
+            AssignableValueContext c => visitor.Build(c),
+            AssignmentContext c => visitor.Build(c),
+            AssignmentOpContext c => visitor.Build(c),
+            BinaryOpContext c => visitor.Build(c),
+            BoolContext c => visitor.Build(c),
+            CaseContext c => visitor.Build(c),
+            Case_defaultContext c => visitor.Build(c),
+            CharContext c => visitor.Build(c),
+            ClassDefContext c => visitor.Build(c),
+            ClassNameContext c => visitor.Build(c),
+            ConditionalOpContext c => visitor.Build(c),
+            ConditionContext c => visitor.Build(c),
+            ConstantDefContext c => visitor.Build(c),
+            ConstantNameContext c => visitor.Build(c),
+            ConstructorContext c => visitor.Build(c),
+            ControlFlowStatementContext c => visitor.Build(c),
+            DataStructureTypeContext c => visitor.Build(c),
+            DecimalContext c => visitor.Build(c),
+            DictionaryTypeContext c => visitor.Build(c),
+            ExpressionContext c => visitor.Build(c),
+            ExpressionFunctionContext c => visitor.Build(c),
+            FileContext c => visitor.Build(c),
+            FloatContext c => visitor.Build(c),
+            ForContext c => visitor.Build(c),
+            ForInContext c => visitor.Build(c),
+            FunctionBlockContext c => visitor.Build(c),
+            FunctionCallContext c => visitor.Build(c),
+            FunctionDefContext c => visitor.Build(c),
+            FunctionMethodContext c => visitor.Build(c),
+            FunctionNameContext c => visitor.Build(c),
+            FunctionSignatureContext c => visitor.Build(c),
+            FunctionStatementContext c => visitor.Build(c),
+            FunctionWithBodyContext c => visitor.Build(c),
+            FuncTypeContext c => visitor.Build(c),
+            GenericContext c => visitor.Build(c),
+            IfContext c => visitor.Build(c),
+            ImmutableClassContext c => visitor.Build(c),
+            IndexedValueContext c => visitor.Build(c),
+            InstantiationContext c => visitor.Build(c),
+            IntegerContext c => visitor.Build(c),
+            KvpContext c => visitor.Build(c),
+            LambdaContext c => visitor.Build(c),
+            LetInContext c => visitor.Build(c),
+            LetNameContext c => visitor.Build(c),
+            ListDecompContext c => visitor.Build(c),
+            ListTypeContext c => visitor.Build(c),
+            LiteralContext c => visitor.Build(c),
+            LiteralDataStructureContext c => visitor.Build(c),
+            LiteralDictionaryContext c => visitor.Build(c),
+            LiteralListContext c => visitor.Build(c),
+            LiteralValueContext c => visitor.Build(c),
+            LogicalOpContext c => visitor.Build(c),
+            MainContext c => visitor.Build(c),
+            MutableClassContext c => visitor.Build(c),
+            ParameterContext c => visitor.Build(c),
+            ParameterListContext c => visitor.Build(c),
+            ParameterNameContext c => visitor.Build(c),
+            ProcedureBlockContext c => visitor.Build(c),
+            ProcedureCallContext c => visitor.Build(c),
+            ProcedureDefContext c => visitor.Build(c),
+            ProcedureMethodContext c => visitor.Build(c),
+            ProcedureNameContext c => visitor.Build(c),
+            ProcedureSignatureContext c => visitor.Build(c),
+            ProcedureStatementContext c => visitor.Build(c),
+            PropertyContext c => visitor.Build(c),
+            PropertyNameContext c => visitor.Build(c),
+            RangeContext c => visitor.Build(c),
+            RepeatContext c => visitor.Build(c),
+            SimpleExpressionContext c => visitor.Build(c),
+            SliceOfListContext c => visitor.Build(c),
+            StringContext c => visitor.Build(c),
+            SwitchContext c => visitor.Build(c),
+            SystemCallContext c => visitor.Build(c),
+            TryContext c => visitor.Build(c),
+            TupleDecompContext c => visitor.Build(c),
+            TypeContext c => visitor.Build(c),
+            UnaryOpContext c => visitor.Build(c),
+            ValueNameContext c => visitor.Build(c),
+            VarDefContext c => visitor.Build(c),
+            VariableNameContext c => visitor.Build(c),
+            WhileContext c => visitor.Build(c),
+            WithClauseContext c => visitor.Build(c),
+
             _ => throw new NotImplementedException(context?.GetType().FullName ?? null)
         });
 
-    private static FileNode BuildFile(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FileContext context) {
+    public static ScalarValueNode BuildTerminal(this SandpitBaseVisitor<ASTNode> visitor, ITerminalNode node) => new(node.Symbol);
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArgumentListContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArithmeticOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArrayTypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignableValueContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignmentOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CharContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ClassDefContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ClassNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConditionalOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConditionContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConstantDefContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConstantNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConstructorContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ControlFlowStatementContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DataStructureTypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DecimalContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DictionaryTypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionContext context) {
+        return visitor.Visit(context.simpleExpression());
+    }
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionFunctionContext context) => throw new NotImplementedException();
+
+    private static FileNode Build(this SandpitBaseVisitor<ASTNode> visitor, FileContext context) {
         var constNodes = context.constantDef().Select(visitor.Visit<ConstDeclNode>);
         var procNodes = context.procedureDef().Select(visitor.Visit<ProcNode>);
         var funcNodes = context.functionDef().Select(visitor.Visit<FuncNode>);
@@ -45,88 +147,94 @@ public static class ASTFactory {
         return new FileNode(constNodes, procNodes, funcNodes, mainNodes);
     }
 
-    private static BodyNode BuildProcBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureBlockContext context) {
-        var statNodes = context.procedureStatement().Select(visitor.Visit<StatNode>);
-        return new BodyNode(statNodes.ToArray());
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FloatContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForInContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionBlockContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionCallContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionDefContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionMethodContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionSignatureContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionStatementContext context) {
+        var n = (ParserRuleContext)context.children.First();
+        return visitor.Visit<StatNode>(n);
     }
 
-    private static WhileNode BuildWhileStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.WhileContext context) {
-        var expr = visitor.Visit<ValueNode>(context.condition());
-        var body = visitor.Visit<BodyNode>(context.procedureBlock());
-
-        return new WhileNode(expr, body);
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionWithBodyContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FuncTypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, GenericContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ImmutableClassContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IndexedValueContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, InstantiationContext context) => throw new NotImplementedException();
+    private static ValueNode Build(this SandpitBaseVisitor<ASTNode> visitor, IntegerContext context) {
+        return visitor.Visit<ValueNode>(context.LITERAL_INTEGER());
     }
 
-    private static StatNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureStatementContext context) {
-        if (context.varDef() is { } vd) {
-            return visitor.Visit<VarDeclNode>(vd);
-        }
-
-        if (context.procedureCall() is { } ps) {
-            return visitor.Visit<ProcStatNode>(ps);
-        }
-
-        return visitor.Visit<WhileNode>(context.controlFlowStatement());
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, KvpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LambdaContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LetInContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LetNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListDecompContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListTypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralContext context) {
+        return visitor.Visit(context.literalValue());
     }
 
-    //private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
-    //    (context.INT() ?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
-
-    //private static FuncBodyNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
-    //    var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);
-    //    var returnNode = visitor.Visit<ValueNode>(context.expr());
-
-    //    return new FuncBodyNode(returnNode, letNodes.ToArray());
-    //}
-
-    private static ParamNode BuildParam(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ParameterContext context) =>
-        new(visitor.Visit<ValueNode>(context.parameterName()), visitor.Visit<ValueNode>(context.type()));
-
-    private static MainNode BuildMainDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.MainContext context) => new(visitor.Visit<BodyNode>(context.procedureBlock()));
-
-    private static ProcNode BuildProcDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureDefContext context) {
-        var idNode = visitor.Visit<ValueNode>(context.procedureSignatureAndBody().procedureName());
-        var paramNodes = context.procedureSignatureAndBody().parameterList().parameter().Select(visitor.Visit<ParamNode>);
-        var bodyNode = visitor.Visit<BodyNode>(context.procedureSignatureAndBody().procedureBlock());
-        return new ProcNode(idNode, paramNodes.ToArray(), bodyNode);
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDataStructureContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDictionaryContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralListContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralValueContext context) {
+        return visitor.Visit(context.children.First());
     }
 
-    //private static ProcStatNode BuildProcStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcStatContext context) {
-    //    var idNode = visitor.Visit<ValueNode>(context.ID());
-    //    var paramNodes = context.expr().Select(visitor.Visit<ValueNode>);
-    //    return new ProcStatNode(idNode, paramNodes.ToArray());
-    //}
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LogicalOpContext context) => throw new NotImplementedException();
+    private static MainNode Build(this SandpitBaseVisitor<ASTNode> visitor, MainContext context) => new(visitor.Visit<AggregateNode<StatNode>>(context.procedureBlock()));
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, MutableClassContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParameterContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParameterListContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParameterNameContext context) => throw new NotImplementedException();
 
-    private static FuncNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FunctionDefContext context) {
-        var idNode = visitor.Visit<ValueNode>(context.functionSignatureAndBody().functionName());
-        var paramNodes = context.functionSignatureAndBody().parameterList().parameter().Select(visitor.Visit<ParamNode>);
-        var typeNode = visitor.Visit<ValueNode>(context.functionSignatureAndBody().type());
-        //var bodyNode = visitor.Visit<FuncBodyNode>(context.functionSignatureAndBody().letDef());
-
-        return new FuncNode(idNode, typeNode, paramNodes.ToArray(), null);
+    private static AggregateNode<StatNode> Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureBlockContext context) {
+        var statNodes = context.children.Select(visitor.Visit<StatNode>);
+        return new AggregateNode<StatNode>(statNodes);
     }
 
-    private static ConstDeclNode BuildConstDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstantDefContext context) => new(visitor.Visit<ValueNode>(context.constantName()), visitor.Visit<ValueNode>(context.expression()));
-
-    private static VarDeclNode BuildVarDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.VarDefContext context) => new(visitor.Visit<ValueNode>(context.variableName()), visitor.Visit<ValueNode>(context.expression()));
-
-    private static LetDeclNode BuildLetDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.LetDefContext context) => new(visitor.Visit<ValueNode>(context.letName()), visitor.Visit<ValueNode>(context.expression()));
-
-    private static ValueNode BuildExpr(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ExpressionContext context) {
-        if (context.simpleExpression() is { } id) {
-            return visitor.Visit<ScalarValueNode>(id);
-        }
-
-        //if (context.expression() is { } cv) {
-        //    return visitor.Visit<ScalarValueNode>(cv);
-        //}
-
-        var lhs = visitor.Visit<ValueNode>(context.expression().First());
-        var rhs = visitor.Visit<ValueNode>(context.expression().Last());
-        var op = visitor.Visit<ValueNode>(context.binaryOp());
-
-        return new BinaryOperatorNode(op!, lhs, rhs);
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureCallContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureDefContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureMethodContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureSignatureContext context) => throw new NotImplementedException();
+    private static StatNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureStatementContext context) {
+        var n = (ParserRuleContext)context.children.First();
+        return visitor.Visit<StatNode>(n);
     }
 
-    public static ScalarValueNode BuildTerminal(this SandpitBaseVisitor<ASTNode> visitor, ITerminalNode node) => new(node.Symbol);
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyNameContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RangeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RepeatContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SimpleExpressionContext context) {
+        return visitor.Visit(context.literal());
+    }
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SliceOfListContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, StringContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SwitchContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SystemCallContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, TryContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, TupleDecompContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, TypeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, UnaryOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ValueNameContext context) => throw new NotImplementedException();
+    private static VarDeclNode Build(this SandpitBaseVisitor<ASTNode> visitor, VarDefContext context) => 
+        new(visitor.Visit<ValueNode>(context.variableName()), visitor.Visit<ValueNode>(context.expression()));
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, VariableNameContext context) {
+        return visitor.Visit<ValueNode>(context.IDENTIFIER());
+    }
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, WhileContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, WithClauseContext context) => throw new NotImplementedException();
 }

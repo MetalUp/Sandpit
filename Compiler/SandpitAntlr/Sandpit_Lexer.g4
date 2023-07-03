@@ -26,6 +26,7 @@ FOR:           'for';
 FUNCTION:	   'function';
 IF:            'if'; 
 IMMUTABLE:	   'immutable';
+INPUT:		   'input';
 //IMPORT:		   'import';
 IN:            'in'; //used as for...in
 LAMBDA:		   'lambda';
@@ -35,11 +36,15 @@ METHOD:		   'method';
 //MODULE: 	   'module';
 NEW:           'new';
 NEXT:		   'next';
+NOW: 		   'now';
 //NULL_:         'null';
+PARAM:		   'param';
 PRIVATE:       'private';
 PROCEDURE:	   'procedure';
+PROP:		   'prop';
 PROPERTY:      'property';
 //READONLY:      'readonly'; // for properties
+RANDOM: 	   'random';
 REPEAT:		   'repeat';
 RETURN:        'return';
 //SELF:		   'self' ; // Shouldn't need this
@@ -47,6 +52,7 @@ SWITCH:        'switch';
 THIS:          'this';
 THEN:		   'then';
 THROW:         'throw';
+TODAY:		   'today';
 TRY:           'try';
 UNTIL:         'until';
 VAR:		   'var';
