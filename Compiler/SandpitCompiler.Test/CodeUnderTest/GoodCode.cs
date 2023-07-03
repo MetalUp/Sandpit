@@ -278,39 +278,39 @@ public static class Program {
     //    }
     //}";
 
-    //    public const string Code17 = @"
-    //main
-    //var a = 1
-    //while a == 1
-    //  var b = 1
-    //end while 
-    //end main
-    //";
+    public const string Code17 = @"
+    main
+    var a = 1
+    while a == 1
+      var b = 1
+    end while 
+    end main
+    ";
 
-    //    public const string Code17Result = @"using static GlobalConstants;
+    public const string Code17Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      var a = 1;
-    //      while (a == 1) {
-    //        var b = 1;
-    //      }
-    //    }
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          var a = 1;
+          while (a == 1) {
+            var b = 1;
+          }
+        }
+    }";
 
-    //    public const string Code18 = @"
-    //procedure printtest(s : String)
-    //var a = s
-    //end procedure
+    public const string Code18 = @"
+    procedure printtest(s String)
+    var a = s
+    end procedure
 
-    //main
-    //  printtest(""test"")
-    //end main
-    //";
+    main
+      printtest(""test"")
+    end main
+    ";
 
     public const string Code18Result = @"using static GlobalConstants;
 
@@ -375,9 +375,9 @@ public static class Program {
 
     public static readonly ASTNode Code15AST = FN(ARR(CDN("names", "\"bill\"", "\"ben\"")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(WN(SVN("true"), BN(VDN("a", "1"))))));
+    public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(WN(SVN("true"), VDN("a", "1")))));
 
-    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")), BN(VDN("b", "1"))))));
+    public static readonly ASTNode Code17AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"), WN(BON(SVN("=="), SVN("a"), SVN("1")), VDN("b", "1")))));
 
     public static readonly ASTNode Code18AST = FN(E<ConstDeclNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FuncNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
@@ -389,7 +389,7 @@ public static class Program {
 
     private static MainNode MN(params StatNode[] stats) => new(AN(stats));
 
-    private static StatNode WN(ValueNode vn, BodyNode body) => new WhileNode(vn, body);
+    private static StatNode WN(ValueNode vn, params StatNode[] stats) => new WhileNode(vn, AN(stats));
 
     private static StatNode PSN(string id, params string[] parms) => new ProcStatNode(SVN(id), parms.Select(SVN).ToArray());
 

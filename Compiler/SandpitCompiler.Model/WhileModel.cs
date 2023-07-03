@@ -1,18 +1,18 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class WhileModel : IModel {
-    public WhileModel(IModel expr, IModel body) {
+    public WhileModel(IModel expr, IEnumerable<IModel> stats) {
         Expr = expr;
-        Body = body;
+        Stats = stats;
     }
 
     private IModel Expr { get; }
-    private IModel Body { get; }
+    private IEnumerable<IModel> Stats { get; }
 
     public override string ToString() =>
         $@"
           while ({Expr}) {{
-            {Body}
+            {Stats.AsLineSeparatedString()}
           }}
         ".Trim();
 

@@ -57,7 +57,7 @@ public class CodeModelASTVisitor {
 
     private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
 
-    private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Expr), Visit(sn.Body));
+    private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
 
     private IModel BuildValueModel(ValueNode vn) {
         return vn switch {

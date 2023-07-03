@@ -3,15 +3,16 @@
 namespace SandpitCompiler.AST.Node;
 
 public class WhileNode : StatNode {
-    public WhileNode(ValueNode expr, BodyNode body) {
-        Expr = expr;
-        Body = body;
-        Children = new List<IASTNode> { expr, body };
+    public WhileNode(ValueNode condition, AggregateNode<StatNode> procedureBlock) {
+        Condition = condition;
+        ProcedureBlock = procedureBlock.Nodes;
+        Children = new List<IASTNode> { condition }.Union(procedureBlock.Nodes).ToList();
     }
 
-    public ValueNode Expr { get; }
-    public BodyNode Body { get; }
+    public IList<StatNode> ProcedureBlock { get; }
+
+    public ValueNode Condition { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()} {Expr.ToStringTree()} {Body.ToStringTree()} )";
+    public override string ToStringTree() => $"({ToString()} {Condition.ToStringTree()} {ProcedureBlock.AsString()} )";
 }
