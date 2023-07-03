@@ -132,10 +132,7 @@ public static class Program {
     }";
 
     //public const string Code8 = @"
-    //function f() : Integer
-    //let a = 1
-    //return a
-    //end function
+    //function f(a Int) -> Int a
     //";
 
     //public const string Code8Result = @"using static GlobalConstants;
@@ -165,13 +162,13 @@ public static class Program {
       }  
     }";
 
-    //    public const string Code10 = @"
-    //function f() : Integer
+    //public const string Code10 = @"
+    //function f(a Int) -> Int
     //return 1
     //end function
     //";
 
-    //    public const string Code10Result = @"using static GlobalConstants;
+    //public const string Code10Result = @"using static GlobalConstants;
 
     //public static partial class GlobalConstants {
     //  public static void print(string s) { System.Console.WriteLine(s); }
@@ -315,38 +312,38 @@ public static class Program {
     //end main
     //";
 
-    //    public const string Code18Result = @"using static GlobalConstants;
+    public const string Code18Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static void printtest(string s) { 
-    //    var a = s; 
-    //  }
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      printtest(""test"");
-    //    }
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static void printtest(string s) { 
+        var a = s; 
+      }
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          printtest(""test"");
+        }
+    }";
 
-    //    public const string Code19 = @"
-    //main
-    //  print(""test string"")
-    //end main
-    //";
+    public const string Code19 = @"
+    main
+      print(""test string"")
+    end main
+    ";
 
-    //    public const string Code19Result = @"using static GlobalConstants;
+    public const string Code19Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      print(""test string"");
-    //    }
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          print(""test string"");
+        }
+    }";
 
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"))));
 
