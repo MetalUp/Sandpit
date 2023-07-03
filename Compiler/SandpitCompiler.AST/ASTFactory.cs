@@ -216,10 +216,11 @@ public static class ASTFactory {
     }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureCallContext context) => throw new NotImplementedException();
+
     private static ProcNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureDefContext context) {
         var id = visitor.Visit<ValueNode>(context.procedureSignature().procedureName());
-        var pps = context.procedureSignature().parameterList().parameter().Select(visitor.Visit<ParamNode>);
-
+        var pl = context.procedureSignature().parameterList();
+        var pps = context.procedureSignature().parameterList()?.parameter().Select(visitor.Visit<ParamNode>) ?? Array.Empty<ParamNode>();
 
         return new ProcNode(id, pps.ToArray(), visitor.Visit<AggregateNode<StatNode>>(context.procedureBlock()));
     }

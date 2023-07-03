@@ -117,21 +117,21 @@ public static class Program {
             }
         }";
 
-    //public const string Code7 = @"
-    //procedure p()
-    //var a = 1
-    //end procedure
-    //";
+    public const string Code7 = @"
+    procedure p()
+    var a = 1
+    end procedure
+    ";
 
-    //public const string Code7Result = @"using static GlobalConstants;
+    public const string Code7Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static void p() { 
-    //    var a = 1; 
-    //  }  
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static void p() { 
+        var a = 1; 
+      }  
+    }";
 
     //public const string Code8 = @"
     //function f() : Integer
@@ -183,13 +183,13 @@ public static class Program {
     //  }  
     //}";
 
-    //    public const string Code11 = @"
-    //function f(a : Integer) : Integer
+    //public const string Code11 = @"
+    //function f(a  Int) as Int
     //return a
     //end function
     //";
 
-    //    public const string Code11Result = @"using static GlobalConstants;
+    //public const string Code11Result = @"using static GlobalConstants;
 
     //public static partial class GlobalConstants {
     //  public static void print(string s) { System.Console.WriteLine(s); }

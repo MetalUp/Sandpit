@@ -59,7 +59,7 @@ procedureDef:
     SOL END PROCEDURE
 	;
 
-procedureSignature: procedureName OPEN_BRACKET parameterList CLOSE_BRACKET;
+procedureSignature: procedureName OPEN_BRACKET parameterList? CLOSE_BRACKET;
 
 constructor: 
 	SOL CONSTRUCTOR (OPEN_BRACKET parameterList CLOSE_BRACKET)? 
