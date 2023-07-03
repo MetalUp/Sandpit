@@ -14,19 +14,27 @@ main
 
 constantDef: SOL CONSTANT constantName ASSIGN expression;
 
-classDef: mutableClass | immutableClass;
+classDef: abstractClass | mutableClass | immutableClass;
 
 mutableClass: 
-	SOL CLASS className 
+	SOL CLASS className inherits?
     (SOL (constructor | property | functionMethod | procedureMethod | constantDef))*
     SOL END CLASS
 	;
 
 immutableClass
-	: SOL IMMUTABLE CLASS className 
+	: SOL IMMUTABLE CLASS className inherits?
     (SOL (constructor | property | functionMethod | constantDef))*
     SOL END CLASS 
 	;
+
+abstractClass:
+	SOL ABSTRACT CLASS className inherits?
+    (SOL ( property | functionSignature | procedureSignature))*
+    SOL END CLASS
+	;
+ 
+inherits: INHERITS type (COMMA type)* ;
 
 procedureMethod:
 	SOL PRIVATE? METHOD procedureSignature
@@ -44,7 +52,8 @@ functionDef: functionWithBody | expressionFunction;
 
 functionWithBody: 
 	SOL FUNCTION functionSignature
-	functionBlock 
+	functionBlock
+	RETURN expression 
     SOL END FUNCTION
 	;
 
@@ -55,7 +64,7 @@ functionSignature: functionName OPEN_BRACKET parameterList CLOSE_BRACKET ARROW t
 
 procedureDef:
 	SOL PROCEDURE procedureSignature
-	procedureBlock
+	procedureBlock 
     SOL END PROCEDURE
 	;
 
@@ -73,11 +82,15 @@ procedureBlock:  (procedureStatement)*;
 
 functionBlock:  (functionStatement)* ;
 
-procedureStatement: functionStatement | procedureCall |  systemCall;
+procedureStatement: systemCall | functionStatement | procedureCall;
 
 functionStatement: constantDef | varDef | assignment | controlFlowStatement;
 
-systemCall: SOL VAR variableName ASSIGN (INPUT | RANDOM | TODAY | NOW); 
+systemCall: SOL VAR variableName ASSIGN systemKeyword
+			| SOL assignableValue ASSIGN systemKeyword
+			; 
+
+systemKeyword: (INPUT | RANDOM | TODAY | NOW);
 
 varDef: SOL VAR variableName ASSIGN expression;
 
@@ -89,7 +102,7 @@ argumentList: expression (COMMA expression)*;  //TODO should support any express
 
 parameterList: parameter  (COMMA parameter)*;
 
-parameter: SOL? parameterName type;
+parameter: SOL? parameterName type; 
 
 assignmentOp: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV; 
 
@@ -170,7 +183,7 @@ expression
 	:  LINE_CONTINUATION expression 
 	| simpleExpression 
 	| indexedValue 
-	| sliceOfList 
+	| sliceOfList
 	| unaryOp expression
 	| expression binaryOp expression
 	| functionCall 
@@ -186,7 +199,7 @@ lambda: LAMBDA argumentList ARROW expression;
 
 letIn: LET varDef (COMMA varDef)* IN; 
 
-simpleExpression: literal | (PROP/PARAM)? valueName;
+simpleExpression: literal | (PROP|PARAM)? valueName;
 
 indexedValue: valueName OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET; 
  

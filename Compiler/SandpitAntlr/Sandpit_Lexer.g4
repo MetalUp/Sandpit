@@ -29,6 +29,7 @@ IMMUTABLE:	   'immutable';
 INPUT:		   'input';
 //IMPORT:		   'import';
 IN:            'in'; //used as for...in
+INHERITS:      'inherits';
 LAMBDA:		   'lambda';
 LET:           'let';
 MAIN:		   'main';
@@ -67,25 +68,6 @@ ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
 
-//Identifiers
-// must be defined after all keywords so the first branch (Available_identifier) does not match keywords
-// https://msdn.microsoft.com/en-us/library/aa664670(v=vs.71).aspx
-
-IDENTIFIER:         IdentifierStartingLC;
-TYPENAME:           IdentifierStartingUC;
-//B.1.8 Literals
-LITERAL_INTEGER:     [0-9] ('_'* [0-9])*;
-LITERAL_FLOAT:        ([0-9] ('_'* [0-9])*)? '.' [0-9] ('_'* [0-9])* ExponentPart? [FfDdMm]? | [0-9] ('_'* [0-9])* ([FfDdMm] | ExponentPart [FfDdMm]?);
-LITERAL_DECIMAL:	 LITERAL_FLOAT 'D';
-
-LITERAL_CHAR:                   '\'' (~['\\\r\n\u0085\u2028\u2029] | CommonCharacter) '\'';
-LITERAL_STRING:                      '"'  (~["\\\r\n\u0085\u2028\u2029] | CommonCharacter)* '"'; //Bacon regular string is interpolated and verbatim
-VERBATIM_ONLY_STRING:                    '"""' (~'"' | '""')* '"';
-
-//Must be defined after other uses of it
-
-
-
 //Operators And Punctuators
 ASSIGN_ADD:        		  '+=';
 ASSIGN_SUBTRACT:          '-=';
@@ -122,6 +104,22 @@ OP_NE:                    '!='|'<>' | 'is not';
 OP_LE:                    '<=';
 OP_GE:                    '>=';
 
+//Identifiers
+// must be defined after all keywords so the first branch (Available_identifier) does not match keywords
+// https://msdn.microsoft.com/en-us/library/aa664670(v=vs.71).aspx
+
+IDENTIFIER:         IdentifierStartingLC;
+TYPENAME:           IdentifierStartingUC;
+//B.1.8 Literals
+LITERAL_INTEGER:     [0-9] ('_'* [0-9])*;
+LITERAL_FLOAT:        ([0-9] ('_'* [0-9])*)? '.' [0-9] ('_'* [0-9])* ExponentPart? [FfDdMm]? | [0-9] ('_'* [0-9])* ([FfDdMm] | ExponentPart [FfDdMm]?);
+LITERAL_DECIMAL:	 LITERAL_FLOAT 'D';
+
+LITERAL_CHAR:                   '\'' (~['\\\r\n\u0085\u2028\u2029] | CommonCharacter) '\'';
+LITERAL_STRING:                      '"'  (~["\\\r\n\u0085\u2028\u2029] | CommonCharacter)* '"'; //Bacon regular string is interpolated and verbatim
+VERBATIM_ONLY_STRING:                    '"""' (~'"' | '""')* '"';
+
+//Must be defined after other uses of it
 
 WHITESPACES:   (Whitespace)+  -> skip;
 

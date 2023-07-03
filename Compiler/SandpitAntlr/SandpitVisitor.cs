@@ -68,6 +68,18 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitImmutableClass([NotNull] SandpitParser.ImmutableClassContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.abstractClass"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAbstractClass([NotNull] SandpitParser.AbstractClassContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.inherits"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInherits([NotNull] SandpitParser.InheritsContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.procedureMethod"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -157,6 +169,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitSystemCall([NotNull] SandpitParser.SystemCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.systemKeyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSystemKeyword([NotNull] SandpitParser.SystemKeywordContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.varDef"/>.
 	/// </summary>
