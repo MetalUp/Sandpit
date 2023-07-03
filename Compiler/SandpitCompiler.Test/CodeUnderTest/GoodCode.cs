@@ -26,95 +26,95 @@ public static class Program {
     }
 }";
 
-//    public const string Code2 = @"
-//main
-//var a = 1
-//var b = a
-//end main
-//";
+    public const string Code2 = @"
+main
+var a = 1
+var b = a
+end main
+";
 
-//    public const string Code2Result = @"using static GlobalConstants;
+    public const string Code2Result = @"using static GlobalConstants;
 
-//public static partial class GlobalConstants {
-//  public static void print(string s) { System.Console.WriteLine(s); }
-//  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//}
-//public static class Program {
-//    private static void Main(string[] args) {
-//      var a = 1;
-//      var b = a;
+public static partial class GlobalConstants {
+  public static void print(string s) { System.Console.WriteLine(s); }
+  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+}
+public static class Program {
+    private static void Main(string[] args) {
+      var a = 1;
+      var b = a;
         
-//    }
-//}";
+    }
+}";
 
-//    public const string Code3 = @"
-//    constant pi = 4 
-//    ";
+    public const string Code3 = @"
+        constant pi = 4 
+        ";
 
-//    public const string Code3Result = @"using static GlobalConstants;
+    public const string Code3Result = @"using static GlobalConstants;
 
-//    public static partial class GlobalConstants {
-//      public static void print(string s) { System.Console.WriteLine(s); }
-//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//      public const int pi = 4;
-//    }";
+        public static partial class GlobalConstants {
+          public static void print(string s) { System.Console.WriteLine(s); }
+          public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public const int pi = 4;
+        }";
 
-//    public const string Code4 = @"
-//    constant pi = 4 
-//    constant e = 3
-//    ";
+    public const string Code4 = @"
+        constant pi = 4 
+        constant e = 3
+        ";
 
-//    public const string Code4Result = @"using static GlobalConstants;
+    public const string Code4Result = @"using static GlobalConstants;
 
-//    public static partial class GlobalConstants {
-//      public static void print(string s) { System.Console.WriteLine(s); }
-//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//      public const int pi = 4;
-//      public const int e = 3;
-//    }";
+        public static partial class GlobalConstants {
+          public static void print(string s) { System.Console.WriteLine(s); }
+          public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public const int pi = 4;
+          public const int e = 3;
+        }";
 
-//    public const string Code5 = @"
-//    constant pi = 4
-//    main
-//    var a = pi
-//    end main
-//    ";
+    public const string Code5 = @"
+        constant pi = 4
+        main
+        var a = pi
+        end main
+        ";
 
-//    public const string Code5Result = @"using static GlobalConstants;
+    public const string Code5Result = @"using static GlobalConstants;
 
-//    public static partial class GlobalConstants {
-//      public static void print(string s) { System.Console.WriteLine(s); }
-//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//      public const int pi = 4;
-//    }
-//    public static class Program {
-//        private static void Main(string[] args) {
-//          var a = pi;
+        public static partial class GlobalConstants {
+          public static void print(string s) { System.Console.WriteLine(s); }
+          public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public const int pi = 4;
+        }
+        public static class Program {
+            private static void Main(string[] args) {
+              var a = pi;
 
-//        }
-//    }";
+            }
+        }";
 
-//    public const string Code6 = @"
-//    constant pi = 4
+    public const string Code6 = @"
+        constant pi = 4
 
-//    main
-//    var a = pi
-//    end main
-//    ";
+        main
+        var a = pi
+        end main
+        ";
 
-//    public const string Code6Result = @"using static GlobalConstants;
+    public const string Code6Result = @"using static GlobalConstants;
 
-//    public static partial class GlobalConstants {
-//      public static void print(string s) { System.Console.WriteLine(s); }
-//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//      public const int pi = 4;
-//    }
-//    public static class Program {
-//        private static void Main(string[] args) {
-//          var a = pi;
+        public static partial class GlobalConstants {
+          public static void print(string s) { System.Console.WriteLine(s); }
+          public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public const int pi = 4;
+        }
+        public static class Program {
+            private static void Main(string[] args) {
+              var a = pi;
 
-//        }
-//    }";
+            }
+        }";
 
     //public const string Code7 = @"
     //procedure p()
