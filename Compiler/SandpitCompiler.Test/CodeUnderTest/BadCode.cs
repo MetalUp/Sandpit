@@ -1,17 +1,15 @@
 ﻿namespace SandpitCompiler.Test.CodeUnderTest;
 
 public class BadCode {
-
-    // code to test starts with <Code> expected message same id but ends with <Message> 
-
-    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
-
-
     public const string Code1 = @"
 main
   var a = 1
 endmain
 ";
+
+    // code to test starts with <Code> expected message same id but ends with <Message> 
+
+    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
 
     public static readonly string Code1Message = $"line 4:7 no viable alternative at input '{NL}endmain{NL}'";
 
@@ -75,7 +73,4 @@ endmain
 //";
 
 //    public const string Code8Message = "control expression must be bool";
-   
-
-   
 }

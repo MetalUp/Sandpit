@@ -1,10 +1,8 @@
 ﻿using Antlr4.Runtime;
-using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler.Test.CodeUnderTest;
-
 
 public static class GoodCode {
     // code to test starts with <Code> expected result same id but ends with <Result> 
@@ -350,7 +348,6 @@ public static class Program {
     //    }
     //}";
 
-
     public static readonly ASTNode Code1AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
@@ -363,7 +360,7 @@ public static class Program {
 
     public static readonly ASTNode Code6AST = FN(ARR(CDN("pi", "4")), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "pi"))));
 
-    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p",E<(string, string)>(), VDN("a", "1"))), E<FuncNode>(), E<MainNode>());
+    public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), VDN("a", "1"))), E<FuncNode>(), E<MainNode>());
 
     public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Integer", FBN("1", ("a", "1")), E<(string, string)>())), E<MainNode>());
 
@@ -379,7 +376,7 @@ public static class Program {
 
     public static readonly ASTNode Code14AST = FN(ARR(CDN("name", "\"bill\"")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code15AST = FN(ARR(CDN("names", new[] { "\"bill\"", "\"ben\"" })), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
+    public static readonly ASTNode Code15AST = FN(ARR(CDN("names", "\"bill\"", "\"ben\"")), E<ProcNode>(), E<FuncNode>(), E<MainNode>());
 
     public static readonly ASTNode Code16AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(WN(SVN("true"), BN(VDN("a", "1"))))));
 
@@ -423,7 +420,7 @@ public static class Program {
 
     private static ValueNode SVN(string v) => new ScalarValueNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
 
-    private static ListNode LN(params string[] vs) => new(vs.Select(SVN).Cast<ValueNode>().ToArray());
+    private static ListNode LN(params string[] vs) => new(vs.Select(SVN).ToArray());
 
     private static ValueNode BON(ValueNode op, ValueNode lhs, ValueNode rhs) => new BinaryOperatorNode(op, lhs, rhs);
 

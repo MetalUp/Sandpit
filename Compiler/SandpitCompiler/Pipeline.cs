@@ -61,7 +61,6 @@ public static class Pipeline {
         // any use of collections 
         flags[ModelFlags.UsesCollections] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);
 
-
         return flags;
     }
 

@@ -86,6 +86,6 @@ public class CompileTest {
 
     [TestMethod]
     public void DebugTestAST() {
-       DebugHelperTestAST("Code16");
+        DebugHelperTestAST("Code16");
     }
 }

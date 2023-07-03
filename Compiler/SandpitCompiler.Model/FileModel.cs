@@ -3,11 +3,11 @@
 public class FileModel : IModel {
     private readonly IDictionary<ModelFlags, bool> flags;
 
-    private string assertFunction = @"
+    private readonly string assertFunction = @"
 public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 ";
 
-    private string printFunction = @"
+    private readonly string printFunction = @"
 public static void print(string s) { System.Console.WriteLine(s); }
 ";
 
@@ -18,7 +18,6 @@ public static void print(string s) { System.Console.WriteLine(s); }
         Procedures = procedures;
         Functions = functions;
         Main = main;
-
     }
 
     private IEnumerable<IModel> Constants { get; }

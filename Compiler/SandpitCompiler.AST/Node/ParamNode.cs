@@ -9,7 +9,7 @@ public class ParamNode : ASTNode, IDecl {
         ID = id;
         Type = type;
         Children = new List<IASTNode> { id, type };
-        InferredType = "";// ASTHelpers.TokenToType(Type.TokenName);
+        InferredType = ""; // ASTHelpers.TokenToType(Type.TokenName);
     }
 
     public string InferredType { get; set; }

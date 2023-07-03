@@ -7,7 +7,7 @@ namespace SandpitCompiler;
 public class CodeModelASTVisitor {
     public CodeModelASTVisitor(IDictionary<ModelFlags, bool> flags) => Flags = flags.ToImmutableDictionary();
 
-    private IDictionary<ModelFlags, bool> Flags { get; set; }
+    private IDictionary<ModelFlags, bool> Flags { get; }
 
     private FileModel BuildFileModel(FileNode fn) {
         var constants = fn.ConstNodes.Select(Visit);

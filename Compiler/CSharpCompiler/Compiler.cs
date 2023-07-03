@@ -6,7 +6,6 @@ using Microsoft.CSharp.RuntimeBinder;
 namespace CSharpCompiler;
 
 public static class Compiler {
-
     private static readonly MetadataReference[] DotNetReferences = {
         MetadataReference.CreateFromFile(AppDomain.CurrentDomain.Load("System.Runtime").Location), // System.Runtime
         MetadataReference.CreateFromFile(AppDomain.CurrentDomain.Load("System.Collections").Location), // System.Collections
