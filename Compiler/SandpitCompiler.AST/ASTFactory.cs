@@ -19,111 +19,111 @@ public static class ASTFactory {
     public static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ParserRuleContext context) =>
         ApplyRules(context switch {
             SandpitParser.FileContext c => visitor.BuildFile(c),
-            SandpitParser.ProcBodyContext c => visitor.BuildProcBody(c),
-            SandpitParser.WhileStatContext c => visitor.BuildWhileStat(c),
-            SandpitParser.StatContext c => visitor.BuildStat(c),
-            SandpitParser.ConstValContext c => visitor.BuildConstVal(c),
-            SandpitParser.FuncBodyContext c => visitor.BuildFuncBody(c),
-            SandpitParser.ParamContext c => visitor.BuildParam(c),
-            SandpitParser.MainDeclContext c => visitor.BuildMainDecl(c),
-            SandpitParser.FuncDeclContext c => visitor.BuildFuncDecl(c),
-            SandpitParser.ProcDeclContext c => visitor.BuildProcDecl(c),
-            SandpitParser.ConstDeclContext c => visitor.BuildConstDecl(c),
-            SandpitParser.VarDeclContext c => visitor.BuildVarDecl(c),
-            SandpitParser.LetDeclContext c => visitor.BuildLetDecl(c),
-            SandpitParser.ExprContext c => visitor.BuildExpr(c),
-            SandpitParser.ProcStatContext c => visitor.BuildProcStat(c),
+            SandpitParser.ProcedureBlockContext c => visitor.BuildProcBody(c),
+            SandpitParser.WhileContext c => visitor.BuildWhileStat(c),
+            SandpitParser.ProcedureStatementContext c => visitor.BuildStat(c),
+            //SandpitParser.ConstValContext c => visitor.BuildConstVal(c),
+            //SandpitParser.FuncBodyContext c => visitor.BuildFuncBody(c),
+            SandpitParser.ParameterContext c => visitor.BuildParam(c),
+            SandpitParser.MainContext c => visitor.BuildMainDecl(c),
+            SandpitParser.FunctionDefContext c => visitor.BuildFuncDecl(c),
+            SandpitParser.ProcedureDefContext c => visitor.BuildProcDecl(c),
+            SandpitParser.ConstantDefContext c => visitor.BuildConstDecl(c),
+            SandpitParser.VarDefContext c => visitor.BuildVarDecl(c),
+            SandpitParser.LetDefContext c => visitor.BuildLetDecl(c),
+            SandpitParser.ExpressionContext c => visitor.BuildExpr(c),
+            //SandpitParser.ProcedureStatementContext c => visitor.BuildProcStat(c),
             _ => throw new NotImplementedException(context?.GetType().FullName ?? null)
         });
 
     private static FileNode BuildFile(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FileContext context) {
-        var constNodes = context.constDecl().Select(visitor.Visit<ConstDeclNode>);
-        var procNodes = context.procDecl().Select(visitor.Visit<ProcNode>);
-        var funcNodes = context.funcDecl().Select(visitor.Visit<FuncNode>);
+        var constNodes = context.constantDef().Select(visitor.Visit<ConstDeclNode>);
+        var procNodes = context.procedureDef().Select(visitor.Visit<ProcNode>);
+        var funcNodes = context.functionDef().Select(visitor.Visit<FuncNode>);
 
-        var mainNodes = context.mainDecl().Select(visitor.Visit<MainNode>);
+        var mainNodes = context.main().Select(visitor.Visit<MainNode>);
         return new FileNode(constNodes, procNodes, funcNodes, mainNodes);
     }
 
-    private static BodyNode BuildProcBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcBodyContext context) {
-        var statNodes = context.stat().Select(visitor.Visit<StatNode>);
+    private static BodyNode BuildProcBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureBlockContext context) {
+        var statNodes = context.procedureStatement().Select(visitor.Visit<StatNode>);
         return new BodyNode(statNodes.ToArray());
     }
 
-    private static WhileNode BuildWhileStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.WhileStatContext context) {
-        var expr = visitor.Visit<ValueNode>(context.expr());
-        var body = visitor.Visit<BodyNode>(context.procBody());
+    private static WhileNode BuildWhileStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.WhileContext context) {
+        var expr = visitor.Visit<ValueNode>(context.condition());
+        var body = visitor.Visit<BodyNode>(context.procedureBlock());
 
         return new WhileNode(expr, body);
     }
 
-    private static StatNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.StatContext context) {
-        if (context.varDecl() is { } vd) {
+    private static StatNode BuildStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureStatementContext context) {
+        if (context.varDef() is { } vd) {
             return visitor.Visit<VarDeclNode>(vd);
         }
 
-        if (context.procStat() is { } ps) {
+        if (context.procedureCall() is { } ps) {
             return visitor.Visit<ProcStatNode>(ps);
         }
 
-        return visitor.Visit<WhileNode>(context.whileStat());
+        return visitor.Visit<WhileNode>(context.controlFlowStatement());
     }
 
-    private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
-        (context.INT() ?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
+    //private static ValueNode BuildConstVal(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstValContext context) =>
+    //    (context.INT() ?? context.BOOL() ?? context.STRING()) is { } tn ? visitor.Visit<ScalarValueNode>(tn) : new ListNode(context.constVal().Select(visitor.Visit<ValueNode>).ToArray());
 
-    private static FuncBodyNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
-        var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);
-        var returnNode = visitor.Visit<ValueNode>(context.expr());
+    //private static FuncBodyNode BuildFuncBody(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncBodyContext context) {
+    //    var letNodes = context.letDecl().Select(visitor.Visit<LetDeclNode>);
+    //    var returnNode = visitor.Visit<ValueNode>(context.expr());
 
-        return new FuncBodyNode(returnNode, letNodes.ToArray());
-    }
+    //    return new FuncBodyNode(returnNode, letNodes.ToArray());
+    //}
 
-    private static ParamNode BuildParam(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ParamContext context) =>
-        new(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.type()));
+    private static ParamNode BuildParam(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ParameterContext context) =>
+        new(visitor.Visit<ValueNode>(context.parameterName()), visitor.Visit<ValueNode>(context.type()));
 
-    private static MainNode BuildMainDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.MainDeclContext context) => new(visitor.Visit<BodyNode>(context.procBody()));
+    private static MainNode BuildMainDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.MainContext context) => new(visitor.Visit<BodyNode>(context.procedureBlock()));
 
-    private static ProcNode BuildProcDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcDeclContext context) {
-        var idNode = visitor.Visit<ValueNode>(context.ID());
-        var paramNodes = context.param().Select(visitor.Visit<ParamNode>);
-        var bodyNode = visitor.Visit<BodyNode>(context.procBody());
+    private static ProcNode BuildProcDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcedureDefContext context) {
+        var idNode = visitor.Visit<ValueNode>(context.procedureSignatureAndBody().procedureName());
+        var paramNodes = context.procedureSignatureAndBody().parameterList().parameter().Select(visitor.Visit<ParamNode>);
+        var bodyNode = visitor.Visit<BodyNode>(context.procedureSignatureAndBody().procedureBlock());
         return new ProcNode(idNode, paramNodes.ToArray(), bodyNode);
     }
 
-    private static ProcStatNode BuildProcStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcStatContext context) {
-        var idNode = visitor.Visit<ValueNode>(context.ID());
-        var paramNodes = context.expr().Select(visitor.Visit<ValueNode>);
-        return new ProcStatNode(idNode, paramNodes.ToArray());
+    //private static ProcStatNode BuildProcStat(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ProcStatContext context) {
+    //    var idNode = visitor.Visit<ValueNode>(context.ID());
+    //    var paramNodes = context.expr().Select(visitor.Visit<ValueNode>);
+    //    return new ProcStatNode(idNode, paramNodes.ToArray());
+    //}
+
+    private static FuncNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FunctionDefContext context) {
+        var idNode = visitor.Visit<ValueNode>(context.functionSignatureAndBody().functionName());
+        var paramNodes = context.functionSignatureAndBody().parameterList().parameter().Select(visitor.Visit<ParamNode>);
+        var typeNode = visitor.Visit<ValueNode>(context.functionSignatureAndBody().type());
+        //var bodyNode = visitor.Visit<FuncBodyNode>(context.functionSignatureAndBody().letDef());
+
+        return new FuncNode(idNode, typeNode, paramNodes.ToArray(), null);
     }
 
-    private static FuncNode BuildFuncDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.FuncDeclContext context) {
-        var idNode = visitor.Visit<ValueNode>(context.ID());
-        var paramNodes = context.param().Select(visitor.Visit<ParamNode>);
-        var typeNode = visitor.Visit<ValueNode>(context.type());
-        var bodyNode = visitor.Visit<FuncBodyNode>(context.funcBody());
+    private static ConstDeclNode BuildConstDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstantDefContext context) => new(visitor.Visit<ValueNode>(context.constantName()), visitor.Visit<ValueNode>(context.expression()));
 
-        return new FuncNode(idNode, typeNode, paramNodes.ToArray(), bodyNode);
-    }
+    private static VarDeclNode BuildVarDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.VarDefContext context) => new(visitor.Visit<ValueNode>(context.variableName()), visitor.Visit<ValueNode>(context.expression()));
 
-    private static ConstDeclNode BuildConstDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ConstDeclContext context) => new(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.constVal()));
+    private static LetDeclNode BuildLetDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.LetDefContext context) => new(visitor.Visit<ValueNode>(context.letName()), visitor.Visit<ValueNode>(context.expression()));
 
-    private static VarDeclNode BuildVarDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.VarDeclContext context) => new(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
-
-    private static LetDeclNode BuildLetDecl(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.LetDeclContext context) => new(visitor.Visit<ValueNode>(context.ID()), visitor.Visit<ValueNode>(context.expr()));
-
-    private static ValueNode BuildExpr(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ExprContext context) {
-        if (context.ID() is { } id) {
+    private static ValueNode BuildExpr(this SandpitBaseVisitor<ASTNode> visitor, SandpitParser.ExpressionContext context) {
+        if (context.simpleExpression() is { } id) {
             return visitor.Visit<ScalarValueNode>(id);
         }
 
-        if (context.constVal() is { } cv) {
-            return visitor.Visit<ScalarValueNode>(cv);
-        }
+        //if (context.expression() is { } cv) {
+        //    return visitor.Visit<ScalarValueNode>(cv);
+        //}
 
-        var lhs = visitor.Visit<ValueNode>(context.expr().First());
-        var rhs = visitor.Visit<ValueNode>(context.expr().Last());
-        var op = visitor.Visit<ValueNode>(context.GetChild(1));
+        var lhs = visitor.Visit<ValueNode>(context.expression().First());
+        var rhs = visitor.Visit<ValueNode>(context.expression().Last());
+        var op = visitor.Visit<ValueNode>(context.binaryOp());
 
         return new BinaryOperatorNode(op!, lhs, rhs);
     }

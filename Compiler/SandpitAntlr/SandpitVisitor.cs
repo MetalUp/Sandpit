@@ -38,77 +38,383 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFile([NotNull] SandpitParser.FileContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.mainDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.main"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMainDecl([NotNull] SandpitParser.MainDeclContext context);
+	Result VisitMain([NotNull] SandpitParser.MainContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.procDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.constantDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitProcDecl([NotNull] SandpitParser.ProcDeclContext context);
+	Result VisitConstantDef([NotNull] SandpitParser.ConstantDefContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.funcDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.classDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFuncDecl([NotNull] SandpitParser.FuncDeclContext context);
+	Result VisitClassDef([NotNull] SandpitParser.ClassDefContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.constDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.mutableClass"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitConstDecl([NotNull] SandpitParser.ConstDeclContext context);
+	Result VisitMutableClass([NotNull] SandpitParser.MutableClassContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.varDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.immutableClass"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitVarDecl([NotNull] SandpitParser.VarDeclContext context);
+	Result VisitImmutableClass([NotNull] SandpitParser.ImmutableClassContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.letDecl"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.methodDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitLetDecl([NotNull] SandpitParser.LetDeclContext context);
+	Result VisitMethodDef([NotNull] SandpitParser.MethodDefContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.whileStat"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWhileStat([NotNull] SandpitParser.WhileStatContext context);
+	Result VisitFunctionDef([NotNull] SandpitParser.FunctionDefContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.procStat"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionSignatureAndBody"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitProcStat([NotNull] SandpitParser.ProcStatContext context);
+	Result VisitFunctionSignatureAndBody([NotNull] SandpitParser.FunctionSignatureAndBodyContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.param"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitParam([NotNull] SandpitParser.ParamContext context);
+	Result VisitProcedureDef([NotNull] SandpitParser.ProcedureDefContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.constVal"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureSignatureAndBody"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitConstVal([NotNull] SandpitParser.ConstValContext context);
+	Result VisitProcedureSignatureAndBody([NotNull] SandpitParser.ProcedureSignatureAndBodyContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.expr"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.constructor"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpr([NotNull] SandpitParser.ExprContext context);
+	Result VisitConstructor([NotNull] SandpitParser.ConstructorContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.stat"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.property"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStat([NotNull] SandpitParser.StatContext context);
+	Result VisitProperty([NotNull] SandpitParser.PropertyContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.letDef"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetDef([NotNull] SandpitParser.LetDefContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcedureBlock([NotNull] SandpitParser.ProcedureBlockContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcedureStatement([NotNull] SandpitParser.ProcedureStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.varDef"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVarDef([NotNull] SandpitParser.VarDefContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.assignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignment([NotNull] SandpitParser.AssignmentContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcedureCall([NotNull] SandpitParser.ProcedureCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.argumentList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitArgumentList([NotNull] SandpitParser.ArgumentListContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.parameterList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameterList([NotNull] SandpitParser.ParameterListContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.parameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameter([NotNull] SandpitParser.ParameterContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.assignmentOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignmentOp([NotNull] SandpitParser.AssignmentOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.unaryOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitUnaryOp([NotNull] SandpitParser.UnaryOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.binaryOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBinaryOp([NotNull] SandpitParser.BinaryOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.arithmeticOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitArithmeticOp([NotNull] SandpitParser.ArithmeticOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.logicalOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLogicalOp([NotNull] SandpitParser.LogicalOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.conditionalOp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConditionalOp([NotNull] SandpitParser.ConditionalOpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.controlFlowStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitControlFlowStatement([NotNull] SandpitParser.ControlFlowStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.condition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCondition([NotNull] SandpitParser.ConditionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.if"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIf([NotNull] SandpitParser.IfContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.for"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFor([NotNull] SandpitParser.ForContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.forIn"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitForIn([NotNull] SandpitParser.ForInContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.while"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhile([NotNull] SandpitParser.WhileContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.repeat"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRepeat([NotNull] SandpitParser.RepeatContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.try"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTry([NotNull] SandpitParser.TryContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.switch"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSwitch([NotNull] SandpitParser.SwitchContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.case"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCase([NotNull] SandpitParser.CaseContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.case_default"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCase_default([NotNull] SandpitParser.Case_defaultContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExpression([NotNull] SandpitParser.ExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.lambda"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLambda([NotNull] SandpitParser.LambdaContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.simpleExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSimpleExpression([NotNull] SandpitParser.SimpleExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.indexedValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIndexedValue([NotNull] SandpitParser.IndexedValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.sliceOfList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSliceOfList([NotNull] SandpitParser.SliceOfListContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.range"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRange([NotNull] SandpitParser.RangeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.assignableValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignableValue([NotNull] SandpitParser.AssignableValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.tupleDecomp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTupleDecomp([NotNull] SandpitParser.TupleDecompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.listDecomp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListDecomp([NotNull] SandpitParser.ListDecompContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLiteral([NotNull] SandpitParser.LiteralContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literalValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLiteralValue([NotNull] SandpitParser.LiteralValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.bool"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBool([NotNull] SandpitParser.BoolContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.integer"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInteger([NotNull] SandpitParser.IntegerContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.float"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFloat([NotNull] SandpitParser.FloatContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.decimal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDecimal([NotNull] SandpitParser.DecimalContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.char"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitChar([NotNull] SandpitParser.CharContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.string"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitString([NotNull] SandpitParser.StringContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literalDataStructure"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLiteralDataStructure([NotNull] SandpitParser.LiteralDataStructureContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literalList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLiteralList([NotNull] SandpitParser.LiteralListContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.listMember"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListMember([NotNull] SandpitParser.ListMemberContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literalDictionary"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLiteralDictionary([NotNull] SandpitParser.LiteralDictionaryContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.kvp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitKvp([NotNull] SandpitParser.KvpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCall([NotNull] SandpitParser.FunctionCallContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.instantiation"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInstantiation([NotNull] SandpitParser.InstantiationContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.withClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWithClause([NotNull] SandpitParser.WithClauseContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.type"/>.
 	/// </summary>
@@ -116,15 +422,93 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitType([NotNull] SandpitParser.TypeContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.procBody"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.dataStructureType"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitProcBody([NotNull] SandpitParser.ProcBodyContext context);
+	Result VisitDataStructureType([NotNull] SandpitParser.DataStructureTypeContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.funcBody"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.arrayType"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFuncBody([NotNull] SandpitParser.FuncBodyContext context);
+	Result VisitArrayType([NotNull] SandpitParser.ArrayTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.listType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitListType([NotNull] SandpitParser.ListTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.dictionaryType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDictionaryType([NotNull] SandpitParser.DictionaryTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.generic"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGeneric([NotNull] SandpitParser.GenericContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.funcType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFuncType([NotNull] SandpitParser.FuncTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.className"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitClassName([NotNull] SandpitParser.ClassNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.valueName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitValueName([NotNull] SandpitParser.ValueNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.constantName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitConstantName([NotNull] SandpitParser.ConstantNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.propertyName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitPropertyName([NotNull] SandpitParser.PropertyNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.parameterName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParameterName([NotNull] SandpitParser.ParameterNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.variableName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitVariableName([NotNull] SandpitParser.VariableNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.letName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetName([NotNull] SandpitParser.LetNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcedureName([NotNull] SandpitParser.ProcedureNameContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionName([NotNull] SandpitParser.FunctionNameContext context);
 }

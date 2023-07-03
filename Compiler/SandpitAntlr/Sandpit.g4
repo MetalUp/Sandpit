@@ -1,89 +1,359 @@
 grammar Sandpit;
 
-file:   (constDecl | procDecl | funcDecl | mainDecl | NEWLINE)* ;
+import Sandpit_Lexer;
 
-mainDecl
-    : 'main' NEWLINE  procBody 'end main' NEWLINE
+file
+	: (main |constantDef | classDef | procedureDef | functionDef)* SOL* EOF
+	;
+
+main 
+    : SOL MAIN
+      procedureBlock
+      SOL END MAIN 
     ;
 
-procDecl
-    : 'procedure' ID '(' (param)* ')' NEWLINE procBody 'end procedure' NEWLINE
+constantDef
+	: SOL CONSTANT constantName ASSIGN expression 
+	;
+
+classDef
+	: mutableClass | immutableClass
+	;
+
+mutableClass
+	: SOL CLASS className 
+      (SOL (constructor | PRIVATE? property | PRIVATE? methodDef))*
+      SOL END CLASS
+	;
+
+immutableClass
+	: SOL IMMUTABLE CLASS className 
+    (SOL (constructor | PRIVATE? property | PRIVATE? functionDef))*
+    SOL END CLASS 
+	;
+
+methodDef
+    : SOL METHOD (functionSignatureAndBody | procedureSignatureAndBody)
+	  SOL END METHOD
+	;
+
+functionDef
+	: SOL FUNCTION functionSignatureAndBody
+      SOL END FUNCTION
+	;
+
+functionSignatureAndBody
+	: functionName OPEN_BRACKET parameterList CLOSE_BRACKET ARROW type 
+      letDef*
+      SOL RETURN expression 
+	;
+
+procedureDef
+	: SOL PROCEDURE procedureSignatureAndBody
+      SOL END PROCEDURE
+	;
+
+procedureSignatureAndBody
+	: procedureName OPEN_BRACKET parameterList CLOSE_BRACKET 
+      procedureBlock
+	;
+
+constructor
+	: SOL CONSTRUCTOR (OPEN_BRACKET parameterList CLOSE_BRACKET)? 
+      procedureBlock
+	  SOL END CONSTRUCTOR
+	;
+
+property
+	: SOL PRIVATE?? PROPERTY propertyName ( type | (ASSIGN literal))
+	;
+
+letDef
+	: SOL LET letName ASSIGN expression
+	;
+
+procedureBlock
+	:  (procedureStatement)*
+	;
+
+procedureStatement
+	: constantDef | varDef | assignment | procedureCall | controlFlowStatement
+	;
+
+varDef
+	: SOL VAR variableName ASSIGN expression
+	;
+
+assignment
+	: SOL assignableValue (ASSIGN | assignmentOp)  expression
+	;
+
+procedureCall
+	: SOL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
+	;
+
+argumentList
+	: expression (COMMA expression)*  //TODO should support any expression but need to get round mutual self-recursion
+	;
+
+parameterList
+	: parameter  (COMMA parameter)*
+	;
+
+parameter
+	: LINE_CONTINUATION? parameterName type
+	;
+
+
+assignmentOp
+	: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV
+    ; 
+
+unaryOp
+	: MINUS | OP_NOT
+	;
+
+binaryOp
+	: arithmeticOp | logicalOp | conditionalOp //TODO check for precedence
+	;
+
+arithmeticOp
+	:  POWER | MULT | DIVIDE | MOD | INT_DIV | PLUS | MINUS 
+	;
+
+logicalOp
+	: OP_AND | OP_OR | OP_XOR
+	;
+
+conditionalOp
+	: GT | LT | OP_GE | OP_LE | OP_EQ | OP_NE
+	;
+
+controlFlowStatement
+	: if  | for |  forIn | while | repeat | try | switch
+	;
+
+condition 
+	: expression conditionalOp expression
+	;
+ 
+if
+	: SOL IF  condition THEN
+    procedureBlock
+    SOL (ELSE IF condition THEN
+    procedureBlock)*
+    (SOL ELSE
+    procedureBlock)?
+    SOL END IF
+	;
+
+for
+	: SOL FOR variableName ASSIGN expression 'to'  expression 
+	procedureBlock
+	SOL ((END FOR) | (NEXT variableName))
+	;
+
+forIn
+	: SOL FOR variableName IN expression 
+    procedureBlock
+    SOL ((END FOR) | (NEXT variableName))
+	;
+          
+while: 
+	SOL WHILE condition 
+    procedureBlock
+    SOL END WHILE
+	;
+          
+repeat: 
+	SOL REPEAT | DO 
+    procedureBlock
+    SOL  UNTIL  condition
+	;
+
+try: 
+	SOL TRY 
+    procedureBlock
+    (SOL CATCH'catch' variableName type 
+	  procedureBlock)?
+    SOL END TRY
+	;
+
+switch: 
+	SOL SWITCH expression COLON
+	  case*
+      case_default?
+	END SWITCH
+	;
+
+case: 
+	SOL CASE COLON
+    procedureBlock
+	;
+
+case_default : 
+	SOL DEFAULT COLON
+    procedureBlock
+	;
+
+expression
+	:  LINE_CONTINUATION expression 
+	| simpleExpression 
+	| indexedValue 
+	| sliceOfList 
+	| unaryOp expression
+	| expression binaryOp expression
+	| functionCall 
+	| expression DOT functionCall 
+	| instantiation
+	| IF expression THEN expression ELSE expression
+	| OPEN_BRACKET expression CLOSE_BRACKET
+	| lambda
+	;
+
+lambda
+	: LAMBDA argumentList ARROW expression
+	; 
+
+simpleExpression
+	: literal 
+	| valueName 
+	; 
+
+indexedValue
+	: valueName OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET
+	; 
+ 
+sliceOfList: valueName OPEN_SQ_BRACKET range CLOSE_SQ_BRACKET;
+
+range
+	: expression DOUBLE_DOT expression 
+	| expression DOUBLE_DOT
+	| DOUBLE_DOT expression 
+	; 
+
+assignableValue 
+    : valueName | indexedValue | tupleDecomp | listDecomp
+	; 
+
+tupleDecomp
+	: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET
+	;
+
+listDecomp
+	: OPEN_BRACE valueName COLON valueName CLOSE_BRACE
+	;
+
+literal
+	: literalValue | literalDataStructure
+	;
+
+literalValue
+	:  bool | integer | float | decimal | char | string 
+	;
+
+bool: BOOL;
+integer: LITERAL_INTEGER;
+float: LITERAL_FLOAT;
+decimal : LITERAL_DECIMAL;
+char: LITERAL_CHAR;
+string:  LITERAL_STRING;
+
+literalDataStructure
+	: literalList | literalDictionary
+	;
+
+literalList
+	: OPEN_BRACE (listMember (COMMA listMember)*)? CLOSE_BRACE
+	;
+
+listMember
+	: literal
+	;
+
+literalDictionary
+	: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE
+	;
+
+kvp
+	: literal COLON literal
+	;
+
+functionCall
+	: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
+	;
+
+instantiation
+	: NEW type OPEN_BRACKET (argumentList)? CLOSE_BRACKET (withClause)?
+	| valueName withClause
+	;
+
+withClause
+	: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE
+	;
+
+type
+	: VALUE_TYPE | dataStructureType | className | funcType
     ;
 
-funcDecl
-    : 'function' ID '(' (param)* ')' ':' type  NEWLINE funcBody 'end function' NEWLINE
+
+dataStructureType
+	: arrayType | listType | dictionaryType
     ;
 
-constDecl
-    : 'constant' ID '=' constVal NEWLINE
+arrayType
+	: ARRAY generic
     ;
 
-varDecl
-    : 'var' ID '=' expr NEWLINE
+listType
+	: LIST generic
+	;
+
+dictionaryType
+	: DICTIONARY generic
+    ;
+    
+generic
+	: LT type GT
+    ;
+    
+funcType
+	: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET
+    ;
+    
+className
+	: TYPENAME
+    ;
+    
+valueName
+	: constantName | variableName | letName 
+    ;
+    
+constantName
+	: IDENTIFIER
+    ;
+    
+propertyName
+	: IDENTIFIER
+    ;
+    
+parameterName
+	: IDENTIFIER
+    ;
+    
+variableName
+	: IDENTIFIER
+    ;
+    
+letName
+	: IDENTIFIER
     ;
 
-letDecl
-    : 'let' ID '=' expr NEWLINE
+procedureName
+	: IDENTIFIER
     ;
-
-whileStat 
-    : 'while' expr NEWLINE procBody 'end while' NEWLINE 
+    
+functionName
+	: IDENTIFIER
     ;
-
-procStat 
-    : ID '(' expr? (',' expr)*  ')' NEWLINE 
-    ;
-
-param
-    : (ID ':' type)
-    ;
-
-constVal
-    : INT
-    | BOOL
-    | STRING
-    | '{' constVal? (',' constVal)* '}'
-    ;
-
-expr 
-    : constVal
-    | ID
-    | expr '==' expr
-    ;
-
-stat
-    : varDecl
-    | whileStat
-    | procStat
-    ;
-
-type 
-    : 'Integer'
-    | 'String'
-    | 'Boolean'
-    ;
-
-procBody
-    : stat+ ;
-
-funcBody
-    : letDecl* 'return' expr NEWLINE
-    ;
-
-INT :   [0-9]+ ;
-
-BOOL : 'true' | 'false' ;
-
-STRING : '"' [ a-zA-Z0-9]* '"' ;
-
-ID  :   LETTER (LETTER | [0-9])* ;
-
-fragment
-LETTER : [a-zA-Z] ;
-
-NEWLINE
-  : '\r'? '\n'
-  | '\r'
-  ;
-
-WS  :   [ \t]+ -> skip ;
+    
