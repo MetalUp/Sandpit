@@ -380,6 +380,8 @@ public static class Program {
 
     public static readonly ASTNode Code18AST = FN(E<ConstDeclNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FuncNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
+    public static readonly ASTNode Code19AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(PSN("print", "\"test string\""))));
+
     #region AST DSL
 
     private static Func<IEnumerable<ConstDeclNode>, IEnumerable<ProcNode>, IEnumerable<FuncNode>, IEnumerable<MainNode>, FileNode> FN => (a, b, c, d) => new FileNode(a, b, c, d);
