@@ -1,21 +1,24 @@
 ﻿namespace SandpitCompiler.Model;
 
 public class FuncModel : IModel {
-    public FuncModel(string id, string type, IEnumerable<IModel> parms, IModel body) {
+    public FuncModel(string id, string type, IEnumerable<IModel> parms, IEnumerable<IModel> stats, IModel ret) {
         ID = id;
         Type = type;
         Parms = parms;
-        Body = body;
+        Stats = stats;
+        Ret = ret;
     }
 
     private string ID { get; }
     private string Type { get; }
     private IEnumerable<IModel> Parms { get; }
-    private IModel Body { get; }
+    public IEnumerable<IModel> Stats { get; }
+    public IModel Ret { get; }
 
     public override string ToString() =>
         $@"public static {ModelHelpers.TypeLookup(Type)} {ID}({Parms.AsCommaSeparatedString()}) {{
-          {Body}
+          {Stats.AsLineSeparatedString()}
+          return {Ret.ToString()};
         }}".Trim();
 
     public bool HasMain => false;

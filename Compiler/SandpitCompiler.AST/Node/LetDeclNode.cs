@@ -4,7 +4,7 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class LetDeclNode : ASTNode, IDecl {
+public class LetDeclNode : StatNode, IDecl {
     public LetDeclNode(ValueNode id, ValueNode expr) {
         ID = id;
         Expr = expr;

@@ -131,20 +131,19 @@ public static class Program {
       }  
     }";
 
-    //public const string Code8 = @"
-    //function f(a Int) -> Int a
-    //";
+    public const string Code8 = @"
+    function f(a Int) as Int -> a
+    ";
 
-    //public const string Code8Result = @"using static GlobalConstants;
+    public const string Code8Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static int f() { 
-    //    var a = 1; 
-    //    return a;
-    //  }  
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static int f(int a) { 
+        return a;
+      }  
+    }";
 
     public const string Code9 = @"
     procedure p(z Int)
@@ -359,15 +358,15 @@ public static class Program {
 
     public static readonly ASTNode Code7AST = FN(E<ConstDeclNode>(), ARR(PN("p", E<(string, string)>(), VDN("a", "1"))), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", FBN("1", ("a", "1")), E<(string, string)>())), E<MainNode>());
+    public static readonly ASTNode Code8AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(), ARR(LDN("a", "1")), "1")), E<MainNode>());
 
     public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Int")), VDN("a", "z"))), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", FBN("1", E<(string, string)>()), E<(string, string)>())), E<MainNode>());
+    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(),  E<StatNode>(), "1")), E<MainNode>());
 
-    public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", FBN("a", E<(string, string)>()), ("a", "Int"))), E<MainNode>());
+    public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(), E<StatNode>(), "a")), E<MainNode>());
 
-    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", FBN("b", ("b", "a")), ("a", "Int"))), E<MainNode>());
+    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")),  E<StatNode>(), "a")), E<MainNode>());
 
     public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "\"fred\""))));
 
@@ -399,17 +398,17 @@ public static class Program {
 
     private static StatNode VDN(string id, string v) => new VarDeclNode(SVN(id), SVN(v));
 
-    private static LetDeclNode LDN(string id, string v) => new(SVN(id), SVN(v));
+    private static StatNode LDN(string id, string v) => new LetDeclNode( SVN(id), SVN(v));
 
     private static ParamNode PMN(string id, string v) => new(SVN(id), SVN(v));
 
     private static ProcNode PN(string id, (string, string)[] param, params StatNode[] stats) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats));
 
-    private static FuncBodyNode FBN(string ret, params (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
+    //private static FuncBodyNode FBN(string ret, params (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
 
-    private static BodyNode BN(params StatNode[] statNodes) => new(statNodes);
+    //private static BodyNode BN(params StatNode[] statNodes) => new(statNodes);
 
-    private static FuncNode FNN(string id, string typ, FuncBodyNode body, params (string, string)[] param) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), body);
+    private static FuncNode FNN(string id, string typ, (string, string)[] param, StatNode[] stats, string v) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats), SVN(v));
 
     private static T[] E<T>() => Array.Empty<T>();
 
