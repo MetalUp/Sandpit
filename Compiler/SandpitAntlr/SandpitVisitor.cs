@@ -254,12 +254,6 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitControlFlowStatement([NotNull] SandpitParser.ControlFlowStatementContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.condition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitCondition([NotNull] SandpitParser.ConditionContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.if"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -320,6 +314,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] SandpitParser.ExpressionContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.ifExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfExpression([NotNull] SandpitParser.IfExpressionContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.lambda"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -338,11 +338,17 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSimpleExpression([NotNull] SandpitParser.SimpleExpressionContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.indexedValue"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.tupleValue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIndexedValue([NotNull] SandpitParser.IndexedValueContext context);
+	Result VisitTupleValue([NotNull] SandpitParser.TupleValueContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.index"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIndex([NotNull] SandpitParser.IndexContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.sliceOfList"/>.
 	/// </summary>
@@ -475,6 +481,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDataStructureType([NotNull] SandpitParser.DataStructureTypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.tupleType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTupleType([NotNull] SandpitParser.TupleTypeContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.arrayType"/>.
 	/// </summary>

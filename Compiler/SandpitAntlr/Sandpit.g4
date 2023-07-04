@@ -53,14 +53,14 @@ functionDef: functionWithBody | expressionFunction;
 functionWithBody: 
 	SOL FUNCTION functionSignature
 	functionBlock
-	RETURN expression 
+	SOL RETURN expression
     SOL END FUNCTION
 	;
 
-expressionFunction:
+expressionFunction: 
 	SOL FUNCTION functionSignature SOL? ARROW SOL? expression; 
    
-functionSignature: functionName OPEN_BRACKET parameterList CLOSE_BRACKET ARROW type;
+functionSignature: functionName OPEN_BRACKET parameterList CLOSE_BRACKET AS type;
 
 procedureDef:
 	SOL PROCEDURE procedureSignature
@@ -96,7 +96,9 @@ varDef: SOL VAR variableName ASSIGN expression;
 
 assignment: SOL (PROP|PARAM)? assignableValue (ASSIGN | assignmentOp)  expression	;
 
-procedureCall: SOL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
+procedureCall: 
+	SOL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
+	; 
 
 argumentList: expression (COMMA expression)*;  //TODO should support any expression but need to get round mutual self-recursion
 
@@ -118,12 +120,9 @@ conditionalOp: GT | LT | OP_GE | OP_LE | OP_EQ | OP_NE;
 
 controlFlowStatement: if  | for |  forIn | while | repeat | try | switch;
 
-condition: expression conditionalOp expression;
- 
-if:
-	SOL IF  condition THEN
+if:	SOL IF expression THEN
     procedureBlock
-    SOL (ELSE IF condition THEN
+    (SOL ELSE IF expression THEN
     procedureBlock)*
     (SOL ELSE
     procedureBlock)?
@@ -143,15 +142,15 @@ forIn:
 	;
           
 while: 
-	SOL WHILE condition 
+	SOL WHILE expression 
     procedureBlock
     SOL END WHILE
 	;
           
 repeat: 
-	SOL REPEAT | DO 
+	SOL REPEAT | DO
     procedureBlock
-    SOL  UNTIL  condition
+    SOL  UNTIL expression
 	;
 
 try: 
@@ -181,27 +180,31 @@ case_default :
 
 expression
 	:  LINE_CONTINUATION expression 
-	| simpleExpression 
-	| indexedValue 
+	| simpleExpression  
 	| sliceOfList
 	| unaryOp expression
 	| expression binaryOp expression
 	| functionCall 
 	| expression DOT functionCall 
 	| instantiation
-	| IF expression THEN expression ELSE expression
+	| ifExpression
 	| OPEN_BRACKET expression CLOSE_BRACKET
 	| lambda
 	| letIn expression
+	| expression index 
 	;
+
+ifExpression: SOL? IF SOL? expression SOL? THEN SOL? expression SOL? ELSE SOL? expression;
 
 lambda: LAMBDA argumentList ARROW expression; 
 
-letIn: LET varDef (COMMA varDef)* IN; 
+letIn: LET SOL? assignableValue ASSIGN expression (COMMA variableName ASSIGN expression)* SOL? IN SOL?; 
 
-simpleExpression: literal | (PROP|PARAM)? valueName;
+simpleExpression: literal |  valueName | tupleValue; 
 
-indexedValue: valueName OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET; 
+tupleValue: OPEN_BRACKET expression (COMMA expression)+ CLOSE_BRACKET;
+
+index: OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET; 
  
 sliceOfList: valueName OPEN_SQ_BRACKET range CLOSE_SQ_BRACKET;
 
@@ -211,7 +214,7 @@ range
 	| DOUBLE_DOT expression 
 	; 
 
-assignableValue: valueName | indexedValue | tupleDecomp | listDecomp; 
+assignableValue: valueName index? | tupleDecomp | listDecomp;
 
 tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
 
@@ -245,9 +248,11 @@ instantiation:
 
 withClause: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE;
 
-type: VALUE_TYPE | dataStructureType | className | funcType;
+type: VALUE_TYPE | tupleType | dataStructureType | className | funcType;
 
 dataStructureType: arrayType | listType | dictionaryType;
+
+tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
 
 arrayType: ARRAY generic;
 

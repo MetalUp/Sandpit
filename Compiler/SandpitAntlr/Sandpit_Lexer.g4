@@ -11,6 +11,7 @@ SINGLE_LINE_COMMENT:('//'|'#')  InputCharacter*    -> skip; // C or Python style
 
 
 // Keywords
+AS:			   'as';
 ABSTRACT:      'abstract';
 CASE: 		   'case';
 CATCH:         'catch';

@@ -33,7 +33,6 @@ public static class ASTFactory {
             ClassDefContext c => visitor.Build(c),
             ClassNameContext c => visitor.Build(c),
             ConditionalOpContext c => visitor.Build(c),
-            ConditionContext c => visitor.Build(c),
             ConstantDefContext c => visitor.Build(c),
             ConstantNameContext c => visitor.Build(c),
             ConstructorContext c => visitor.Build(c),
@@ -59,7 +58,6 @@ public static class ASTFactory {
             GenericContext c => visitor.Build(c),
             IfContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
-            IndexedValueContext c => visitor.Build(c),
             InstantiationContext c => visitor.Build(c),
             IntegerContext c => visitor.Build(c),
             KvpContext c => visitor.Build(c),
@@ -116,7 +114,10 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignableValueContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignmentOpContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) {
+        return visitor.Visit<ValueNode>(context.children.First());
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();
@@ -125,14 +126,6 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ClassNameContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConditionalOpContext context) {
         return visitor.Visit(context.children.First());
-    }
-
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConditionContext context) {
-        var e1 = visitor.Visit<ValueNode>(context.expression().First());
-        var e2 = visitor.Visit<ValueNode>(context.expression().Last());
-        var op = visitor.Visit<ValueNode>(context.conditionalOp());
-
-        return new BinaryOperatorNode(op, e1, e2);
     }
 
     private static ConstDeclNode Build(this SandpitBaseVisitor<ASTNode> visitor, ConstantDefContext context) => new(visitor.Visit<ValueNode>(context.constantName()), visitor.Visit<ValueNode>(context.expression()));
@@ -148,7 +141,20 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DecimalContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DictionaryTypeContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionContext context) => visitor.Visit(context.simpleExpression());
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionContext context) {
+
+        if (context.binaryOp() is { } opContext) {
+
+            var e1 = visitor.Visit<ValueNode>(context.expression().First());
+            var e2 = visitor.Visit<ValueNode>(context.expression().Last());
+            var op = visitor.Visit<ValueNode>(opContext);
+
+            return new BinaryOperatorNode(op, e1, e2);
+        }
+
+
+        return visitor.Visit(context.simpleExpression());
+    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionFunctionContext context) => throw new NotImplementedException();
 
@@ -181,7 +187,7 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, GenericContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ImmutableClassContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IndexedValueContext context) => throw new NotImplementedException();
+  
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, InstantiationContext context) => throw new NotImplementedException();
 
     private static ValueNode Build(this SandpitBaseVisitor<ASTNode> visitor, IntegerContext context) => visitor.Visit<ValueNode>(context.LITERAL_INTEGER());
@@ -276,7 +282,7 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, VariableNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, WhileContext context) {
-        var condition = visitor.Visit<ValueNode>(context.condition());
+        var condition = visitor.Visit<ValueNode>(context.expression());
         var body = visitor.Visit<AggregateNode<StatNode>>(context.procedureBlock());
 
 
