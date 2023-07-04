@@ -27,8 +27,8 @@ public static void print(string s) { System.Console.WriteLine(s); }
 
     public override string ToString() =>
         $@"
-{(flags[ModelFlags.UsesCollections] ? "using System.Collections.Generic;" : "")}
-{(flags[ModelFlags.UsesCollections] ? "using System.Collections.Immutable;" : "")}
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using static GlobalConstants;
 
 public static partial class GlobalConstants {{

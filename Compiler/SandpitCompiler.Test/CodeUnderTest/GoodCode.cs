@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
+using System.Net.NetworkInformation;
 
 namespace SandpitCompiler.Test.CodeUnderTest;
 
@@ -13,7 +14,9 @@ var a = 1
 end main
 ";
 
-    public const string Code1Result = @"using static GlobalConstants;
+    public const string Code1Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
 public static partial class GlobalConstants {
   public static void print(string s) { System.Console.WriteLine(s); }
@@ -32,7 +35,9 @@ var b = a
 end main
 ";
 
-    public const string Code2Result = @"using static GlobalConstants;
+    public const string Code2Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
 public static partial class GlobalConstants {
   public static void print(string s) { System.Console.WriteLine(s); }
@@ -50,7 +55,9 @@ public static class Program {
         constant pi = 4 
         ";
 
-    public const string Code3Result = @"using static GlobalConstants;
+    public const string Code3Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
@@ -63,7 +70,9 @@ public static class Program {
         constant e = 3
         ";
 
-    public const string Code4Result = @"using static GlobalConstants;
+    public const string Code4Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
@@ -79,7 +88,9 @@ public static class Program {
         end main
         ";
 
-    public const string Code5Result = @"using static GlobalConstants;
+    public const string Code5Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
@@ -101,7 +112,9 @@ public static class Program {
         end main
         ";
 
-    public const string Code6Result = @"using static GlobalConstants;
+    public const string Code6Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
@@ -121,7 +134,9 @@ public static class Program {
     end procedure
     ";
 
-    public const string Code7Result = @"using static GlobalConstants;
+    public const string Code7Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -135,7 +150,9 @@ public static class Program {
     function f(a Int) as Int -> a
     ";
 
-    public const string Code8Result = @"using static GlobalConstants;
+    public const string Code8Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -151,7 +168,9 @@ public static class Program {
     end procedure
     ";
 
-    public const string Code9Result = @"using static GlobalConstants;
+    public const string Code9Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -167,7 +186,9 @@ public static class Program {
     end function
     ";
 
-    public const string Code10Result = @"using static GlobalConstants;
+    public const string Code10Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -183,7 +204,9 @@ public static class Program {
     end function
     ";
 
-    public const string Code11Result = @"using static GlobalConstants;
+    public const string Code11Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -200,7 +223,9 @@ public static class Program {
     end function
     ";
 
-    public const string Code12Result = @"using static GlobalConstants;
+    public const string Code12Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -217,7 +242,9 @@ public static class Program {
     end main
     ";
 
-    public const string Code13Result = @"using static GlobalConstants;
+    public const string Code13Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -233,7 +260,9 @@ public static class Program {
     constant name = ""bill"" 
     ";
 
-    public const string Code14Result = @"using static GlobalConstants;
+    public const string Code14Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -263,7 +292,9 @@ public static class Program {
     end main
     ";
 
-    public const string Code16Result = @"using static GlobalConstants;
+    public const string Code16Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -286,7 +317,9 @@ public static class Program {
     end main
     ";
 
-    public const string Code17Result = @"using static GlobalConstants;
+    public const string Code17Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -311,7 +344,9 @@ public static class Program {
     end main
     ";
 
-    public const string Code18Result = @"using static GlobalConstants;
+    public const string Code18Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -330,9 +365,12 @@ public static class Program {
     main
       print(""test string"")
     end main
-    ";
+    "
+    ;
 
-    public const string Code19Result = @"using static GlobalConstants;
+    public const string Code19Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -353,7 +391,9 @@ public static class Program {
     end main
     ";
 
-    public const string Code20Result = @"using static GlobalConstants;
+    public const string Code20Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
@@ -368,20 +408,21 @@ public static class Program {
         }
     }";
 
-//    public const string Code21 = @"
-//function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as String -> """"
-//    ";
+    public const string Code21 = @"
+function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as String -> """"
+    ";
 
-//    public const string Code21Result = @"using static GlobalConstants;
+    public const string Code21Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
-//    public static partial class GlobalConstants {
-//      public static void print(string s) { System.Console.WriteLine(s); }
-//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-//      public static string bestAttempt(IEnumerable<string> possAnswers, IList<string> possAttempts) {
-//        return """";
-//      } 
-//    }
-// ";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static string bestAttempt(IEnumerable<string> possAnswers, IList<string> possAttempts) {
+        return """";
+      } 
+    }";
 
     public static readonly ASTNode Code1AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"))));
 

@@ -24,13 +24,13 @@ public class CodeModelASTVisitor {
 
     private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
 
-    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, ModelHelpers.TypeLookup(fn.Type.Text), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, ModelHelpers.TypeLookup(fn.Type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
 
     private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
     private ProcModel BuildProcModel(ProcDefnNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
-    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type.Text));
+    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {

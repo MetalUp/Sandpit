@@ -21,17 +21,26 @@ public static partial class TestHelpers {
         code = ignoreWhiteSpace ? ClearWs(code) : code;
         expected = ignoreWhiteSpace ? ClearWs(expected) : expected;
 
-        Assert.AreEqual(expected, code, $"{fn} Failed");
+        try {
+            Assert.AreEqual(expected, code, $"{fn} Failed");
+        }
+        catch (AssertFailedException) {
+            Console.WriteLine($"{fn} failed");
+            Console.WriteLine(expected + " EXPECTED");
+            Console.WriteLine(code + " ACTUAL");
+            throw;
+        }
     }
 
     public static void AssertTreesEqual(ASTNode expected, ASTNode? actual, string id) {
         try {
             Assert.AreEqual(expected.ToStringTree(), actual?.ToStringTree());
         }
-        catch (AssertFailedException e) {
+        catch (AssertFailedException) {
             Console.WriteLine($"{id} failed");
             Console.WriteLine(expected.ToStringTree() + " EXPECTED");
             Console.WriteLine(actual?.ToStringTree() + " ACTUAL");
+            throw;
         }
     }
 }
