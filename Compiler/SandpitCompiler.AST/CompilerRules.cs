@@ -15,7 +15,7 @@ public static class CompilerRules {
         if (node is WhileStatNode wn) {
             return wn.Condition switch {
                 // TODO rework to 'resolve' the type of the expression
-                ScalarValueNode { InferredType: "BOOL_VALUE" } => node,
+                ScalarValueNode { InferredType.TokenName: "BOOL_VALUE" } => node,
                 BinaryValueNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
                 _ => throw new CompileErrorException("control expression must be bool")
             };

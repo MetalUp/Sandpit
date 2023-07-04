@@ -12,23 +12,28 @@ public static class ModelHelpers {
         {
             Constants.Bacon_Integer => "int",
             Constants.Bacon_String => "string",
-            _ => "",
+            _ => throw new NotImplementedException(),
         };
     }
 
     private static string TypeLookup(GenericTypeNode tn) {
-        return tn.Text switch {
-            Constants.Bacon_Iterable => $"IEnumerable<{TypeLookup(tn.ParameterizedType)}>",
-            Constants.Bacon_List => $"IList<{TypeLookup(tn.ParameterizedType)}>",
-            _ => "",
+        return tn.TokenName switch {
+            "ITERABLE" => $"IEnumerable<{TypeLookup(tn.ParameterizedType)}>",
+            "LIST" => $"IList<{TypeLookup(tn.ParameterizedType)}>",
+            _ => throw new NotImplementedException(),
         };
     }
 
     private static string TypeLookup(BuiltInTypeNode tn) {
-        return tn.Text switch {
-            Constants.Bacon_Integer => "int",
-            Constants.Bacon_String => "string",
-            _ => "",
+        return tn.TokenName switch {
+            "LITERAL_INTEGER" => "int",
+            "LITERAL_STRING" => "string",
+            "BOOL_VALUE" => "bool",
+            "VALUE_TYPE" => TypeLookup(tn.Text),
+            "IDENTIFIER" => "", // TODO Symbol table lookup ? 
+            "OP_EQ"  => "", // TODO Symbol table lookup ? 
+            "OP_NE"  => "", // TODO Symbol table lookup ? 
+            _ => throw new NotImplementedException(),
         };
     }
 
@@ -36,7 +41,7 @@ public static class ModelHelpers {
         return tn switch {
             BuiltInTypeNode n => TypeLookup(n),
             GenericTypeNode n => TypeLookup(n),
-            _ => "",
+            _ => throw new NotImplementedException(),
         };
     }
 
