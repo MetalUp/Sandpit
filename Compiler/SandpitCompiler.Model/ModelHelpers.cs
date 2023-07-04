@@ -4,7 +4,7 @@ namespace SandpitCompiler.Model;
 
 public static class ModelHelpers {
     private static readonly IDictionary<string, string> TypeLookupDict = new Dictionary<string, string> {
-        { Constants.Bacon_Integer, "int" }, 
+        { Constants.Bacon_Integer, "int" },
         { Constants.Bacon_String, "string" }
     };
 

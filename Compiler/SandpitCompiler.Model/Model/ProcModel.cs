@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class ProcModel : IModel {
     public ProcModel(string id, IEnumerable<IModel> parms, IEnumerable<IModel> stats) {

@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class MainModel : IModel {
     public MainModel(IEnumerable<IModel> stats) => Stats = stats;

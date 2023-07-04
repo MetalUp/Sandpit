@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class BinaryOperatorModel : IModel {
     public BinaryOperatorModel(IModel op, IModel lhs, IModel rhs) {

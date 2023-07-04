@@ -406,10 +406,6 @@ public static class Program {
 
     private static ProcNode PN(string id, (string, string)[] param, params StatNode[] stats) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats));
 
-    //private static FuncBodyNode FBN(string ret, params (string, string)[] lets) => new(SVN(ret), lets.Select(t => LDN(t.Item1, t.Item2)).ToArray());
-
-    //private static BodyNode BN(params StatNode[] statNodes) => new(statNodes);
-
     private static FuncNode FNN(string id, string typ, (string, string)[] param, StatNode[] stats, string v) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats), SVN(v));
 
     private static T[] E<T>() => Array.Empty<T>();

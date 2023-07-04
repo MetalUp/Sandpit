@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class ValueModel : IModel {
     public ValueModel(string val, string type) {

@@ -1,11 +1,11 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class FileModel : IModel {
-    private readonly IDictionary<ModelFlags, bool> flags;
-
     private readonly string assertFunction = @"
 public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 ";
+
+    private readonly IDictionary<ModelFlags, bool> flags;
 
     private readonly string printFunction = @"
 public static void print(string s) { System.Console.WriteLine(s); }

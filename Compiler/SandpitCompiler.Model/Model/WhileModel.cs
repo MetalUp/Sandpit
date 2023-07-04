@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class WhileModel : IModel {
     public WhileModel(IModel expr, IEnumerable<IModel> stats) {

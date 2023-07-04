@@ -117,9 +117,7 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) => visitor.Visit<ValueNode>(context.children.First());
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) {
-        return visitor.Visit<ValueNode>(context.BOOL());
-    }
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => visitor.Visit<ValueNode>(context.BOOL());
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();

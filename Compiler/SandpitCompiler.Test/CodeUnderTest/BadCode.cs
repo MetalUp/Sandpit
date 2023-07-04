@@ -7,12 +7,6 @@ main
 endmain
 ";
 
-    // code to test starts with <Code> expected message same id but ends with <Message> 
-
-    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
-
-    public static readonly string Code1Message = $"line 4:7 no viable alternative at input '{NL}endmain{NL}'";
-
     public const string Code2 = @"main
 var a = 1
 end main
@@ -45,16 +39,12 @@ end main
     endprocedure
     ";
 
-    public static readonly string Code5Message = $"line 4:16 no viable alternative at input '{NL}endprocedure{NL}'";
-
     public const string Code6 = @"
     function p() : Integer
       var a = 1
       return a
     end function
     ";
-
-    public static readonly string Code6Message = $"line 2:15 no viable alternative at input '{NL}functionp()'";
 
     public const string Code7 = @"
     procedure p()
@@ -73,4 +63,14 @@ end main
     ";
 
     public const string Code8Message = "control expression must be bool";
+
+    // code to test starts with <Code> expected message same id but ends with <Message> 
+
+    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
+
+    public static readonly string Code1Message = $"line 4:7 no viable alternative at input '{NL}endmain{NL}'";
+
+    public static readonly string Code5Message = $"line 4:16 no viable alternative at input '{NL}endprocedure{NL}'";
+
+    public static readonly string Code6Message = $"line 2:15 no viable alternative at input '{NL}functionp()'";
 }

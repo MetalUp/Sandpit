@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class ProcStatModel : IModel {
     public ProcStatModel(string id, IModel[] parameters) {

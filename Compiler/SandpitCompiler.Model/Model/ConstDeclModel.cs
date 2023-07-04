@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class ConstDeclModel : IModel {
     public ConstDeclModel(string id, ValueModel value) {

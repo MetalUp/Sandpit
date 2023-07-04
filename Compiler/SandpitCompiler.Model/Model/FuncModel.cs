@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.Model;
+﻿namespace SandpitCompiler.Model.Model;
 
 public class FuncModel : IModel {
     public FuncModel(string id, string type, IEnumerable<IModel> parms, IEnumerable<IModel> stats, IModel ret) {

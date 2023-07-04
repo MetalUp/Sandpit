@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
+using SandpitCompiler.Model.Model;
 
 namespace SandpitCompiler;
 
@@ -31,10 +32,6 @@ public class CodeModelASTVisitor {
 
     private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
 
-    private FuncBodyModel BuildFuncBodyModel(FuncBodyNode bn) => new(bn.Return.Text, bn.LetNodes.Select(Visit));
-
-    private BodyModel BuildBodyModel(BodyNode bn) => new(bn.StatNodes.Select(Visit));
-
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
             ConstDeclNode cdn => BuildConstDeclModel(cdn),
@@ -45,9 +42,8 @@ public class CodeModelASTVisitor {
             ProcNode pn => BuildProcModel(pn),
             FuncNode fn => BuildFuncModel(fn),
             ParamNode pn => BuildParamModel(pn),
-            FuncBodyNode bn => BuildFuncBodyModel(bn),
+
             ValueNode vn => BuildValueModel(vn),
-            BodyNode bn => BuildBodyModel(bn),
             WhileNode sn => BuildWhileModel(sn),
             ProcStatNode sn => BuildProcStatModel(sn),
             null => throw new NotImplementedException("null"),

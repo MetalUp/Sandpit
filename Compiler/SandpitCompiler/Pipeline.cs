@@ -3,6 +3,7 @@ using CSharpCompiler;
 using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
+using SandpitCompiler.Model.Model;
 using SandpitCompiler.Symbols;
 using SandpitCompiler.SymbolTree;
 
