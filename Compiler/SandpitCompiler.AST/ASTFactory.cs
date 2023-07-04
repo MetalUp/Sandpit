@@ -174,7 +174,11 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FloatContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForInContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionBlockContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionBlockContext context) {
+        var statNodes = context.children?.Select(visitor.Visit<StatNode>) ?? Array.Empty<StatNode>();
+        return new AggregateNode<StatNode>(statNodes);
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionCallContext context) => throw new NotImplementedException();
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionDefContext context) {
@@ -194,7 +198,18 @@ public static class ASTFactory {
         return visitor.Visit<StatNode>(n);
     }
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionWithBodyContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionWithBodyContext context) {
+        var id = visitor.Visit<ValueNode>(context.functionSignature().functionName());
+        var pps = context.functionSignature().parameterList()?.parameter().Select(visitor.Visit<ParamNode>) ?? Array.Empty<ParamNode>();
+        var type = visitor.Visit<ValueNode>(context.functionSignature().type());
+
+        var functionBlock = visitor.Visit<AggregateNode<StatNode>>(context.functionBlock());
+
+        var expression = visitor.Visit<ValueNode>(context.expression());
+
+        return new FuncNode(id, type, pps.ToArray(), functionBlock, expression);
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FuncTypeContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, GenericContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfContext context) => throw new NotImplementedException();

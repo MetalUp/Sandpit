@@ -161,21 +161,21 @@ public static class Program {
       }  
     }";
 
-    //public const string Code10 = @"
-    //function f(a Int) -> Int
-    //return 1
-    //end function
-    //";
+    public const string Code10 = @"
+    function f(a Int) as Int
+    return 1
+    end function
+    ";
 
-    //public const string Code10Result = @"using static GlobalConstants;
+    public const string Code10Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static int f() { 
-    //    return 1;
-    //  }  
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static int f(int a) { 
+        return 1;
+      }  
+    }";
 
     //public const string Code11 = @"
     //function f(a  Int) as Int
