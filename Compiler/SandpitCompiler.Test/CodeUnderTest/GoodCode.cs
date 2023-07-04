@@ -177,105 +177,105 @@ public static class Program {
       }  
     }";
 
-    //public const string Code11 = @"
-    //function f(a  Int) as Int
-    //return a
-    //end function
-    //";
+    public const string Code11 = @"
+    function f(a  Int) as Int
+    return a
+    end function
+    ";
 
-    //public const string Code11Result = @"using static GlobalConstants;
+    public const string Code11Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static int f(int a) { 
-    //    return a;
-    //  }  
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static int f(int a) { 
+        return a;
+      }  
+    }";
 
-    //    public const string Code12 = @"
-    //function f(a : Integer) : Integer
-    //let b = a
-    //return b
-    //end function
-    //";
+    public const string Code12 = @"
+    function f(a Int) as Int
+    var b = a
+    return b
+    end function
+    ";
 
-    //    public const string Code12Result = @"using static GlobalConstants;
+    public const string Code12Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static int f(int a) {
-    //    var b = a;
-    //    return b;
-    //  }  
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static int f(int a) {
+        var b = a;
+        return b;
+      }  
+    }";
 
-    //    public const string Code13 = @"
-    //main
-    //var a = ""fred""
-    //end main
-    //";
+    public const string Code13 = @"
+    main
+    var a = ""fred""
+    end main
+    ";
 
-    //    public const string Code13Result = @"using static GlobalConstants;
+    public const string Code13Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      var a = ""fred"";
-    //    }
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          var a = ""fred"";
+        }
+    }";
 
-    //    public const string Code14 = @"
-    //constant name = ""bill"" 
-    //";
+    public const string Code14 = @"
+    constant name = ""bill"" 
+    ";
 
-    //    public const string Code14Result = @"using static GlobalConstants;
+    public const string Code14Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public const string name = ""bill"";
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public const string name = ""bill"";
+    }";
 
-    //    public const string Code15 = @"
-    //constant names = {""bill"",""ben""} 
-    //";
+    public const string Code15 = @"
+    constant names = {""bill"",""ben""} 
+    ";
 
-    //    public const string Code15Result = @"using System.Collections.Generic;
-    //using System.Collections.Immutable;
-    //using static GlobalConstants;
+    public const string Code15Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //  public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
+    }";
 
-    //public const string Code16 = @"
-    //main
-    //while true
-    //  var a = 1
-    //end while 
-    //end main
-    //";
+    public const string Code16 = @"
+    main
+    while true
+      var a = 1
+    end while 
+    end main
+    ";
 
-    //public const string Code16Result = @"using static GlobalConstants;
+    public const string Code16Result = @"using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //  public static void print(string s) { System.Console.WriteLine(s); }
-    //  public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      while (true) {
-    //        var a = 1;
-    //      }
-    //    }
-    //}";
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          while (true) {
+            var a = 1;
+          }
+        }
+    }";
 
     public const string Code17 = @"
     main
@@ -362,11 +362,11 @@ public static class Program {
 
     public static readonly ASTNode Code9AST = FN(E<ConstDeclNode>(), ARR(PN("p", ARR(("z", "Int")), VDN("a", "z"))), E<FuncNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(),  E<StatNode>(), "1")), E<MainNode>());
+    public static readonly ASTNode Code10AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(), E<StatNode>(), "1")), E<MainNode>());
 
     public static readonly ASTNode Code11AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", E<(string, string)>(), E<StatNode>(), "a")), E<MainNode>());
 
-    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")),  E<StatNode>(), "a")), E<MainNode>());
+    public static readonly ASTNode Code12AST = FN(E<ConstDeclNode>(), E<ProcNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), E<StatNode>(), "a")), E<MainNode>());
 
     public static readonly ASTNode Code13AST = FN(E<ConstDeclNode>(), E<ProcNode>(), E<FuncNode>(), ARR(MN(VDN("a", "\"fred\""))));
 
@@ -398,7 +398,7 @@ public static class Program {
 
     private static StatNode VDN(string id, string v) => new VarDeclNode(SVN(id), SVN(v));
 
-    private static StatNode LDN(string id, string v) => new LetDeclNode( SVN(id), SVN(v));
+    private static StatNode LDN(string id, string v) => new LetDeclNode(SVN(id), SVN(v));
 
     private static ParamNode PMN(string id, string v) => new(SVN(id), SVN(v));
 

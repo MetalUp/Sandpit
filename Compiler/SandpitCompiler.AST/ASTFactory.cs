@@ -117,7 +117,10 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) => visitor.Visit<ValueNode>(context.children.First());
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) {
+        return visitor.Visit<ValueNode>(context.BOOL());
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CharContext context) => throw new NotImplementedException();
@@ -174,6 +177,7 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FloatContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ForInContext context) => throw new NotImplementedException();
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionBlockContext context) {
         var statNodes = context.children?.Select(visitor.Visit<StatNode>) ?? Array.Empty<StatNode>();
         return new AggregateNode<StatNode>(statNodes);
@@ -187,9 +191,8 @@ public static class ASTFactory {
     }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionMethodContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionNameContext context) {
-        return visitor.Visit<ValueNode>(context.IDENTIFIER());
-    }
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionSignatureContext context) => throw new NotImplementedException();
 
@@ -226,11 +229,23 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListDecompContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListTypeContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralContext context) => visitor.Visit(context.literalValue());
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralContext context) {
+        var v = (ParserRuleContext)context.literalValue() ?? context.literalDataStructure();
+        return visitor.Visit(v);
+    }
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDataStructureContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDataStructureContext context) {
+        var v = (ParserRuleContext)context.literalList() ?? context.literalDictionary();
+        return visitor.Visit(v);
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDictionaryContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralListContext context) => throw new NotImplementedException();
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralListContext context) {
+        var items = context.literal().Select(visitor.Visit<ValueNode>);
+
+        return new ListNode(items.ToArray());
+    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralValueContext context) => visitor.Visit(context.children.First());
 
