@@ -400,11 +400,13 @@ public static class Program {
 
     public static readonly ASTNode Code16AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(WN(SVN("true"), VDN("a", "1")))));
 
-    public static readonly ASTNode Code17AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN("=="), SVN("a"), SVN("1")), VDN("b", "1")))));
+    public static readonly ASTNode Code17AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_EQ, "=="), SVN("a"), SVN("1")), VDN("b", "1")))));
 
     public static readonly ASTNode Code18AST = FN(E<ConstDefnNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FuncDefnNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
     public static readonly ASTNode Code19AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(PSN("print", "\"test string\""))));
+
+    public static readonly ASTNode Code20AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_NE,  "is not"), SVN("a"), SVN("2")), VDN("b", "1")))));
 
     #region AST DSL
 
@@ -438,7 +440,7 @@ public static class Program {
 
     private static ValueNode SVN(string v) => new ScalarValueNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
 
-    private static OperatorValueNode OVN(string v) => new OperatorValueNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
+    private static OperatorValueNode OVN(int type, string v) => new OperatorValueNode(new CommonToken(type, v));
 
     private static ListValueNode LN(params string[] vs) => new(vs.Select(SVN).ToArray());
 

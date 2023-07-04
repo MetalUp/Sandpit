@@ -15,5 +15,5 @@ public class BinaryValueNode : ValueNode {
     public ValueNode Rhs { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
+    public override string ToStringTree() => $"({ToString()}{Op.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 }
