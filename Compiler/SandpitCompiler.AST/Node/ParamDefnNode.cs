@@ -5,7 +5,7 @@ using SandpitCompiler.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class ParamDefnNode : ASTNode, IDecl {
-    public ParamDefnNode(ValueNode id, ValueNode type) {
+    public ParamDefnNode(ValueNode id, TypeNode type) {
         ID = id;
         Type = type;
         Children = new List<IASTNode> { id, type };
@@ -15,7 +15,7 @@ public class ParamDefnNode : ASTNode, IDecl {
     public string InferredType { get; set; }
 
     public ValueNode ID { get; }
-    public ValueNode Type { get; }
+    public TypeNode Type { get; }
 
     public string Id => ID.Text;
     public ISymbolType SymbolType => Type is ListValueNode ? new ListType(new BuiltInType(InferredType)) : new BuiltInType(InferredType);

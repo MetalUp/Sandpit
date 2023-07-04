@@ -24,13 +24,13 @@ public class CodeModelASTVisitor {
 
     private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
 
-    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, fn.Type.Text, fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, ModelHelpers.TypeLookup(fn.Type.Text), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
 
     private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
     private ProcModel BuildProcModel(ProcDefnNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
-    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, pn.Type.Text);
+    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type.Text));
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
@@ -57,10 +57,10 @@ public class CodeModelASTVisitor {
 
     private IModel BuildValueModel(ValueNode vn) {
         return vn switch {
-            ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
-            ListValueNode ln => new ValueModel(ln.Texts, ln.InferredType),
+            ScalarValueNode svn => new ValueModel(svn.Text, ModelHelpers.TypeLookup(svn.InferredType)),
+            ListValueNode ln => new ValueModel(ln.Texts, $"IList<{ModelHelpers.TypeLookup(ln.InferredType)}>", $"List<{ModelHelpers.TypeLookup(ln.InferredType)}>"),
             BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
-            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), on.InferredType),
+            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), ModelHelpers.TypeLookup(on.InferredType)),
             _ => throw new NotImplementedException()
         };
     }

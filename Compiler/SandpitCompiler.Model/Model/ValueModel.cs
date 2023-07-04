@@ -3,19 +3,16 @@
 public class ValueModel : IModel {
     public ValueModel(string val, string type) {
         Val = val;
-        Type = ModelHelpers.TypeLookup(type);
+        Type = type;
         Prefix = "const";
-        IsList = false;
     }
 
-    public ValueModel(string[] val, string type) {
-        Val = $"new List<{ModelHelpers.TypeLookup(type)}> {{ {string.Join(',', val)} }}.ToImmutableList()";
-        Type = $"IList<{ModelHelpers.TypeLookup(type)}>";
+    public ValueModel(string[] val, string retType,  string type) {
+        Val = $"new {type} {{ {string.Join(',', val)} }}.ToImmutableList()";
+        Type = retType;
         Prefix = "static readonly";
-        IsList = true;
     }
 
-    public bool IsList { get; }
     public string Val { get; }
     public string Type { get; }
     public string Prefix { get; }

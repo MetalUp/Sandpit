@@ -16,7 +16,7 @@ public class FuncModel : IModel {
     public IModel Ret { get; }
 
     public override string ToString() =>
-        $@"public static {ModelHelpers.TypeLookup(Type)} {ID}({Parms.AsCommaSeparatedString()}) {{
+        $@"public static {Type} {ID}({Parms.AsCommaSeparatedString()}) {{
           {Stats.AsLineSeparatedString()}
           return {Ret.ToString()};
         }}".Trim();

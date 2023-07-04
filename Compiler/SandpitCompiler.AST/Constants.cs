@@ -11,6 +11,15 @@ public static class Constants {
         Unknown
     }
 
+    public enum Types {
+        Value,
+        Array,
+        List,
+        Dictionary,
+        Iterable,
+        Unknown
+    }
+
     public static string LITERAL_INTEGER_TOKEN = "LITERAL_INTEGER";
     public static string LITERAL_STRING_TOKEN = "LITERAL_STRING";
 

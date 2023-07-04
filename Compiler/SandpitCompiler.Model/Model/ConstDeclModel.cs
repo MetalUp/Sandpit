@@ -9,8 +9,6 @@ public class ConstDeclModel : IModel {
     private string ID { get; }
     private ValueModel Value { get; }
 
-    public bool IsList => Value.IsList;
-
     public override string ToString() => $"public {Value.Prefix} {Value.Type} {ID} = {Value.Val};".Trim();
     public bool HasMain => false;
 }

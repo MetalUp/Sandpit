@@ -368,6 +368,21 @@ public static class Program {
         }
     }";
 
+//    public const string Code21 = @"
+//function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as String -> """"
+//    ";
+
+//    public const string Code21Result = @"using static GlobalConstants;
+
+//    public static partial class GlobalConstants {
+//      public static void print(string s) { System.Console.WriteLine(s); }
+//      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+//      public static string bestAttempt(IEnumerable<string> possAnswers, IList<string> possAttempts) {
+//        return """";
+//      } 
+//    }
+// ";
+
     public static readonly ASTNode Code1AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
@@ -428,17 +443,19 @@ public static class Program {
 
     private static StatNode LDN(string id, string v) => new LetDefnNode(SVN(id), SVN(v));
 
-    private static ParamDefnNode PMN(string id, string v) => new(SVN(id), SVN(v));
+    private static ParamDefnNode PMN(string id, string v) => new(SVN(id), TN(v));
 
     private static ProcDefnNode PN(string id, (string, string)[] param, params StatNode[] stats) => new(SVN(id), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats));
 
-    private static FuncDefnNode FNN(string id, string typ, (string, string)[] param, StatNode[] stats, string v) => new(SVN(id), SVN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats), SVN(v));
+    private static FuncDefnNode FNN(string id, string typ, (string, string)[] param, StatNode[] stats, string v) => new(SVN(id), TN(typ), param.Select(t => PMN(t.Item1, t.Item2)).ToArray(), AN(stats), SVN(v));
 
     private static T[] E<T>() => Array.Empty<T>();
 
     private static T[] ARR<T>(params T[] v) => v;
 
     private static ValueNode SVN(string v) => new ScalarValueNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
+
+    private static TypeNode TN(string v) => new BuiltInTypeNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
 
     private static OperatorValueNode OVN(int type, string v) => new OperatorValueNode(new CommonToken(type, v));
 

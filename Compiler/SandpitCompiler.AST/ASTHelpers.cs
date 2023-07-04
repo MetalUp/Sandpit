@@ -20,5 +20,16 @@ public static class ASTHelpers {
         };
     }
 
+    public static Constants.Types MapSymbolToBuiltInType(string? symbol) {
+        return symbol switch {
+            "VALUE_TYPE" => Constants.Types.Value,
+            "ARRAY" => Constants.Types.Array,
+            "LIST" => Constants.Types.List,
+            "DICTIONARY" => Constants.Types.Dictionary,
+            "ITERABLE" => Constants.Types.Iterable,
+            _ => Constants.Types.Unknown
+        };
+    }
+
     public static string GetTokenName(int tokenType) => SandpitParser.DefaultVocabulary.GetSymbolicName(tokenType) ?? "";
 }
