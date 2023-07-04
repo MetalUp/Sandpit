@@ -16,7 +16,7 @@ public abstract class ASTNode : IASTNode {
 
     public int TokenType => Token?.Type ?? -1;
 
-    public string TokenName => SandpitParser.DefaultVocabulary.GetSymbolicName(TokenType);
+    public string TokenName => ASTHelpers.GetTokenName(TokenType);
 
     public abstract IList<IASTNode> Children { get; }
 

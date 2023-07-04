@@ -2,15 +2,15 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class ProcNode : ASTNode, IProc {
-    public ProcNode(ValueNode id, ParamNode[] parameters, AggregateNode<StatNode> procedureBlock) {
+public class ProcDefnNode : ASTNode, IProc {
+    public ProcDefnNode(ValueNode id, ParamDefnNode[] parameters, AggregateNode<StatNode> procedureBlock) {
         ID = id;
         Parameters = parameters;
         ProcedureBlock = procedureBlock.Nodes;
         Children = new List<IASTNode> { id }.Union(parameters).Union(procedureBlock.Nodes).ToList();
     }
 
-    public ParamNode[] Parameters { get; }
+    public ParamDefnNode[] Parameters { get; }
     public IList<StatNode> ProcedureBlock { get; }
 
     public ValueNode ID { get; }

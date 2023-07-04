@@ -18,7 +18,7 @@ public class SymbolTableASTVisitor {
             IProc pn => VisitProcNode(pn),
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
-            WhileNode sn => VisitChildren(sn),
+            WhileStatNode sn => VisitChildren(sn),
             ProcStatNode sn => VisitChildren(sn),
             null => throw new NotImplementedException("null"),
             _ => VisitChildren(astNode)

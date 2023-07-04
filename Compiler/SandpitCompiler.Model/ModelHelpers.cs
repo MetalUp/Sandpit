@@ -16,4 +16,12 @@ public static class ModelHelpers {
     }
 
     public static string AsCommaSeparatedString(this IEnumerable<IModel> mm) => string.Join(", ", mm.Select(v => v.ToString())).Trim();
+
+    public static string OperatorLookup(Constants.Operators op) {
+        return op switch {
+            Constants.Operators.Eq => "==",
+            Constants.Operators.Ne => "!=",
+            _ => throw new NotImplementedException()
+        };
+    }
 }

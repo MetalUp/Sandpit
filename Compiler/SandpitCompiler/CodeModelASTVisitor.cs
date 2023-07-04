@@ -20,31 +20,31 @@ public class CodeModelASTVisitor {
 
     private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
-    private VarDeclModel BuildVarDeclModel(VarDeclNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
+    private VarDeclModel BuildVarDeclModel(VarDefnNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 
-    private ConstDeclModel BuildConstDeclModel(ConstDeclNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
+    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
 
-    private FuncModel BuildFuncModel(FuncNode fn) => new(fn.ID.Text, fn.Type.Text, fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, fn.Type.Text, fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
 
-    private VarDeclModel BuildLetDeclModel(LetDeclNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
+    private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
 
-    private ProcModel BuildProcModel(ProcNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
+    private ProcModel BuildProcModel(ProcDefnNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
-    private ParamModel BuildParamModel(ParamNode pn) => new(pn.ID.Text, pn.Type.Text);
+    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, pn.Type.Text);
 
     public IModel Visit(ASTNode astNode) {
         return astNode switch {
-            ConstDeclNode cdn => BuildConstDeclModel(cdn),
+            ConstDefnNode cdn => BuildConstDeclModel(cdn),
             FileNode fn => BuildFileModel(fn),
             MainNode mn => BuildMainModel(mn),
-            VarDeclNode vdn => BuildVarDeclModel(vdn),
-            LetDeclNode ldn => BuildLetDeclModel(ldn),
-            ProcNode pn => BuildProcModel(pn),
-            FuncNode fn => BuildFuncModel(fn),
-            ParamNode pn => BuildParamModel(pn),
+            VarDefnNode vdn => BuildVarDeclModel(vdn),
+            LetDefnNode ldn => BuildLetDeclModel(ldn),
+            ProcDefnNode pn => BuildProcModel(pn),
+            FuncDefnNode fn => BuildFuncModel(fn),
+            ParamDefnNode pn => BuildParamModel(pn),
 
             ValueNode vn => BuildValueModel(vn),
-            WhileNode sn => BuildWhileModel(sn),
+            WhileStatNode sn => BuildWhileModel(sn),
             ProcStatNode sn => BuildProcStatModel(sn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
@@ -53,13 +53,14 @@ public class CodeModelASTVisitor {
 
     private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
 
-    private IModel BuildWhileModel(WhileNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
+    private IModel BuildWhileModel(WhileStatNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
 
     private IModel BuildValueModel(ValueNode vn) {
         return vn switch {
             ScalarValueNode svn => new ValueModel(svn.Text, svn.InferredType),
-            ListNode ln => new ValueModel(ln.Texts, ln.InferredType),
-            BinaryOperatorNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
+            ListValueNode ln => new ValueModel(ln.Texts, ln.InferredType),
+            BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
+            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), on.InferredType),
             _ => throw new NotImplementedException()
         };
     }

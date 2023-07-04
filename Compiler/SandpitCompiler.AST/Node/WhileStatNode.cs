@@ -2,8 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class WhileNode : StatNode {
-    public WhileNode(ValueNode condition, AggregateNode<StatNode> procedureBlock) {
+public class WhileStatNode : StatNode {
+    public WhileStatNode(ValueNode condition, AggregateNode<StatNode> procedureBlock) {
         Condition = condition;
         ProcedureBlock = procedureBlock.Nodes;
         Children = new List<IASTNode> { condition }.Union(procedureBlock.Nodes).ToList();

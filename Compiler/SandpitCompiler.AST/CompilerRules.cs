@@ -12,10 +12,11 @@ public static class CompilerRules {
     }
 
     public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node) {
-        if (node is WhileNode wn) {
+        if (node is WhileStatNode wn) {
             return wn.Condition switch {
+                // TODO rework to 'resolve' the type of the expression
                 ScalarValueNode { InferredType: "BOOL" } => node,
-                BinaryOperatorNode { Op.Text: "==" } => node,
+                BinaryValueNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
                 _ => throw new CompileErrorException("control expression must be bool")
             };
         }

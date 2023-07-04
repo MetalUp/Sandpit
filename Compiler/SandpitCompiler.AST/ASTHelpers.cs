@@ -11,4 +11,14 @@ public static class ASTHelpers {
     public static string AsString(this IEnumerable<ASTNode> nodes) => nodes.Aggregate("", (acc, n) => $"{acc}{n.ToStringTree()} ").TrimEnd();
 
     public static string TokenToType(string t) => TokenToTypeDict.ContainsKey(t) ? TokenToTypeDict[t] : t;
+
+    public static Constants.Operators MapSymbolToOperator(string? symbol) {
+        return symbol switch {
+            "OP_EQ" => Constants.Operators.Eq,
+            "OP_NE" => Constants.Operators.Ne,
+            _ => Constants.Operators.Unknown
+        };
+    }
+
+    public static string GetTokenName(int tokenType) => SandpitParser.DefaultVocabulary.GetSymbolicName(tokenType) ?? "";
 }

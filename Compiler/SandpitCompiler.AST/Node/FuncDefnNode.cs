@@ -2,8 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class FuncNode : ASTNode, IProc {
-    public FuncNode(ValueNode id, ValueNode type, ParamNode[] parameters, AggregateNode<StatNode> functionBlock, ValueNode returnExpression) {
+public class FuncDefnNode : ASTNode, IProc {
+    public FuncDefnNode(ValueNode id, ValueNode type, ParamDefnNode[] parameters, AggregateNode<StatNode> functionBlock, ValueNode returnExpression) {
         ID = id;
         Type = type;
         ReturnExpression = returnExpression;
@@ -14,7 +14,7 @@ public class FuncNode : ASTNode, IProc {
 
     public ValueNode Type { get; }
     public ValueNode ReturnExpression { get; }
-    public ParamNode[] Parameters { get; }
+    public ParamDefnNode[] Parameters { get; }
     public IList<StatNode> FunctionBlock { get; }
 
     public ValueNode ID { get; }

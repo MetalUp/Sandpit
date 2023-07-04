@@ -4,8 +4,8 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ConstDeclNode : ASTNode, IDecl {
-    public ConstDeclNode(ValueNode id, ValueNode val) {
+public class ConstDefnNode : ASTNode, IDecl {
+    public ConstDefnNode(ValueNode id, ValueNode val) {
         ID = id;
         Val = val;
         InferredType = ASTHelpers.TokenToType(val.TokenName);
@@ -17,7 +17,7 @@ public class ConstDeclNode : ASTNode, IDecl {
 
     public string InferredType { get; }
     public string Id => ID.Text;
-    public ISymbolType SymbolType => Val is ListNode ? new ListType(new BuiltInType(InferredType)) : new BuiltInType(InferredType);
+    public ISymbolType SymbolType => Val is ListValueNode ? new ListType(new BuiltInType(InferredType)) : new BuiltInType(InferredType);
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Val.ToStringTree()})".TrimEnd();
 }

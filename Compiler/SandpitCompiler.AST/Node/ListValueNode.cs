@@ -2,8 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class ListNode : ValueNode {
-    public ListNode(params ValueNode[] valueNodes) : base(valueNodes.Any() ? valueNodes.First().Token : null) => Children = ValueNodes = valueNodes;
+public class ListValueNode : ValueNode {
+    public ListValueNode(params ValueNode[] valueNodes) : base(valueNodes.Any() ? valueNodes.First().Token : null) => Children = ValueNodes = valueNodes;
 
     private ValueNode[] ValueNodes { get; }
 
