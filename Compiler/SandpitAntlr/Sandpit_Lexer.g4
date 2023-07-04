@@ -28,6 +28,8 @@ FUNCTION:	   'function';
 IF:            'if'; 
 IMMUTABLE:	   'immutable';
 INPUT:		   'input';
+INPUT_INT:	   'inputint';
+INPUT_FLOAT:   'inputfloat';
 //IMPORT:		   'import';
 IN:            'in'; //used as for...in
 INHERITS:      'inherits';
@@ -61,13 +63,14 @@ VAR:		   'var';
 WHILE:         'while';
 WITH: 		   'with';
 
-BOOL: 'true' | 'false';
+BOOL_VALUE: 'true' | 'false';
 
 // Types
 VALUE_TYPE:  'Value' | 'Int' | 'Float' | 'Decimal' | 'Number' | 'Char' | 'String' | 'Bool' ;
 ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
+ITERABLE: 'Iterable';
 
 //Operators And Punctuators
 ASSIGN_ADD:        		  '+=';

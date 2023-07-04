@@ -1,5 +1,4 @@
 grammar Sandpit;
-
 import Sandpit_Lexer;
 
 file
@@ -71,36 +70,38 @@ procedureDef:
 procedureSignature: procedureName OPEN_BRACKET parameterList? CLOSE_BRACKET;
 
 constructor: 
-	SOL CONSTRUCTOR (OPEN_BRACKET parameterList CLOSE_BRACKET)? 
-    procedureBlock
+	SOL CONSTRUCTOR (OPEN_BRACKET parameterList? CLOSE_BRACKET)? 
+    functionBlock
 	SOL END CONSTRUCTOR
 	;
 
-property: SOL PRIVATE? PROPERTY propertyName ( type | (ASSIGN literal));
+property: SOL PRIVATE? PROPERTY propertyName ( type | (ASSIGN expression)); 
 
-procedureBlock:  (procedureStatement)*;
+procedureBlock:  (systemCall |  procedureCall |  constantDef | varDef | assignment | controlFlowStatement)*;
 
-functionBlock:  (functionStatement)* ;
+functionBlock:  (constantDef | varDef | assignment | controlFlowStatement)* ;
 
-procedureStatement: systemCall | functionStatement | procedureCall;
-
-functionStatement: constantDef | varDef | assignment | controlFlowStatement;
-
-systemCall: SOL VAR variableName ASSIGN systemKeyword
+systemCall:   SOL VAR variableName ASSIGN systemKeyword
 			| SOL assignableValue ASSIGN systemKeyword
 			; 
 
-systemKeyword: (INPUT | RANDOM | TODAY | NOW);
+systemKeyword: (INPUT | INPUT_INT | INPUT_FLOAT | RANDOM | TODAY | NOW);
 
 varDef: SOL VAR variableName ASSIGN expression;
 
-assignment: SOL (PROP|PARAM)? assignableValue (ASSIGN | assignmentOp)  expression	;
+assignment: SOL assignableValue (ASSIGN | assignmentOp)  expression	;
 
-procedureCall: 
-	SOL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	; 
+assignableValue: ((PROP|PARAM)?  valueName index?) | tupleDecomp | listDecomp;
 
-argumentList: expression (COMMA expression)*;  //TODO should support any expression but need to get round mutual self-recursion
+valueRead: literalValue | ((PROP|PARAM)? valueName) | dataStructure;
+
+tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
+
+listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
+
+procedureCall: SOL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET; 
+
+argumentList: expression (COMMA expression)*;
 
 parameterList: parameter  (COMMA parameter)*;
 
@@ -110,7 +111,7 @@ assignmentOp: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV;
 
 unaryOp: MINUS | OP_NOT;
 
-binaryOp: arithmeticOp | logicalOp | conditionalOp ;//TODO check for precedence
+binaryOp: arithmeticOp | logicalOp | conditionalOp ;
 
 arithmeticOp:  POWER | MULT | DIVIDE | MOD | INT_DIV | PLUS | MINUS;
 
@@ -180,12 +181,12 @@ case_default :
 
 expression
 	:  LINE_CONTINUATION expression 
-	| simpleExpression  
-	| sliceOfList
+	| valueRead  
 	| unaryOp expression
 	| expression binaryOp expression
 	| functionCall 
 	| expression DOT functionCall 
+	| expression DOT propertyName
 	| instantiation
 	| ifExpression
 	| OPEN_BRACKET expression CLOSE_BRACKET
@@ -198,15 +199,9 @@ ifExpression: SOL? IF SOL? expression SOL? THEN SOL? expression SOL? ELSE SOL? e
 
 lambda: LAMBDA argumentList ARROW expression; 
 
-letIn: LET SOL? assignableValue ASSIGN expression (COMMA variableName ASSIGN expression)* SOL? IN SOL?; 
+letIn: LET SOL? assignableValue ASSIGN expression (COMMA SOL? assignableValue ASSIGN expression)* SOL? IN SOL?; 
 
-simpleExpression: literal |  valueName | tupleValue; 
-
-tupleValue: OPEN_BRACKET expression (COMMA expression)+ CLOSE_BRACKET;
-
-index: OPEN_SQ_BRACKET (expression | expression COMMA expression) CLOSE_SQ_BRACKET; 
- 
-sliceOfList: valueName OPEN_SQ_BRACKET range CLOSE_SQ_BRACKET;
+index: OPEN_SQ_BRACKET (expression | expression COMMA expression | range) CLOSE_SQ_BRACKET;
 
 range
 	: expression DOUBLE_DOT expression 
@@ -214,30 +209,24 @@ range
 	| DOUBLE_DOT expression 
 	; 
 
-assignableValue: valueName index? | tupleDecomp | listDecomp;
-
-tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
-
-listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
-
-literal: literalValue | literalDataStructure;
-
 literalValue:  bool | integer | float | decimal | char | string;
 
-bool: BOOL;
+bool: BOOL_VALUE;
 integer: LITERAL_INTEGER;
-float: LITERAL_FLOAT;
+float: LITERAL_FLOAT; 
 decimal : LITERAL_DECIMAL;
 char: LITERAL_CHAR;
 string:  LITERAL_STRING;
 
-literalDataStructure: literalList | literalDictionary;
+dataStructure: tuple | list | dictionary;
 
-literalList: OPEN_BRACE (literal (COMMA literal)*)? CLOSE_BRACE;
+tuple:  OPEN_BRACKET expression COMMA expression (COMMA expression)* CLOSE_BRACKET; 
+ 
+list: OPEN_BRACE (expression (COMMA expression)*)? CLOSE_BRACE;
 
-literalDictionary: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE;
+dictionary: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE;
 
-kvp: literal COLON literal;
+kvp: expression COLON expression;
 
 functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
@@ -248,17 +237,21 @@ instantiation:
 
 withClause: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE;
 
-type: VALUE_TYPE | tupleType | dataStructureType | className | funcType;
+type:  VALUE_TYPE | dataStructureType | className | funcType ;
 
-dataStructureType: arrayType | listType | dictionaryType;
+dataStructureType: arrayType | listType | dictionaryType | tupleType | iterableType;
 
 tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
 
 arrayType: ARRAY generic;
 
-listType: LIST generic;
+listType: LIST generic; 
 
 dictionaryType: DICTIONARY generic;
+
+iterableType: ITERABLE generic;
+
+genericType: type generic;
     
 generic: LT type GT;
     

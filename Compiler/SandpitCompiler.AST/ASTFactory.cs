@@ -52,7 +52,7 @@ public static class ASTFactory {
             FunctionMethodContext c => visitor.Build(c),
             FunctionNameContext c => visitor.Build(c),
             FunctionSignatureContext c => visitor.Build(c),
-            FunctionStatementContext c => visitor.Build(c),
+          
             FunctionWithBodyContext c => visitor.Build(c),
             FuncTypeContext c => visitor.Build(c),
             GenericContext c => visitor.Build(c),
@@ -66,11 +66,10 @@ public static class ASTFactory {
             LetNameContext c => visitor.Build(c),
             ListDecompContext c => visitor.Build(c),
             ListTypeContext c => visitor.Build(c),
-            LiteralContext c => visitor.Build(c),
-            LiteralDataStructureContext c => visitor.Build(c),
-            LiteralDictionaryContext c => visitor.Build(c),
-            LiteralListContext c => visitor.Build(c),
             LiteralValueContext c => visitor.Build(c),
+            DataStructureContext c => visitor.Build(c),
+            DictionaryContext c => visitor.Build(c),
+            ListContext c => visitor.Build(c),
             LogicalOpContext c => visitor.Build(c),
             MainContext c => visitor.Build(c),
             MutableClassContext c => visitor.Build(c),
@@ -83,13 +82,12 @@ public static class ASTFactory {
             ProcedureMethodContext c => visitor.Build(c),
             ProcedureNameContext c => visitor.Build(c),
             ProcedureSignatureContext c => visitor.Build(c),
-            ProcedureStatementContext c => visitor.Build(c),
+           
             PropertyContext c => visitor.Build(c),
             PropertyNameContext c => visitor.Build(c),
             RangeContext c => visitor.Build(c),
             RepeatContext c => visitor.Build(c),
-            SimpleExpressionContext c => visitor.Build(c),
-            SliceOfListContext c => visitor.Build(c),
+         
             StringContext c => visitor.Build(c),
             SwitchContext c => visitor.Build(c),
             SystemCallContext c => visitor.Build(c),
@@ -98,6 +96,7 @@ public static class ASTFactory {
             TypeContext c => visitor.Build(c),
             UnaryOpContext c => visitor.Build(c),
             ValueNameContext c => visitor.Build(c),
+            ValueReadContext c => visitor.Build(c),
             VarDefContext c => visitor.Build(c),
             VariableNameContext c => visitor.Build(c),
             WhileContext c => visitor.Build(c),
@@ -123,7 +122,7 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BinaryOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => visitor.Visit<ValueNode>(context.BOOL());
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, BoolContext context) => visitor.Visit<ValueNode>(context.BOOL_VALUE());
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();
@@ -154,7 +153,7 @@ public static class ASTFactory {
             return new BinaryValueNode(op, e1, e2);
         }
 
-        return visitor.Visit(context.simpleExpression());
+        return visitor.Visit(context.valueRead());
     }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionFunctionContext context) {
@@ -200,10 +199,6 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionSignatureContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionStatementContext context) {
-        var n = (ParserRuleContext)context.children.First();
-        return visitor.Visit<StatNode>(n);
-    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionWithBodyContext context) {
         var id = visitor.Visit<ValueNode>(context.functionSignature().functionName());
@@ -233,20 +228,16 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListDecompContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListTypeContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralContext context) {
-        var v = (ParserRuleContext)context.literalValue() ?? context.literalDataStructure();
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DataStructureContext context) {
+        var v = (ParserRuleContext)context.list() ?? context.dictionary();
         return visitor.Visit(v);
     }
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDataStructureContext context) {
-        var v = (ParserRuleContext)context.literalList() ?? context.literalDictionary();
-        return visitor.Visit(v);
-    }
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DictionaryContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralDictionaryContext context) => throw new NotImplementedException();
-
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, LiteralListContext context) {
-        var items = context.literal().Select(visitor.Visit<ValueNode>);
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ListContext context) {
+        var items = context.expression().Select(visitor.Visit<ValueNode>);
 
         return new ListValueNode(items.ToArray());
     }
@@ -295,19 +286,13 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureSignatureContext context) => throw new NotImplementedException();
 
-    private static StatNode Build(this SandpitBaseVisitor<ASTNode> visitor, ProcedureStatementContext context) {
-        var n = (ParserRuleContext)context.children.First();
-        return visitor.Visit<StatNode>(n);
-    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyNameContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RangeContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RepeatContext context) => throw new NotImplementedException();
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SimpleExpressionContext context) => visitor.Visit(context.children.First());
-
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, SliceOfListContext context) => throw new NotImplementedException();
+   
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, StringContext context) => visitor.Visit<ValueNode>(context.LITERAL_STRING());
 
@@ -321,6 +306,8 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, UnaryOpContext context) => throw new NotImplementedException();
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ValueNameContext context) => visitor.Visit(context.children.First());
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ValueReadContext context) => visitor.Visit(context.children.First());
 
     private static VarDefnNode Build(this SandpitBaseVisitor<ASTNode> visitor, VarDefContext context) =>
         new(visitor.Visit<ValueNode>(context.variableName()), visitor.Visit<ValueNode>(context.expression()));
