@@ -8,7 +8,7 @@ public class ValueModel : IModel {
     }
 
     public ValueModel(string[] val, string retType,  string type) {
-        Val = $"new {type} {{ {string.Join(',', val)} }}.ToImmutableList()";
+        Val = $"new {type} {{ {string.Join(", ", val)} }}.ToImmutableList()";
         Type = retType;
         Prefix = "static readonly";
     }

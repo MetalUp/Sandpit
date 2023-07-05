@@ -257,7 +257,7 @@ public static class Program {
     }";
 
     public const string Code15 = @"
-    constant names = {""bill"",""ben""} 
+    constant names = {""bill"", ""ben""} 
     ";
 
     public const string Code15Result = @"using System.Collections.Generic;
@@ -266,7 +266,7 @@ public static class Program {
 
     public static partial class GlobalConstants {
      
-      public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
+      public static readonly IList<string> names = new List<string> { ""bill"", ""ben"" }.ToImmutableList();
     }";
 
     public const string Code16 = @"
@@ -670,6 +670,89 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
         : isYellow(attempt, target, n) 
           ? setChar(target, indexOf(target, attempt[n]), '.')
           : target;
+      }
+    }";
+
+           public const string Code29 = @"
+function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+
+function setChar(word String, n Int, newChar Char) as String -> 
+    word[..n] + newChar + word[n+1..]
+
+function setAttemptIfGreen(attempt String, target String, n Int) as String ->
+    if attempt.isGreen(target, n) then attempt.setChar(n, '*') else attempt
+
+function setTargetIfGreen(attempt String, target String, n Int) as String -> 
+    if attempt.isGreen(target, n) then target.setChar(n, '.') else target
+
+function isYellow(attempt String, target String, n Int) as Bool -> target.contains(attempt[n])
+
+function isAlreadyMarkedGreen(attempt String, n Int) as Bool -> attempt[n] is '*'
+
+function setAttemptIfYellow(attempt String, target String, n Int) as String -> 
+    if isAlreadyMarkedGreen(attempt, n) then attempt
+    else if attempt.isYellow(target, n) then attempt.setChar(n, '+')
+    else attempt.setChar(n, '_')
+
+function setTargetIfYellow(attempt String, target String, n Int) as String  ->
+    if attempt.isAlreadyMarkedGreen(n) then target
+    else if attempt.isYellow(target, n) then target.setChar(target.indexOf(attempt[n]), '.')
+    else target
+
+function evaluateGreens(attempt String, target String) as (String, String) ->
+    range(5).reduce((attempt, target), _
+    lambda a, x-> _
+    (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
+    ";
+
+    public const string Code29Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+    
+      public static bool isGreen(string attempt, string target, int n) {
+        return target[n] == attempt[n];
+      } 
+
+      public static string setChar(string word, int n, char newChar) {
+        return word[..(n)] + newChar + word[(n + 1)..];
+      }
+
+      public static string setAttemptIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+      }
+
+      public static string setTargetIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(target, n, '.') : target;
+      }
+
+      public static bool isYellow(string attempt, string target, int n) {
+        return contains(target, attempt[n]);
+      }
+
+      public static bool isAlreadyMarkedGreen(string attempt, int n) {
+        return attempt[n] == '*';
+      }
+
+      public static string setAttemptIfYellow(string attempt, string target, int n) {
+        return isAlreadyMarkedGreen(attempt, n) 
+        ? attempt
+        : isYellow(attempt, target, n) 
+          ? setChar(attempt, n, '+')
+          : setChar(attempt, n, '_');
+      }
+
+      public static string setTargetIfYellow(string attempt, string target, int n) {
+        return isAlreadyMarkedGreen(attempt, n) 
+        ? target
+        : isYellow(attempt, target, n) 
+          ? setChar(target, indexOf(target, attempt[n]), '.')
+          : target;
+      }
+
+      public static (string, string) evaluateGreens(string attempt, string target) {
+         return reduce(range(5), (attempt, target), (a, x) => (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)));
       }
     }";
 

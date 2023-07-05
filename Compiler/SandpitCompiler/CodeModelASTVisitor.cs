@@ -65,6 +65,9 @@ public class CodeModelASTVisitor {
             RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             TernaryValueNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
             FunctionCallValueNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),
+            TupleValueNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
+            LambdaValueNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
+            DereferenceNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
             _ => throw new NotImplementedException()
         };
     }

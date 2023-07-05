@@ -4,17 +4,13 @@ using SandpitCompiler.AST.Node;
 namespace SandpitCompiler.Model;
 
 public static class ModelHelpers {
-
-
-    public static string TypeLookup(string t)
-    {
-        return t switch
-        {
+    public static string TypeLookup(string t) {
+        return t switch {
             Constants.Bacon_Integer => "int",
             Constants.Bacon_String => "string",
             Constants.Bacon_Bool => "bool",
             Constants.Bacon_Char => "char",
-            _ => throw new NotImplementedException(),
+            _ => throw new NotImplementedException()
         };
     }
 
@@ -22,8 +18,13 @@ public static class ModelHelpers {
         return tn.TokenName switch {
             "ITERABLE" => $"IEnumerable<{TypeLookup(tn.ParameterizedType)}>",
             "LIST" => $"IList<{TypeLookup(tn.ParameterizedType)}>",
-            _ => throw new NotImplementedException(),
+            _ => throw new NotImplementedException()
         };
+    }
+
+    private static string TypeLookup(TupleTypeNode tn) {
+        var types = tn.Items.Select(TypeLookup);
+        return $"({string.Join(", ", types)})";
     }
 
     private static string TypeLookup(BuiltInTypeNode tn) {
@@ -34,10 +35,10 @@ public static class ModelHelpers {
             "BOOL_VALUE" => "bool",
             "VALUE_TYPE" => TypeLookup(tn.Text),
             "IDENTIFIER" => "", // TODO Symbol table lookup ? 
-            "OP_EQ"  => "", // TODO Symbol table lookup ? 
-            "OP_NE"  => "", // TODO Symbol table lookup ? 
-            "PLUS"  => "", // TODO Symbol table lookup ? 
-            _ => throw new NotImplementedException(),
+            "OP_EQ" => "", // TODO Symbol table lookup ? 
+            "OP_NE" => "", // TODO Symbol table lookup ? 
+            "PLUS" => "", // TODO Symbol table lookup ? 
+            _ => throw new NotImplementedException()
         };
     }
 
@@ -45,7 +46,8 @@ public static class ModelHelpers {
         return tn switch {
             BuiltInTypeNode n => TypeLookup(n),
             GenericTypeNode n => TypeLookup(n),
-            _ => throw new NotImplementedException(),
+            TupleTypeNode n => TypeLookup(n),
+            _ => throw new NotImplementedException()
         };
     }
 

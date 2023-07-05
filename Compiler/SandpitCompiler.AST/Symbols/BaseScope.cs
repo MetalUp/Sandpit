@@ -25,5 +25,5 @@ public abstract class BaseScope : IScope {
         Define(new BuiltInTypeSymbol("Boolean"));
     }
 
-    public override string ToString() => string.Join(',', symbols.Keys);
+    public override string ToString() => string.Join(", ", symbols.Keys);
 }
