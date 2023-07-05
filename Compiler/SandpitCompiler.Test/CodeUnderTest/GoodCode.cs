@@ -21,6 +21,7 @@ end main
 public static partial class GlobalConstants {
   public static void print(string s) { System.Console.WriteLine(s); }
   public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+  public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -42,6 +43,7 @@ end main
 public static partial class GlobalConstants {
   public static void print(string s) { System.Console.WriteLine(s); }
   public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+  public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 }
 public static class Program {
     private static void Main(string[] args) {
@@ -62,6 +64,7 @@ public static class Program {
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
           public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
           public const int pi = 4;
         }";
 
@@ -77,6 +80,7 @@ public static class Program {
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
           public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
           public const int pi = 4;
           public const int e = 3;
         }";
@@ -95,6 +99,7 @@ public static class Program {
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
           public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
           public const int pi = 4;
         }
         public static class Program {
@@ -119,6 +124,7 @@ public static class Program {
         public static partial class GlobalConstants {
           public static void print(string s) { System.Console.WriteLine(s); }
           public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+          public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
           public const int pi = 4;
         }
         public static class Program {
@@ -141,6 +147,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static void p() { 
         var a = 1; 
       }  
@@ -157,6 +164,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static int f(int a) { 
         return a;
       }  
@@ -175,6 +183,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static void p(int z) { 
         var a = z; 
       }  
@@ -193,6 +202,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static int f(int a) { 
         return 1;
       }  
@@ -211,6 +221,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static int f(int a) { 
         return a;
       }  
@@ -230,6 +241,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static int f(int a) {
         var b = a;
         return b;
@@ -249,6 +261,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
     }
     public static class Program {
         private static void Main(string[] args) {
@@ -267,6 +280,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public const string name = ""bill"";
     }";
 
@@ -281,6 +295,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static readonly IList<string> names = new List<string> { ""bill"",""ben"" }.ToImmutableList();
     }";
 
@@ -299,6 +314,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
     }
     public static class Program {
         private static void Main(string[] args) {
@@ -324,6 +340,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
     }
     public static class Program {
         private static void Main(string[] args) {
@@ -351,6 +368,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static void printtest(string s) { 
         var a = s; 
       }
@@ -375,6 +393,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
     }
     public static class Program {
         private static void Main(string[] args) {
@@ -398,6 +417,7 @@ public static class Program {
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
     }
     public static class Program {
         private static void Main(string[] args) {
@@ -419,6 +439,7 @@ function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
       public static string bestAttempt(IEnumerable<string> possAnswers, IList<string> possAttempts) {
         return """";
       } 
@@ -435,6 +456,7 @@ function isGreen(attempt String, target String, n Int) as Bool -> target[n] is a
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 
       public static bool isGreen(string attempt, string target, int n) {
         return target[n] == attempt[n];
@@ -453,6 +475,7 @@ function setChar(word String, n Int, newChar Char) as String ->
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 
       public static string setChar(string word, int n, char newChar) {
         return word[..(n)] + newChar + word[(n + 1)..];
@@ -476,6 +499,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 
       public static bool isGreen(string attempt, string target, int n) {
         return target[n] == attempt[n];
@@ -507,6 +531,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     public static partial class GlobalConstants {
       public static void print(string s) { System.Console.WriteLine(s); }
       public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 
       public static bool isGreen(string attempt, string target, int n) {
         return target[n] == attempt[n];
@@ -518,6 +543,51 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
 
       public static string setAttemptIfGreen(string attempt, string target, int n) {
         return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+      }
+    }";
+
+    public const string Code26 = @"
+function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+
+function setChar(word String, n Int, newChar Char) as String -> 
+    word[..n] + newChar + word[n+1..]
+
+function setAttemptIfGreen(attempt String, target String, n Int) as String ->
+    if attempt.isGreen(target, n) then attempt.setChar(n, '*') else attempt
+
+function setTargetIfGreen(attempt String, target String, n Int) as String -> 
+    if attempt.isGreen(target, n) then target.setChar(n, '.') else target
+
+function isYellow(attempt String, target String, n Int) as Bool -> target.contains(attempt[n])
+    ";
+
+    public const string Code26Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+      public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
+
+      public static bool isGreen(string attempt, string target, int n) {
+        return target[n] == attempt[n];
+      } 
+
+      public static string setChar(string word, int n, char newChar) {
+        return word[..(n)] + newChar + word[(n + 1)..];
+      }
+
+      public static string setAttemptIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+      }
+
+      public static string setTargetIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(target, n, '.') : target;
+      }
+
+      public static bool isYellow(string attempt, string target, int n) {
+        return contains(target, attempt[n]);
       }
     }";
 
@@ -603,7 +673,4 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
 
     #endregion
 
-    public static string setChar(string word, int n, char newChar) {
-        return word[..n] + newChar + word[(n + 1)..];
-    } 
 }
