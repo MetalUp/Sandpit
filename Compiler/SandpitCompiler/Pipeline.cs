@@ -44,7 +44,9 @@ public static class Pipeline {
     private static string FileNameRoot(string fileName) => fileName.Split('.').First();
 
     private static void CompileCsharpCode(string fn, string csCode, bool console) {
-        var asm = Compiler.Compile(csCode, console);
+        var codeWithLib = csCode + LibraryFunctions.AllLibraryFunctions;
+
+        var asm = Compiler.Compile(codeWithLib, console);
 
         File.WriteAllBytes($"{FileNameRoot(fn)}.dll", asm);
     }
