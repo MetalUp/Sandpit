@@ -424,6 +424,41 @@ function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as
       } 
     }";
 
+    public const string Code22 = @"
+function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+    ";
+
+    public const string Code22Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+
+      public static bool isGreen(string attempt, string target, int n) {
+        return target[n] == attempt[n];
+      } 
+    }";
+
+    public const string Code23 = @"
+function setChar(word String, n Int, newChar Char) as String -> 
+    word[..n] + newChar + word[n+1..]
+    ";
+
+    public const string Code23Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+
+      public static string setChar(string word, int n, char newChar) {
+        return word[..(n)] + newChar + word[(n + 1)..];
+      } 
+    }";
+
     public static readonly ASTNode Code1AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
@@ -505,4 +540,8 @@ function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as
     private static ValueNode BON(OperatorValueNode op, ValueNode lhs, ValueNode rhs) => new BinaryValueNode(op, lhs, rhs);
 
     #endregion
+
+    public static string setChar(string word, int n, char newChar) {
+        return word[..n] + newChar + word[(n + 1)..];
+    } 
 }

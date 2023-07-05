@@ -46,15 +46,19 @@ public class CompileTest {
         var codeFields = typeof(GoodCode).GetFields().Where(f => f.Name.StartsWith("Code") && !(f.Name.EndsWith("Result") || f.Name.EndsWith("AST")));
 
         foreach (var codeField in codeFields) {
-            var id = codeField.Name;
-            var resultField = typeof(GoodCode).GetField($"{id}Result");
-            var code = GetValue(codeField);
-            var result = GetValue(resultField);
-
-            TestGoodCode(id, code, result);
-
-            Console.WriteLine($"Tested {id}");
+            TestGoodCode(codeField);
         }
+    }
+
+    private static void TestGoodCode(FieldInfo codeField) {
+        var id = codeField.Name;
+        var resultField = typeof(GoodCode).GetField($"{id}Result");
+        var code = GetValue(codeField);
+        var result = GetValue(resultField);
+
+        TestGoodCode(id, code, result);
+
+        Console.WriteLine($"Tested {id}");
     }
 
     [TestMethod]
@@ -84,8 +88,19 @@ public class CompileTest {
         TestASTs(codeFields);
     }
 
+    private void DebugHelperTestGoodCode(string name) {
+        var codeFields = typeof(GoodCode).GetFields().Where(f => f.Name == name);
+        TestGoodCode(codeFields.Single());
+    }
+
+
     [TestMethod]
     public void DebugTestAST() {
-        DebugHelperTestAST("Code15");
+        DebugHelperTestAST("Code22");
+    }
+
+    [TestMethod]
+    public void DebugTestGoodCode() {
+        DebugHelperTestGoodCode("Code23");
     }
 }

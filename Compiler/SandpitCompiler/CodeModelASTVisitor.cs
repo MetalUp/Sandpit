@@ -61,6 +61,8 @@ public class CodeModelASTVisitor {
             ListValueNode ln => new ValueModel(ln.Texts, $"IList<{ModelHelpers.TypeLookup(ln.InferredType)}>", $"List<{ModelHelpers.TypeLookup(ln.InferredType)}>"),
             BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
             OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), ModelHelpers.TypeLookup(on.InferredType)),
+            IndexValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
+            RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             _ => throw new NotImplementedException()
         };
     }

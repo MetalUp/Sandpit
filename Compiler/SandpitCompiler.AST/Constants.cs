@@ -25,7 +25,9 @@ public static class Constants {
 
     public const string Bacon_Integer = "Int";
     public const string Bacon_String = "String";
+    public const string Bacon_Bool = "Bool";
 
     public const string Bacon_Iterable = "Iterable";
     public const string Bacon_List = "List";
+    public const string Bacon_Char = "Char";
 }

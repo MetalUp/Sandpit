@@ -52,12 +52,12 @@ public static class ASTFactory {
             FunctionMethodContext c => visitor.Build(c),
             FunctionNameContext c => visitor.Build(c),
             FunctionSignatureContext c => visitor.Build(c),
-          
             FunctionWithBodyContext c => visitor.Build(c),
             FuncTypeContext c => visitor.Build(c),
             GenericContext c => visitor.Build(c),
             IfContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
+            IndexContext c => visitor.Build(c),
             InstantiationContext c => visitor.Build(c),
             IntegerContext c => visitor.Build(c),
             IterableTypeContext c => visitor.Build(c),
@@ -83,12 +83,10 @@ public static class ASTFactory {
             ProcedureMethodContext c => visitor.Build(c),
             ProcedureNameContext c => visitor.Build(c),
             ProcedureSignatureContext c => visitor.Build(c),
-           
             PropertyContext c => visitor.Build(c),
             PropertyNameContext c => visitor.Build(c),
             RangeContext c => visitor.Build(c),
             RepeatContext c => visitor.Build(c),
-         
             StringContext c => visitor.Build(c),
             SwitchContext c => visitor.Build(c),
             SystemCallContext c => visitor.Build(c),
@@ -119,7 +117,13 @@ public static class ASTFactory {
     }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArgumentListContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArithmeticOpContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArithmeticOpContext context) {
+
+
+        return visitor.Visit<OperatorValueNode>(context.children.First());
+
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ArrayTypeContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignableValueContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
@@ -160,6 +164,14 @@ public static class ASTFactory {
 
             return new BinaryValueNode(op, e1, e2);
         }
+
+        if (context.index() is { } indexContext) {
+            var expr = visitor.Visit<ValueNode>(context.expression().First());
+            var range = visitor.Visit<ValueNode>(indexContext);
+
+            return new IndexValueNode(expr, range);
+        }
+
 
         return visitor.Visit(context.valueRead());
     }
@@ -227,6 +239,14 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ImmutableClassContext context) => throw new NotImplementedException();
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IndexContext context) {
+        if (context.range() is { } rangeContext) {
+            return visitor.Visit<ValueNode>(rangeContext);
+        }
+
+        return visitor.Visit<ValueNode>(context.expression().First());
+    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, InstantiationContext context) => throw new NotImplementedException();
 
@@ -311,7 +331,15 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, PropertyNameContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RangeContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RangeContext context) {
+
+        bool prefix = context.children.First() is ITerminalNode;
+        var expr1 =  visitor.Visit<ValueNode>(context.children[prefix ? 1 : 0]);
+        var expr2 = context.ChildCount == 3 ? visitor.Visit<ValueNode>(context.children[2]) : null;
+
+        return new RangeValueNode(prefix, expr1, expr2);
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, RepeatContext context) => throw new NotImplementedException();
 
    

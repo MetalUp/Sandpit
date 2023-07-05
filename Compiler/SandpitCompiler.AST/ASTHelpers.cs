@@ -16,6 +16,7 @@ public static class ASTHelpers {
         return symbol switch {
             "OP_EQ" => Constants.Operators.Eq,
             "OP_NE" => Constants.Operators.Ne,
+            "PLUS" => Constants.Operators.Add,
             _ => Constants.Operators.Unknown
         };
     }

@@ -12,6 +12,8 @@ public static class ModelHelpers {
         {
             Constants.Bacon_Integer => "int",
             Constants.Bacon_String => "string",
+            Constants.Bacon_Bool => "bool",
+            Constants.Bacon_Char => "char",
             _ => throw new NotImplementedException(),
         };
     }
@@ -33,6 +35,7 @@ public static class ModelHelpers {
             "IDENTIFIER" => "", // TODO Symbol table lookup ? 
             "OP_EQ"  => "", // TODO Symbol table lookup ? 
             "OP_NE"  => "", // TODO Symbol table lookup ? 
+            "PLUS"  => "", // TODO Symbol table lookup ? 
             _ => throw new NotImplementedException(),
         };
     }
@@ -56,6 +59,7 @@ public static class ModelHelpers {
         return op switch {
             Constants.Operators.Eq => "==",
             Constants.Operators.Ne => "!=",
+            Constants.Operators.Add => "+",
             _ => throw new NotImplementedException()
         };
     }
