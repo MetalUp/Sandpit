@@ -56,6 +56,7 @@ public static class ASTFactory {
             FuncTypeContext c => visitor.Build(c),
             GenericContext c => visitor.Build(c),
             IfContext c => visitor.Build(c),
+            IfExpressionContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
             IndexContext c => visitor.Build(c),
             InstantiationContext c => visitor.Build(c),
@@ -135,7 +136,10 @@ public static class ASTFactory {
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CaseContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, Case_defaultContext context) => throw new NotImplementedException();
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CharContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, CharContext context) {
+        return visitor.Visit<ValueNode>(context.children.First());
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ClassDefContext context) => throw new NotImplementedException();
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ClassNameContext context) => throw new NotImplementedException();
 
@@ -157,6 +161,21 @@ public static class ASTFactory {
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, DictionaryTypeContext context) => throw new NotImplementedException();
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ExpressionContext context) {
+        if (context.ifExpression() is { } ifExpr) {
+            return visitor.Visit<ValueNode>(ifExpr);
+        }
+
+        if (context.DOT() is { } dot) {
+            var fn = visitor.Visit<FunctionCallValueNode>(context.functionCall());
+            var p = visitor.Visit<ValueNode>(context.expression().First());
+            fn.InsertExtensionParameter(p);
+            return fn;
+        }
+
+        if (context.functionCall() is { } f) {
+            return visitor.Visit<ValueNode>(f);
+        }
+
         if (context.binaryOp() is { } opContext) {
             var e1 = visitor.Visit<ValueNode>(context.expression().First());
             var e2 = visitor.Visit<ValueNode>(context.expression().Last());
@@ -206,7 +225,12 @@ public static class ASTFactory {
         return new AggregateNode<StatNode>(statNodes);
     }
 
-    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionCallContext context) => throw new NotImplementedException();
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionCallContext context) {
+        var id = visitor.Visit<ValueNode>(context.functionName());
+        var pps = context.argumentList().expression().Select(visitor.Visit<ValueNode>);
+
+        return new FunctionCallValueNode(id, pps.ToArray());
+    }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, FunctionDefContext context) {
         var func = (ParserRuleContext)context.expressionFunction() ?? context.functionWithBody();
@@ -238,6 +262,16 @@ public static class ASTFactory {
     }
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfContext context) => throw new NotImplementedException();
+
+    private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IfExpressionContext context) {
+        var ctrl = visitor.Visit<ValueNode>(context.expression()[0]);
+        var lhs = visitor.Visit<ValueNode>(context.expression()[1]);
+        var rhs = visitor.Visit<ValueNode>(context.expression()[2]);
+
+
+        return new TernaryValueNode(ctrl, lhs, rhs);
+    }
+
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, ImmutableClassContext context) => throw new NotImplementedException();
 
     private static ASTNode Build(this SandpitBaseVisitor<ASTNode> visitor, IndexContext context) {

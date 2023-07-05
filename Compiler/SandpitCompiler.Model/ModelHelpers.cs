@@ -30,6 +30,7 @@ public static class ModelHelpers {
         return tn.TokenName switch {
             "LITERAL_INTEGER" => "int",
             "LITERAL_STRING" => "string",
+            "LITERAL_CHAR" => "char",
             "BOOL_VALUE" => "bool",
             "VALUE_TYPE" => TypeLookup(tn.Text),
             "IDENTIFIER" => "", // TODO Symbol table lookup ? 

@@ -459,6 +459,68 @@ function setChar(word String, n Int, newChar Char) as String ->
       } 
     }";
 
+    public const string Code24 = @"
+function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+
+function setChar(word String, n Int, newChar Char) as String -> 
+    word[..n] + newChar + word[n+1..]
+
+function setAttemptIfGreen(attempt String, target String, n Int) as String ->
+    if isGreen(attempt, target, n) then setChar(attempt, n, '*') else attempt
+    ";
+
+    public const string Code24Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+
+      public static bool isGreen(string attempt, string target, int n) {
+        return target[n] == attempt[n];
+      } 
+
+      public static string setChar(string word, int n, char newChar) {
+        return word[..(n)] + newChar + word[(n + 1)..];
+      }
+
+      public static string setAttemptIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+      }
+    }";
+
+    public const string Code25 = @"
+function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+
+function setChar(word String, n Int, newChar Char) as String -> 
+    word[..n] + newChar + word[n+1..]
+
+function setAttemptIfGreen(attempt String, target String, n Int) as String ->
+    if attempt.isGreen(target, n) then attempt.setChar(n, '*') else attempt
+    ";
+
+    public const string Code25Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+    public static partial class GlobalConstants {
+      public static void print(string s) { System.Console.WriteLine(s); }
+      public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
+
+      public static bool isGreen(string attempt, string target, int n) {
+        return target[n] == attempt[n];
+      } 
+
+      public static string setChar(string word, int n, char newChar) {
+        return word[..(n)] + newChar + word[(n + 1)..];
+      }
+
+      public static string setAttemptIfGreen(string attempt, string target, int n) {
+        return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+      }
+    }";
+
     public static readonly ASTNode Code1AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
