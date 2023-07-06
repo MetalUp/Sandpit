@@ -1,14 +1,16 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class ConstDeclModel : IModel {
-    public ConstDeclModel(string id, ValueModel value) {
+    public ConstDeclModel(IModel id, IModel value, IModel type) {
         ID = id;
         Value = value;
+        Type = type;
     }
 
-    private string ID { get; }
-    private ValueModel Value { get; }
+    private IModel ID { get; }
+    private IModel Value { get; }
+    public IModel Type { get; }
 
-    public override string ToString() => $"public {Value.Prefix} {Value.Type} {ID} = {Value.Val};".Trim();
+    public override string ToString() => $"public {Type} {ID} = {Value};".Trim();
     public bool HasMain => false;
 }

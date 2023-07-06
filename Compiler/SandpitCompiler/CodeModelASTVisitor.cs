@@ -22,7 +22,7 @@ public class CodeModelASTVisitor {
 
     private VarDeclModel BuildVarDeclModel(VarDefnNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
 
-    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
+    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(Visit(vdn.ID), (ValueModel)Visit(vdn.Val), Visit(vdn.Val.InferredType));
 
     private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, ModelHelpers.TypeLookup(fn.Type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
 
@@ -46,6 +46,7 @@ public class CodeModelASTVisitor {
             ValueNode vn => BuildValueModel(vn),
             WhileStatNode sn => BuildWhileModel(sn),
             ProcStatNode sn => BuildProcStatModel(sn),
+            BuiltInTypeNode n => new TypeModel(ModelHelpers.TypeLookup(n)),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
@@ -57,10 +58,10 @@ public class CodeModelASTVisitor {
 
     private IModel BuildValueModel(ValueNode vn) {
         return vn switch {
-            ScalarValueNode svn => new ValueModel(svn.Text, ModelHelpers.TypeLookup(svn.InferredType)),
-            ListValueNode ln => new ValueModel(ln.Texts, $"IList<{ModelHelpers.TypeLookup(ln.InferredType)}>", $"List<{ModelHelpers.TypeLookup(ln.InferredType)}>"),
+            ScalarValueNode svn => new ValueModel(new StringModel(svn.Text), Visit(svn.InferredType)),
+            ListValueNode ln => new ValueModel(ln.ValueNodes.Select(Visit).ToArray(), Visit(ln.InferredType), Visit(ln.InferredType)),
             BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
-            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), ModelHelpers.TypeLookup(on.InferredType)),
+            OperatorValueNode on => new ValueModel(new StringModel(ModelHelpers.OperatorLookup(on.Operator)), Visit(on.InferredType)),
             IndexValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
             RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             TernaryValueNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
@@ -68,6 +69,7 @@ public class CodeModelASTVisitor {
             TupleValueNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
             LambdaValueNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
             DereferenceNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
+            LetValueNode ln => new LetModel(Visit(ln.Expr), Visit(ln.ID)),
             _ => throw new NotImplementedException()
         };
     }

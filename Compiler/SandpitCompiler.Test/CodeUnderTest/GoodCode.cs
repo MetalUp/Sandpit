@@ -756,6 +756,122 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
       }
     }";
 
+//               public const string Code30 = @"
+//function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
+
+//function setChar(word String, n Int, newChar Char) as String -> 
+//    word[..n] + newChar + word[n+1..]
+
+//function setAttemptIfGreen(attempt String, target String, n Int) as String ->
+//    if attempt.isGreen(target, n) then attempt.setChar(n, '*') else attempt
+
+//function setTargetIfGreen(attempt String, target String, n Int) as String -> 
+//    if attempt.isGreen(target, n) then target.setChar(n, '.') else target
+
+//function isYellow(attempt String, target String, n Int) as Bool -> target.contains(attempt[n])
+
+//function isAlreadyMarkedGreen(attempt String, n Int) as Bool -> attempt[n] is '*'
+
+//function setAttemptIfYellow(attempt String, target String, n Int) as String -> 
+//    if isAlreadyMarkedGreen(attempt, n) then attempt
+//    else if attempt.isYellow(target, n) then attempt.setChar(n, '+')
+//    else attempt.setChar(n, '_')
+
+//function setTargetIfYellow(attempt String, target String, n Int) as String  ->
+//    if attempt.isAlreadyMarkedGreen(n) then target
+//    else if attempt.isYellow(target, n) then target.setChar(target.indexOf(attempt[n]), '.')
+//    else target
+
+//function evaluateGreens(attempt String, target String) as (String, String) ->
+//    range(5).reduce((attempt, target), _
+//    lambda a, x-> _
+//    (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
+
+//function evaluateYellows(attempt String, target String) as (String, String) ->
+//    range(5).reduce((attempt, target), _
+//    lambda a, x -> (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)))
+
+//function markAttempt(attempt String, target String) as String ->
+//    let (attemptAfterGreens, x) = evaluateGreens(attempt, target) in
+//    attemptAfterGreens.evaluateYellows(targetAfterGreens)[0]
+//    ";
+
+    //public const string Code30Result = @"using System.Collections.Generic;
+    //using System.Collections.Immutable;
+    //using static GlobalConstants;
+
+    //public static partial class GlobalConstants {
+    
+    //  public static bool isGreen(string attempt, string target, int n) {
+    //    return target[n] == attempt[n];
+    //  } 
+
+    //  public static string setChar(string word, int n, char newChar) {
+    //    return word[..(n)] + newChar + word[(n + 1)..];
+    //  }
+
+    //  public static string setAttemptIfGreen(string attempt, string target, int n) {
+    //    return isGreen(attempt, target, n) ? setChar(attempt, n, '*') : attempt;
+    //  }
+
+    //  public static string setTargetIfGreen(string attempt, string target, int n) {
+    //    return isGreen(attempt, target, n) ? setChar(target, n, '.') : target;
+    //  }
+
+    //  public static bool isYellow(string attempt, string target, int n) {
+    //    return contains(target, attempt[n]);
+    //  }
+
+    //  public static bool isAlreadyMarkedGreen(string attempt, int n) {
+    //    return attempt[n] == '*';
+    //  }
+
+    //  public static string setAttemptIfYellow(string attempt, string target, int n) {
+    //    return isAlreadyMarkedGreen(attempt, n) 
+    //    ? attempt
+    //    : isYellow(attempt, target, n) 
+    //      ? setChar(attempt, n, '+')
+    //      : setChar(attempt, n, '_');
+    //  }
+
+    //  public static string setTargetIfYellow(string attempt, string target, int n) {
+    //    return isAlreadyMarkedGreen(attempt, n) 
+    //    ? target
+    //    : isYellow(attempt, target, n) 
+    //      ? setChar(target, indexOf(target, attempt[n]), '.')
+    //      : target;
+    //  }
+
+    //  public static (string, string) evaluateGreens(string attempt, string target) {
+    //     return reduce(range(5), (attempt, target), (a, x) => (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)));
+    //  }
+
+    //  public static (string, string) evaluateYellows(string attempt, string target) {
+    //     return reduce(range(5), (attempt, target), (a, x) => (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)));
+    //  }
+
+    //  public static string markAttempt(string attempt, string target) {
+    //    var (attemptAfterGreens, x) = evaluateGreens(attempt, target);
+    //    return evaluateYellows(evaluateGreens(attempt, target).attempt, evaluateGreens(attempt, target).target).attempt;
+    //  }
+    //}";
+
+    public const string Code30 = @"
+        constant pi = (3, 1)
+        ";
+
+    public const string Code30Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+        public static partial class GlobalConstants {
+       
+          public const (int, int) pi = (3,1);
+        }
+ ";
+
+    
+
     public static readonly ASTNode Code1AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDefnNode>(), E<ProcDefnNode>(), E<FuncDefnNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
