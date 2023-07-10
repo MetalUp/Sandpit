@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class BinaryValueNode : ASTNode, IExpression {
-    public BinaryValueNode(OperatorValueNode op, IExpression lhs, IExpression rhs) {
+public class BinaryExpressionNode : ASTNode, IExpression {
+    public BinaryExpressionNode(OperatorValueNode op, IExpression lhs, IExpression rhs) {
         Op = op;
         Lhs = lhs;
         Rhs = rhs;

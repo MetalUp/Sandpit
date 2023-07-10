@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ParamDefnNode : ASTNode, IDecl {
-    public ParamDefnNode(ValueNode id, TypeNode type) {
+public class ParameterDefinitionNode : ASTNode, IDecl {
+    public ParameterDefinitionNode(ValueNode id, TypeNode type) {
         ID = id;
         Type = type;
         Children = new List<IASTNode> { id, type };

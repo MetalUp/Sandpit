@@ -4,12 +4,10 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ListValueNode : ASTNode, IExpression {
-    public ListValueNode(params ValueNode[] valueNodes)  => Children = ValueNodes = valueNodes;
+public class TupleExpressionNode : ASTNode, IExpression {
+    public TupleExpressionNode(params IExpression[] valueNodes) => Children = ValueNodes = valueNodes;
 
-    private ValueNode[] ValueNodes { get; }
-
-    public string[] Texts => ValueNodes.Select(vn => vn.Text).ToArray();
+    public IExpression[] ValueNodes { get; }
 
     public override IList<IASTNode> Children { get; }
 
@@ -18,7 +16,7 @@ public class ListValueNode : ASTNode, IExpression {
         return typeName;
     }
 
-    public ISymbolType SymbolType => new ListType(ValueNodes.First().SymbolType);
+    public ISymbolType SymbolType => new TupleType(ValueNodes.Select(n => n.SymbolType).ToArray());
 
     public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }

@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class RangeValueNode : ASTNode, IExpression {
-    public RangeValueNode(bool prefix, IExpression from, IExpression? to) {
+public class RangeExpressionNode : ASTNode, IExpression {
+    public RangeExpressionNode(bool prefix, IExpression from, IExpression? to) {
         Prefix = prefix;
         From = from;
         To = to;

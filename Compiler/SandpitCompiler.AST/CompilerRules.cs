@@ -14,11 +14,11 @@ public static class CompilerRules {
     }
 
     public static IASTNode ExpressionTypeIsBooleanRule(IASTNode node) {
-        if (node is WhileStatNode wn) {
+        if (node is WhileStatementNode wn) {
             return wn.Condition switch {
                 // TODO rework to 'resolve' the type of the expression
                 ScalarValueNode { SymbolType: BuiltInType { Name : "Bool" } } => node,
-                BinaryValueNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
+                BinaryExpressionNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
                 _ => throw new CompileErrorException("control expression must be bool")
             };
         }

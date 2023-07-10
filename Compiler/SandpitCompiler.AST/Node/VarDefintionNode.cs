@@ -4,8 +4,8 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class VarDefnNode : StatNode, IDecl {
-    public VarDefnNode(ValueNode id, IExpression expr) {
+public class VarDefintionNode : ASTNode, IStatement, IDecl {
+    public VarDefintionNode(ValueNode id, IExpression expr) {
         ID = id;
         Expr = expr;
         Children = new List<IASTNode> { id, expr };

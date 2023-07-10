@@ -4,8 +4,8 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ConstDefnNode : ASTNode, IDecl {
-    public ConstDefnNode(ValueNode id, IExpression val) {
+public class ConstDefinitionNode : ASTNode, IDecl {
+    public ConstDefinitionNode(ValueNode id, IExpression val) {
         ID = id;
         Val = val;
         SymbolType = val.SymbolType;

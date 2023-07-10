@@ -4,8 +4,8 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class FuncDefnNode : ASTNode, IFunction {
-    public FuncDefnNode(ValueNode id, TypeNode type, ParamDefnNode[] parameters, AggregateNode<StatNode> functionBlock, IExpression returnExpression) {
+public class FunctionDefinitionNode : ASTNode, IFunction {
+    public FunctionDefinitionNode(ValueNode id, TypeNode type, ParameterDefinitionNode[] parameters, AggregateNode<IStatement> functionBlock, IExpression returnExpression) {
         ID = id;
         Type = type;
         ReturnExpression = returnExpression;
@@ -16,8 +16,8 @@ public class FuncDefnNode : ASTNode, IFunction {
 
     public TypeNode Type { get; }
     public IExpression ReturnExpression { get; }
-    public ParamDefnNode[] Parameters { get; }
-    public IList<StatNode> FunctionBlock { get; }
+    public ParameterDefinitionNode[] Parameters { get; }
+    public IList<IStatement> FunctionBlock { get; }
 
     public ValueNode ID { get; }
     public ISymbolType? SymbolType => Type.SymbolType;

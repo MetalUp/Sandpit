@@ -27,16 +27,16 @@ public class CodeModelASTVisitor {
 
     private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
-    private VarDeclModel BuildVarDeclModel(VarDefnNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
+    private VarDeclModel BuildVarDeclModel(VarDefintionNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
 
-    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) {
+    private ConstDeclModel BuildConstDeclModel(ConstDefinitionNode vdn) {
         var id = vdn.ID.Text;
         var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType;
 
         return new ConstDeclModel(id, Visit(vdn.Val), new TypeModel(type));
     }
 
-    private FuncModel BuildFuncModel(FuncDefnNode fn) {
+    private FuncModel BuildFuncModel(FunctionDefinitionNode fn) {
         var id = fn.ID.Text;
         var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType ?? throw new ArgumentNullException();
 
@@ -45,45 +45,45 @@ public class CodeModelASTVisitor {
 
     private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, Visit(ldn.Expr));
 
-    private ProcModel BuildProcModel(ProcDefnNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
+    private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
-    private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type));
+    private ParamModel BuildParamModel(ParameterDefinitionNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type));
 
     public IModel Visit(IASTNode astNode) {
         return astNode switch {
-            ConstDefnNode cdn => BuildConstDeclModel(cdn),
+            ConstDefinitionNode cdn => BuildConstDeclModel(cdn),
             FileNode fn => BuildFileModel(fn),
             MainNode mn => BuildMainModel(mn),
-            VarDefnNode vdn => BuildVarDeclModel(vdn),
+            VarDefintionNode vdn => BuildVarDeclModel(vdn),
             LetDefnNode ldn => BuildLetDeclModel(ldn),
-            ProcDefnNode pn => BuildProcModel(pn),
-            FuncDefnNode fn => BuildFuncModel(fn),
-            ParamDefnNode pn => BuildParamModel(pn),
+            ProcedureDefinitionNode pn => BuildProcModel(pn),
+            FunctionDefinitionNode fn => BuildFuncModel(fn),
+            ParameterDefinitionNode pn => BuildParamModel(pn),
             ScalarValueNode svn => new ValueModel(svn.Text),
-            ListValueNode ln => BuildListValueModel(ln),
-            BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
+            ListExpressionNode ln => BuildListValueModel(ln),
+            BinaryExpressionNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
             OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator)),
-            IndexedValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
-            RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
-            TernaryValueNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
-            FunctionCallValueNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),
-            TupleValueNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
-            LambdaValueNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
-            DereferenceNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
-            WhileStatNode sn => BuildWhileModel(sn),
-            ProcStatNode sn => BuildProcStatModel(sn),
+            IndexedExpressionNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
+            RangeExpressionNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
+            TernaryExpressionNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
+            FunctionExpressionNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),
+            TupleExpressionNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
+            LambdaExpressionNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
+            DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
+            WhileStatementNode sn => BuildWhileModel(sn),
+            ProcedureStatementNode sn => BuildProcStatModel(sn),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
     }
 
-    private IModel BuildListValueModel(ListValueNode ln) {
+    private IModel BuildListValueModel(ListExpressionNode ln) {
         var type = ln.SymbolType;
 
         return new ValueModel(ln.Texts, new TypeModel(type));
     }
 
-    private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
+    private IModel BuildProcStatModel(ProcedureStatementNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
 
-    private IModel BuildWhileModel(WhileStatNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
+    private IModel BuildWhileModel(WhileStatementNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
 }

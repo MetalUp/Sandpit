@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class IndexedValueNode : ASTNode, IExpression {
-    public IndexedValueNode(IExpression expr, IExpression index) {
+public class IndexedExpressionNode : ASTNode, IExpression {
+    public IndexedExpressionNode(IExpression expr, IExpression index) {
         Expr = expr;
         Index = index;
 

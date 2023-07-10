@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class DereferenceNode : ASTNode, IExpression {
-    public DereferenceNode(IExpression expr, ValueNode id)  {
+public class DereferenceExpressionNode : ASTNode, IExpression {
+    public DereferenceExpressionNode(IExpression expr, ValueNode id)  {
         Expr = expr;
         ID = id;
         Children = new List<IASTNode> { expr, id };

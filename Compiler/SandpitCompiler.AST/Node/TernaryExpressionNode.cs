@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class TernaryValueNode : ASTNode, IExpression {
-    public TernaryValueNode(IExpression control, IExpression lhs, IExpression rhs)  {
+public class TernaryExpressionNode : ASTNode, IExpression {
+    public TernaryExpressionNode(IExpression control, IExpression lhs, IExpression rhs)  {
         Control = control;
         Lhs = lhs;
         Rhs = rhs;

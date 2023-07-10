@@ -2,8 +2,8 @@
 
 namespace SandpitCompiler.AST.Node;
 
-public class ProcStatNode : StatNode {
-    public ProcStatNode(ValueNode id, ValueNode[] parameters) {
+public class ProcedureStatementNode : ASTNode, IStatement {
+    public ProcedureStatementNode(ValueNode id, ValueNode[] parameters) {
         ID = id;
         Parameters = parameters;
         Children = new List<IASTNode> { id }.Union(parameters).ToList();

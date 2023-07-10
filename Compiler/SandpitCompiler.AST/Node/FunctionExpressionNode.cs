@@ -3,14 +3,14 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class FunctionCallValueNode : ASTNode, IExpression {
-    public FunctionCallValueNode(ValueNode id, IExpression[] parameters)  {
+public class FunctionExpressionNode : ASTNode, IExpression {
+    public FunctionExpressionNode(ValueNode id, IExpression[] parameters)  {
         ID = id;
         Parameters = parameters;
         Children = new List<IASTNode> { id }.Union(parameters).ToList();
     }
 
-    public FunctionCallValueNode(FunctionCallValueNode node, IExpression parameter) : this(node.ID, node.Parameters.Prepend(parameter).ToArray()) { }
+    public FunctionExpressionNode(FunctionExpressionNode node, IExpression parameter) : this(node.ID, node.Parameters.Prepend(parameter).ToArray()) { }
 
     public void InsertExtensionParameter(IExpression parameter) {
         Parameters = Parameters.Prepend(parameter).ToArray();

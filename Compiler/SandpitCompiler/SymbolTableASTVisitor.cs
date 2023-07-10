@@ -19,8 +19,8 @@ public class SymbolTableASTVisitor {
             IFunction fn => VisitFunctionNode(fn),
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
-            WhileStatNode sn => VisitChildren(sn),
-            ProcStatNode sn => VisitChildren(sn),
+            WhileStatementNode sn => VisitChildren(sn),
+            ProcedureStatementNode sn => VisitChildren(sn),
             null => throw new NotImplementedException("null"),
             _ => VisitChildren(astNode)
         };

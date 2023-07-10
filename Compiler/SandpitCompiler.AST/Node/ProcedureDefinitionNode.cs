@@ -3,16 +3,16 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ProcDefnNode : ASTNode, IProc {
-    public ProcDefnNode(ValueNode id, ParamDefnNode[] parameters, AggregateNode<StatNode> procedureBlock) {
+public class ProcedureDefinitionNode : ASTNode, IProc {
+    public ProcedureDefinitionNode(ValueNode id, ParameterDefinitionNode[] parameters, AggregateNode<IStatement> procedureBlock) {
         ID = id;
         Parameters = parameters;
         ProcedureBlock = procedureBlock.Nodes;
         Children = new List<IASTNode> { id }.Union(parameters).Union(procedureBlock.Nodes).ToList();
     }
 
-    public ParamDefnNode[] Parameters { get; }
-    public IList<StatNode> ProcedureBlock { get; }
+    public ParameterDefinitionNode[] Parameters { get; }
+    public IList<IStatement> ProcedureBlock { get; }
 
     public ValueNode ID { get; }
     public ISymbolType? SymbolType => null;
