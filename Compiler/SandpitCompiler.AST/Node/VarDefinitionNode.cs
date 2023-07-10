@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class VarDefintionNode : ASTNode, IStatement, IDefinition {
-    public VarDefintionNode(ValueNode id, IExpression expr) {
+public class VarDefinitionNode : ASTNode, IStatement, IDefinition {
+    public VarDefinitionNode(ValueNode id, IExpression expr) {
         ID = id;
         Expr = expr;
         Children = new List<IASTNode> { id, expr };

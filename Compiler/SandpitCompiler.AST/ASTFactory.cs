@@ -411,7 +411,7 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ValueReadContext context) => visitor.Visit(context.children.First());
 
-    private static VarDefintionNode Build(this SandpitBaseVisitor<IASTNode> visitor, VarDefContext context) =>
+    private static VarDefinitionNode Build(this SandpitBaseVisitor<IASTNode> visitor, VarDefContext context) =>
         new(visitor.Visit<ValueNode>(context.variableName()), visitor.Visit<IExpression>(context.expression()));
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, VariableNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());

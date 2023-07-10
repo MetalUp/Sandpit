@@ -768,15 +768,15 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     public static readonly ASTNode Code7AST = FN(E<ConstDefinitionNode>(), ARR(PN("p", E<(string, string)>(), VDN("a", "1"))), E<FunctionDefinitionNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code8AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", E<(string, string)>(), ARR(LDN("a", "1")), "1")), E<MainNode>());
+    public static readonly ASTNode Code8AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), E<IStatement>(), "a")), E<MainNode>());
 
     public static readonly ASTNode Code9AST = FN(E<ConstDefinitionNode>(), ARR(PN("p", ARR(("z", "Int")), VDN("a", "z"))), E<FunctionDefinitionNode>(), E<MainNode>());
 
-    public static readonly ASTNode Code10AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", E<(string, string)>(), E<IStatement>(), "1")), E<MainNode>());
+    public static readonly ASTNode Code10AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), E<IStatement>(), "1")), E<MainNode>());
 
-    public static readonly ASTNode Code11AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", E<(string, string)>(), E<IStatement>(), "a")), E<MainNode>());
+    public static readonly ASTNode Code11AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), E<IStatement>(), "a")), E<MainNode>());
 
-    public static readonly ASTNode Code12AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), E<IStatement>(), "a")), E<MainNode>());
+    public static readonly ASTNode Code12AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), ARR(FNN("f", "Int", ARR(("a", "Int")), ARR(VDN("b", "a")), "b")), E<MainNode>());
 
     public static readonly ASTNode Code13AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "\"fred\""))));
 
@@ -810,7 +810,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     private static ConstDefinitionNode CDN(string id, params string[] vs) => new(SVN(id), LN(vs));
 
-    private static IStatement VDN(string id, string v) => new VarDefintionNode(SVN(id), SVN(v));
+    private static IStatement VDN(string id, string v) => new VarDefinitionNode(SVN(id), SVN(v));
 
     private static IStatement LDN(string id, string v) => new LetDefnNode(SVN(id), SVN(v));
 

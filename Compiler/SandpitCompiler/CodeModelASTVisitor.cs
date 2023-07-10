@@ -27,13 +27,13 @@ public class CodeModelASTVisitor {
 
     private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
-    private VarDeclModel BuildVarDeclModel(VarDefintionNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
+    private VarDeclModel BuildVarDeclModel(VarDefinitionNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
 
     private ConstDeclModel BuildConstDeclModel(ConstDefinitionNode vdn) {
         var id = vdn.ID.Text;
         var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType;
 
-        return new ConstDeclModel(id, Visit(vdn.Val), new TypeModel(type));
+        return new ConstDeclModel(id, Visit(vdn.Expression), new TypeModel(type));
     }
 
     private FuncModel BuildFuncModel(FunctionDefinitionNode fn) {
@@ -54,7 +54,7 @@ public class CodeModelASTVisitor {
             ConstDefinitionNode cdn => BuildConstDeclModel(cdn),
             FileNode fn => BuildFileModel(fn),
             MainNode mn => BuildMainModel(mn),
-            VarDefintionNode vdn => BuildVarDeclModel(vdn),
+            VarDefinitionNode vdn => BuildVarDeclModel(vdn),
             LetDefnNode ldn => BuildLetDeclModel(ldn),
             ProcedureDefinitionNode pn => BuildProcModel(pn),
             FunctionDefinitionNode fn => BuildFuncModel(fn),
@@ -69,7 +69,7 @@ public class CodeModelASTVisitor {
             FunctionExpressionNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),
             TupleExpressionNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
             LambdaExpressionNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
-            DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
+            DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expression), Visit(dn.ID)),
             WhileStatementNode sn => BuildWhileModel(sn),
             ProcedureStatementNode sn => BuildProcStatModel(sn),
             null => throw new NotImplementedException("null"),

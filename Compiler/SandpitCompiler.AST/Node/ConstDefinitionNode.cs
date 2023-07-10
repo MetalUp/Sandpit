@@ -4,17 +4,16 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class ConstDefinitionNode : ASTNode, IDefinition {
-    public ConstDefinitionNode(ValueNode id, IExpression val) {
+    public ConstDefinitionNode(ValueNode id, IExpression expression) {
         ID = id;
-        Val = val;
-        SymbolType = val.SymbolType;
-        Children = new List<IASTNode> { ID, Val };
+        Expression = expression;
+        Children = new List<IASTNode> { ID, Expression };
     }
 
     public ValueNode ID { get; }
-    public IExpression Val { get; }
+    public IExpression Expression { get; }
     public string Id => ID.Text;
-    public ISymbolType SymbolType { get; }
+    public ISymbolType SymbolType => Expression.SymbolType;
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Val.ToStringTree()})".TrimEnd();
+    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expression.ToStringTree()})".TrimEnd();
 }

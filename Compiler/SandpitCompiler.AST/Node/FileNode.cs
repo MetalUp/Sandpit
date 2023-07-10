@@ -20,5 +20,5 @@ public class FileNode : ASTNode {
     public MainNode[] MainNode { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"{ConstNodes.AsString()}{ProcNodes.AsString()}{MainNode.AsString()}";
+    public override string ToStringTree() => $"{ConstNodes.AsString()}{ProcNodes.AsString()}{FuncNodes.AsString()}{MainNode.AsString()}";
 }
