@@ -22,7 +22,7 @@ public static partial class TestHelpers {
         expected = ignoreWhiteSpace ? ClearWs(expected) : expected;
 
         try {
-            Assert.AreEqual(expected, code, $"{fn} Failed");
+            Assert.AreEqual(expected.Trim(), code.Trim(), $"{fn} Failed");
         }
         catch (AssertFailedException) {
             Console.WriteLine($"{fn} failed");

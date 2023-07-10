@@ -75,7 +75,7 @@ public static class ModelHelpers {
         return st switch {
             BuiltInType n => "const",
             ListType n => "static readonly",
-
+            TupleType n => "static readonly",
             _ => throw new NotImplementedException()
         };
     }

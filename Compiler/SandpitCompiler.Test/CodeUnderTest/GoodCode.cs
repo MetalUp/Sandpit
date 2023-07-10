@@ -754,6 +754,19 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
       }
     }";
 
+    public const string Code30 = @"
+        constant tuple = (3, 1)
+        ";
+
+    public const string Code30Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
+
+        public static partial class GlobalConstants {
+       
+          public static readonly (int, int) tuple = (3, 1);
+        }";
+
     public static readonly ASTNode Code1AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"))));
 
     public static readonly ASTNode Code2AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"), VDN("b", "a"))));
