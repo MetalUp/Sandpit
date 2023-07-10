@@ -3,6 +3,6 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.RoleInterface;
 
-public interface IProc : IASTNode {
+public interface IProcedure : IASTNode {
     public ValueNode ID { get; }
 }

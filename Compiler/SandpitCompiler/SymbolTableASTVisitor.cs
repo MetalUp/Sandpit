@@ -13,9 +13,9 @@ public class SymbolTableASTVisitor {
 
     public IASTNode Visit(IASTNode astNode) {
         return astNode switch {
-            IDecl dn => VisitDeclNode(dn),
+            IDefinition dn => VisitDeclNode(dn),
             IBlock bn => VisitBlockNode(bn),
-            IProc pn => VisitProcNode(pn),
+            IProcedure pn => VisitProcNode(pn),
             IFunction fn => VisitFunctionNode(fn),
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
@@ -26,7 +26,7 @@ public class SymbolTableASTVisitor {
         };
     }
 
-    private IASTNode VisitDeclNode(IDecl dn) {
+    private IASTNode VisitDeclNode(IDefinition dn) {
         var vs = new VariableSymbol(dn.Id, dn.SymbolType);
         currentScope.Define(vs);
         return dn;
@@ -41,7 +41,7 @@ public class SymbolTableASTVisitor {
         return bn;
     }
 
-    private IASTNode VisitProcNode(IProc pn) {
+    private IASTNode VisitProcNode(IProcedure pn) {
         var ms = new MethodSymbol(pn.ID.Text, null, currentScope);
         currentScope.Define(ms);
         currentScope = ms;

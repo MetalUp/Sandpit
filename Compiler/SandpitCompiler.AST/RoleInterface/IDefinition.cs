@@ -2,7 +2,7 @@
 
 namespace SandpitCompiler.AST.RoleInterface;
 
-public interface IDecl : IASTNode {
+public interface IDefinition : IASTNode {
     public string Id { get; }
 
     public ISymbolType SymbolType { get; }

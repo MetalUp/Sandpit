@@ -3,7 +3,7 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ProcedureDefinitionNode : ASTNode, IProc {
+public class ProcedureDefinitionNode : ASTNode, IProcedure {
     public ProcedureDefinitionNode(ValueNode id, ParameterDefinitionNode[] parameters, AggregateNode<IStatement> procedureBlock) {
         ID = id;
         Parameters = parameters;

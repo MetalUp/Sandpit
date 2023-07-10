@@ -3,7 +3,7 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ParameterDefinitionNode : ASTNode, IDecl {
+public class ParameterDefinitionNode : ASTNode, IDefinition {
     public ParameterDefinitionNode(ValueNode id, TypeNode type) {
         ID = id;
         Type = type;
