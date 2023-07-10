@@ -4,8 +4,8 @@ using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ListValueNode : ValueNode {
-    public ListValueNode(params ValueNode[] valueNodes) : base(valueNodes.Any() ? valueNodes.First().Token : null) => Children = ValueNodes = valueNodes;
+public class ListValueNode : ASTNode, IExpression {
+    public ListValueNode(params ValueNode[] valueNodes)  => Children = ValueNodes = valueNodes;
 
     private ValueNode[] ValueNodes { get; }
 
@@ -18,7 +18,7 @@ public class ListValueNode : ValueNode {
         return typeName;
     }
 
-    public override ISymbolType SymbolType => new ListType(ValueNodes.First().SymbolType);
+    public ISymbolType SymbolType => new ListType(ValueNodes.First().SymbolType);
 
     public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }

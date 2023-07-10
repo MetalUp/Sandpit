@@ -2,6 +2,7 @@
 using CSharpCompiler;
 using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Model;
 using SandpitCompiler.Model.Model;
 using SandpitCompiler.Symbols;
@@ -67,18 +68,18 @@ public static class Pipeline {
         return flags;
     }
 
-    private static IModel GenerateModel(ASTNode astNode, SymbolTable symbolTable) {
+    private static IModel GenerateModel(IASTNode astNode, SymbolTable symbolTable) {
         var astVisitor = new CodeModelASTVisitor(symbolTable,  SetFlags(symbolTable));
         return astVisitor.Visit(astNode);
     }
 
-    private static SymbolTable GenerateSymbolTable(ASTNode astNode) {
+    private static SymbolTable GenerateSymbolTable(IASTNode astNode) {
         var astVisitor = new SymbolTableASTVisitor();
         astVisitor.Visit(astNode);
         return astVisitor.SymbolTable;
     }
 
-    public static ASTNode? GenerateAst(SandpitParser parser) {
+    public static IASTNode? GenerateAst(SandpitParser parser) {
         try {
             var fileContext = parser.file();
             var visitor = new ParseTreeVisitor();

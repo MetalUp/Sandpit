@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Model;
 using SandpitCompiler.Model.Model;
 using SandpitCompiler.SymbolTree;
@@ -48,7 +49,7 @@ public class CodeModelASTVisitor {
 
     private ParamModel BuildParamModel(ParamDefnNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type));
 
-    public IModel Visit(ASTNode astNode) {
+    public IModel Visit(IASTNode astNode) {
         return astNode switch {
             ConstDefnNode cdn => BuildConstDeclModel(cdn),
             FileNode fn => BuildFileModel(fn),
@@ -62,7 +63,7 @@ public class CodeModelASTVisitor {
             ListValueNode ln => BuildListValueModel(ln),
             BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
             OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator)),
-            IndexValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
+            IndexedValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
             RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             TernaryValueNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
             FunctionCallValueNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),

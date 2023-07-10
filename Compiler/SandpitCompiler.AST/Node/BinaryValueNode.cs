@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class BinaryValueNode : ValueNode {
-    public BinaryValueNode(OperatorValueNode op, ValueNode lhs, ValueNode rhs) : base(op.Token) {
+public class BinaryValueNode : ASTNode, IExpression {
+    public BinaryValueNode(OperatorValueNode op, IExpression lhs, IExpression rhs) {
         Op = op;
         Lhs = lhs;
         Rhs = rhs;
@@ -12,10 +12,13 @@ public class BinaryValueNode : ValueNode {
     }
 
     public OperatorValueNode Op { get; }
-    public ValueNode Lhs { get; }
-    public ValueNode Rhs { get; }
+    public IExpression Lhs { get; }
+    public IExpression Rhs { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override ISymbolType SymbolType { get; }
+
     public override string ToStringTree() => $"({ToString()}{Op.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
+
+    public ISymbolType SymbolType => throw new NotImplementedException();
+
 }

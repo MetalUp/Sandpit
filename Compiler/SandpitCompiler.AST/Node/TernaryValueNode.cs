@@ -3,19 +3,20 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class TernaryValueNode : ValueNode {
-    public TernaryValueNode(ValueNode control, ValueNode lhs, ValueNode rhs) : base(null) {
+public class TernaryValueNode : ASTNode, IExpression {
+    public TernaryValueNode(IExpression control, IExpression lhs, IExpression rhs)  {
         Control = control;
         Lhs = lhs;
         Rhs = rhs;
         Children = new List<IASTNode> { control, lhs, rhs };
     }
 
-    public ValueNode Control { get; }
-    public ValueNode Lhs { get; }
-    public ValueNode Rhs { get; }
+    public IExpression Control { get; }
+    public IExpression Lhs { get; }
+    public IExpression Rhs { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override ISymbolType SymbolType { get; }
+  
     public override string ToStringTree() => $"({ToString()}{Control.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
+    public ISymbolType SymbolType => throw new NotImplementedException() ;
 }

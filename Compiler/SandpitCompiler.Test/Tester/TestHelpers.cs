@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler.Test;
 
@@ -32,7 +33,7 @@ public static partial class TestHelpers {
         }
     }
 
-    public static void AssertTreesEqual(ASTNode expected, ASTNode? actual, string id) {
+    public static void AssertTreesEqual(IASTNode expected, IASTNode? actual, string id) {
         try {
             Assert.AreEqual(expected.ToStringTree(), actual?.ToStringTree());
         }

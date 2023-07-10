@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Test.CodeUnderTest;
 using static SandpitCompiler.Test.TestHelpers;
 
@@ -8,7 +9,7 @@ namespace SandpitCompiler.Test.Tester;
 
 [TestClass]
 public class CompileTest {
-    private ASTNode? CreateAST(string code) => Pipeline.GenerateAst(Pipeline.Parse(code));
+    private IASTNode? CreateAST(string code) => Pipeline.GenerateAst(Pipeline.Parse(code));
 
     private static void TestGoodCode(string fn, string code, string result) {
         Pipeline.Handle(code, Options(fn));
@@ -31,7 +32,7 @@ public class CompileTest {
             var resultField = typeof(GoodCode).GetField($"{id}AST");
             var code = GetValue(codeField);
             var ast = CreateAST(code);
-            var expected = resultField?.GetValue(null) as ASTNode;
+            var expected = resultField?.GetValue(null) as IASTNode;
 
             if (expected is not null) {
                 AssertTreesEqual(expected, ast, id);

@@ -804,7 +804,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     private static MainNode MN(params StatNode[] stats) => new(AN(stats));
 
-    private static StatNode WN(ValueNode vn, params StatNode[] stats) => new WhileStatNode(vn, AN(stats));
+    private static StatNode WN(IExpression vn, params StatNode[] stats) => new WhileStatNode(vn, AN(stats));
 
     private static StatNode PSN(string id, params string[] parms) => new ProcStatNode(SVN(id), parms.Select(SVN).ToArray());
 
@@ -834,7 +834,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     private static ListValueNode LN(params string[] vs) => new(vs.Select(SVN).ToArray());
 
-    private static ValueNode BON(OperatorValueNode op, ValueNode lhs, ValueNode rhs) => new BinaryValueNode(op, lhs, rhs);
+    private static IExpression BON(OperatorValueNode op, IExpression lhs, IExpression rhs) => new BinaryValueNode(op, lhs, rhs);
 
     #endregion
 

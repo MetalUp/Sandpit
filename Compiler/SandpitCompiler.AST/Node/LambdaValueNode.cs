@@ -3,17 +3,18 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class LambdaValueNode : ValueNode {
+public class LambdaValueNode : ASTNode, IExpression {
     public ValueNode[] Args { get; }
-    public ValueNode Expr { get; }
+    public IExpression Expr { get; }
 
-    public LambdaValueNode(ValueNode[] args,  ValueNode expr) : base(null) {
+    public LambdaValueNode(ValueNode[] args,  IExpression expr) {
         Args = args;
         Expr = expr;
         Children = new List<IASTNode> { expr };
     }
 
     public override IList<IASTNode> Children { get; }
-    public override ISymbolType SymbolType { get; }
+  
     public override string ToStringTree() => $"({ToString()}{Expr.ToStringTree()})";
+    public ISymbolType SymbolType => throw new NotImplementedException() ;
 }

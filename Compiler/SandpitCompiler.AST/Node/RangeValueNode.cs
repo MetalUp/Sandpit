@@ -3,8 +3,8 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class RangeValueNode : ValueNode {
-    public RangeValueNode(bool prefix, ValueNode from, ValueNode? to) : base(null) {
+public class RangeValueNode : ASTNode, IExpression {
+    public RangeValueNode(bool prefix, IExpression from, IExpression? to) {
         Prefix = prefix;
         From = from;
         To = to;
@@ -15,10 +15,11 @@ public class RangeValueNode : ValueNode {
     }
 
     public bool Prefix { get; }
-    public ValueNode From { get; }
-    public ValueNode? To { get; }
+    public IExpression From { get; }
+    public IExpression? To { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override ISymbolType SymbolType { get; }
+
     public override string ToStringTree() => $"({ToString()}{From.ToStringTree()}{To?.ToStringTree()})";
+    public ISymbolType SymbolType => throw new NotImplementedException();
 }

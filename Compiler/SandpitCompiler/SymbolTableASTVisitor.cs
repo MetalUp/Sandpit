@@ -16,6 +16,7 @@ public class SymbolTableASTVisitor {
             IDecl dn => VisitDeclNode(dn),
             IBlock bn => VisitBlockNode(bn),
             IProc pn => VisitProcNode(pn),
+            IFunction fn => VisitFunctionNode(fn),
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
             WhileStatNode sn => VisitChildren(sn),
@@ -41,6 +42,15 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitProcNode(IProc pn) {
+        var ms = new MethodSymbol(pn.ID.Text, null, currentScope);
+        currentScope.Define(ms);
+        currentScope = ms;
+        VisitChildren(pn);
+        currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
+        return pn;
+    }
+
+    private IASTNode VisitFunctionNode(IFunction pn) {
         var ms = new MethodSymbol(pn.ID.Text, pn.SymbolType, currentScope);
         currentScope.Define(ms);
         currentScope = ms;

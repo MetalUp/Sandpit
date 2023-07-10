@@ -1,10 +1,11 @@
 ﻿using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST;
 
 public static class CompilerRules {
-    public static ASTNode OnlyOneMainRule(ASTNode node) {
+    public static IASTNode OnlyOneMainRule(IASTNode node) {
         if (node is FileNode { MainNode.Length: > 1 }) {
             throw new CompileErrorException("more than one main");
         }
@@ -12,7 +13,7 @@ public static class CompilerRules {
         return node;
     }
 
-    public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node) {
+    public static IASTNode ExpressionTypeIsBooleanRule(IASTNode node) {
         if (node is WhileStatNode wn) {
             return wn.Condition switch {
                 // TODO rework to 'resolve' the type of the expression
