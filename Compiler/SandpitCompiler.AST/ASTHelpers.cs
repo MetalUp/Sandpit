@@ -8,14 +8,6 @@ namespace SandpitCompiler.AST;
 public static class ASTHelpers {
     public static string AsString(this IEnumerable<ASTNode> nodes) => nodes.Aggregate("", (acc, n) => $"{acc}{n.ToStringTree()} ").TrimEnd();
 
-    //public static string TokenToType(string t) =>
-    //    t switch {
-    //        "LITERAL_INTEGER" => "Int",
-    //        "LITERAL_STRING" => "String",
-    //        _ => throw new NotSupportedException()
-    //    };
-
-
     public static ISymbolType TokenToType(IToken token) =>
         ASTHelpers.GetTokenName(token.Type) switch {
             "LITERAL_INTEGER" => new BuiltInType("Int"),
