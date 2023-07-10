@@ -7,12 +7,12 @@ using SandpitCompiler.SymbolTree;
 namespace SandpitCompiler;
 
 public class CodeModelASTVisitor {
-    public SymbolTable SymbolTable { get; }
-
-    public CodeModelASTVisitor(SymbolTable symbolTable,   IDictionary<ModelFlags, bool> flags) {
+    public CodeModelASTVisitor(SymbolTable symbolTable, IDictionary<ModelFlags, bool> flags) {
         SymbolTable = symbolTable;
         Flags = flags.ToImmutableDictionary();
     }
+
+    public SymbolTable SymbolTable { get; }
 
     private IDictionary<ModelFlags, bool> Flags { get; }
 
@@ -39,7 +39,7 @@ public class CodeModelASTVisitor {
         var id = fn.ID.Text;
         var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType ?? throw new ArgumentNullException();
 
-        return new(id, new TypeModel(type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+        return new FuncModel(id, new TypeModel(type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
     }
 
     private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, Visit(ldn.Expr));
@@ -58,25 +58,10 @@ public class CodeModelASTVisitor {
             ProcDefnNode pn => BuildProcModel(pn),
             FuncDefnNode fn => BuildFuncModel(fn),
             ParamDefnNode pn => BuildParamModel(pn),
-
-            ValueNode vn => BuildValueModel(vn),
-            WhileStatNode sn => BuildWhileModel(sn),
-            ProcStatNode sn => BuildProcStatModel(sn),
-            null => throw new NotImplementedException("null"),
-            _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
-        };
-    }
-
-    private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
-
-    private IModel BuildWhileModel(WhileStatNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
-
-    private IModel BuildValueModel(ValueNode vn) {
-        return vn switch {
-            ScalarValueNode svn => new ValueModel(svn.Text, ModelHelpers.TypeLookup(svn.InferredType)),
-            ListValueNode ln => new ValueModel(ln.Texts, $"IList<{ModelHelpers.TypeLookup(ln.InferredType)}>", $"List<{ModelHelpers.TypeLookup(ln.InferredType)}>"),
+            ScalarValueNode svn => new ValueModel(svn.Text),
+            ListValueNode ln => BuildListValueModel(ln),
             BinaryValueNode bon => new BinaryOperatorModel(Visit(bon.Op), Visit(bon.Lhs), Visit(bon.Rhs)),
-            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator), ModelHelpers.TypeLookup(on.InferredType)),
+            OperatorValueNode on => new ValueModel(ModelHelpers.OperatorLookup(on.Operator)),
             IndexValueNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index)),
             RangeValueNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             TernaryValueNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
@@ -84,7 +69,20 @@ public class CodeModelASTVisitor {
             TupleValueNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
             LambdaValueNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
             DereferenceNode dn => new DereferenceModel(Visit(dn.Expr), Visit(dn.ID)),
-            _ => throw new NotImplementedException()
+            WhileStatNode sn => BuildWhileModel(sn),
+            ProcStatNode sn => BuildProcStatModel(sn),
+            null => throw new NotImplementedException("null"),
+            _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
     }
+
+    private IModel BuildListValueModel(ListValueNode ln) {
+        var type = ln.SymbolType;
+
+        return new ValueModel(ln.Texts, new TypeModel(type));
+    }
+
+    private IModel BuildProcStatModel(ProcStatNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
+
+    private IModel BuildWhileModel(WhileStatNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
 }

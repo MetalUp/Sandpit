@@ -62,6 +62,15 @@ public static class ModelHelpers {
         };
     }
 
+    public static string ImplTypeLookup(ISymbolType? st) {
+        return st switch {
+            BuiltInType n => TypeLookup(n.Name),
+            ListType n => $"List<{TypeLookup(n.ElementType)}>",
+            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(TypeLookup).ToArray())})",
+            _ => throw new NotImplementedException()
+        };
+    }
+
     public static string PrefixLookup(ISymbolType? st) {
         return st switch {
             BuiltInType n => "const",

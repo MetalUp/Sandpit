@@ -11,9 +11,12 @@ public static class CompilerRules {
         return node;
     }
 
-    public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node) {
-        if (node is WhileStatNode wn) {
-            return wn.Condition switch {
+    public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node)
+    {
+        if (node is WhileStatNode wn)
+        {
+            return wn.Condition switch
+            {
                 // TODO rework to 'resolve' the type of the expression
                 ScalarValueNode { InferredType.TokenName: "BOOL_VALUE" } => node,
                 BinaryValueNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,

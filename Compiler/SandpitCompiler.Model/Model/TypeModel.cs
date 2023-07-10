@@ -12,4 +12,8 @@ public class TypeModel : ITypeModel {
     public override string ToString() => ModelHelpers.TypeLookup(SymbolType);
 
     public string Prefix => ModelHelpers.PrefixLookup(SymbolType);
+
+    public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType);
 }
+
+
