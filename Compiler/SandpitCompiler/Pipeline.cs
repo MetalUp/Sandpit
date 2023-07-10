@@ -68,7 +68,7 @@ public static class Pipeline {
     }
 
     private static IModel GenerateModel(ASTNode astNode, SymbolTable symbolTable) {
-        var astVisitor = new CodeModelASTVisitor(SetFlags(symbolTable));
+        var astVisitor = new CodeModelASTVisitor(symbolTable,  SetFlags(symbolTable));
         return astVisitor.Visit(astNode);
     }
 

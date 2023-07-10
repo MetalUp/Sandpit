@@ -1,5 +1,7 @@
 ﻿using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.Symbols;
+using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.Model;
 
@@ -47,6 +49,24 @@ public static class ModelHelpers {
             BuiltInTypeNode n => TypeLookup(n),
             GenericTypeNode n => TypeLookup(n),
             TupleTypeNode n => TypeLookup(n),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    public static string TypeLookup(ISymbolType? st) {
+        return st switch {
+            BuiltInType n => TypeLookup(n.Name),
+            ListType n => $"IList<{TypeLookup(n.ElementType)}>",
+            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(TypeLookup).ToArray())})",
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    public static string PrefixLookup(ISymbolType? st) {
+        return st switch {
+            BuiltInType n => "const",
+            ListType n => "static readonly",
+
             _ => throw new NotImplementedException()
         };
     }

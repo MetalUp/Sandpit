@@ -9,16 +9,16 @@ public class VarDefnNode : StatNode, IDecl {
         ID = id;
         Expr = expr;
         Children = new List<IASTNode> { id, expr };
-        InferredType = ASTHelpers.TokenToType(expr.TokenName);
+        SymbolType = ASTHelpers.TokenToType(expr.Token ?? throw new ArgumentNullException());
     }
 
-    public string InferredType { get; set; }
+    
 
     public ValueNode ID { get; }
     public ValueNode Expr { get; }
 
     public override IList<IASTNode> Children { get; }
     public string Id => ID.Text;
-    public ISymbolType SymbolType => Expr is ListValueNode ? new ListType(new BuiltInType(InferredType)) : new BuiltInType(InferredType);
+    public ISymbolType SymbolType { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expr.ToStringTree()})";
 }

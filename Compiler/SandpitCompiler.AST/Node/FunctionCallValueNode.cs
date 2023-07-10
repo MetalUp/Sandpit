@@ -1,4 +1,5 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -19,5 +20,6 @@ public class FunctionCallValueNode : ValueNode {
     public ValueNode[] Parameters { get; private set; }
 
     public override IList<IASTNode> Children { get; }
+    public override ISymbolType SymbolType { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}  {Parameters.AsString()} )";
 }

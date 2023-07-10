@@ -1,4 +1,6 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.AST.Symbols;
+using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -15,6 +17,8 @@ public class ListValueNode : ValueNode {
         var typeName = GetType().Name;
         return typeName;
     }
+
+    public override ISymbolType SymbolType => new ListType(ValueNodes.First().SymbolType);
 
     public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }

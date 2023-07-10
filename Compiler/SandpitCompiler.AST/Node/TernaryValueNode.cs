@@ -1,4 +1,5 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -15,5 +16,6 @@ public class TernaryValueNode : ValueNode {
     public ValueNode Rhs { get; }
 
     public override IList<IASTNode> Children { get; }
+    public override ISymbolType SymbolType { get; }
     public override string ToStringTree() => $"({ToString()}{Control.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 }

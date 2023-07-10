@@ -41,7 +41,7 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitProcNode(IProc pn) {
-        var ms = new MethodSymbol(pn.ID.Text, null, currentScope);
+        var ms = new MethodSymbol(pn.ID.Text, pn.SymbolType, currentScope);
         currentScope.Define(ms);
         currentScope = ms;
         VisitChildren(pn);

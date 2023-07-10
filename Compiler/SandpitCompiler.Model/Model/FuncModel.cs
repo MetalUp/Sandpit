@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class FuncModel : IModel {
-    public FuncModel(string id, string type, IEnumerable<IModel> parms, IEnumerable<IModel> stats, IModel ret) {
+    public FuncModel(string id, IModel type, IEnumerable<IModel> parms, IEnumerable<IModel> stats, IModel ret) {
         ID = id;
         Type = type;
         Parms = parms;
@@ -10,7 +10,7 @@ public class FuncModel : IModel {
     }
 
     private string ID { get; }
-    private string Type { get; }
+    private IModel Type { get; }
     private IEnumerable<IModel> Parms { get; }
     public IEnumerable<IModel> Stats { get; }
     public IModel Ret { get; }

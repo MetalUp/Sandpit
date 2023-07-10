@@ -1,12 +1,12 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class VarDeclModel : IModel {
-    public VarDeclModel(string id, string expr) {
+    public VarDeclModel(string id, IModel expr) {
         Expr = expr;
         ID = id;
     }
 
-    private string Expr { get; }
+    private IModel Expr { get; }
     private string ID { get; }
 
     public override string ToString() => $"var {ID} = {Expr};".Trim();

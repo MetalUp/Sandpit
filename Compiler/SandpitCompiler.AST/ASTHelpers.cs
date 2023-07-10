@@ -1,16 +1,31 @@
-﻿using SandpitCompiler.AST.Node;
+﻿using Antlr4.Runtime;
+using SandpitCompiler.AST.Node;
+using SandpitCompiler.AST.Symbols;
+using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST;
 
 public static class ASTHelpers {
-    private static readonly IDictionary<string, string> TokenToTypeDict = new Dictionary<string, string> {
-        { Constants.LITERAL_INTEGER_TOKEN, Constants.Bacon_Integer },
-        { Constants.LITERAL_STRING_TOKEN, Constants.Bacon_String }
-    };
-
     public static string AsString(this IEnumerable<ASTNode> nodes) => nodes.Aggregate("", (acc, n) => $"{acc}{n.ToStringTree()} ").TrimEnd();
 
-    public static string TokenToType(string t) => TokenToTypeDict.ContainsKey(t) ? TokenToTypeDict[t] : t;
+    //public static string TokenToType(string t) =>
+    //    t switch {
+    //        "LITERAL_INTEGER" => "Int",
+    //        "LITERAL_STRING" => "String",
+    //        _ => throw new NotSupportedException()
+    //    };
+
+
+    public static ISymbolType TokenToType(IToken token) =>
+        ASTHelpers.GetTokenName(token.Type) switch {
+            "LITERAL_INTEGER" => new BuiltInType("Int"),
+            "LITERAL_STRING" => new BuiltInType("String"),
+            "IDENTIFIER" => new UnresolvedType(token.Text),
+            "VALUE_TYPE" => new BuiltInType(token.Text),
+            "BOOL_VALUE" => new BuiltInType("Bool"),
+            "LITERAL_CHAR" => new BuiltInType("Char"),
+            _ => throw new NotSupportedException()
+        };
 
     public static Constants.Operators MapSymbolToOperator(string? symbol) {
         return symbol switch {

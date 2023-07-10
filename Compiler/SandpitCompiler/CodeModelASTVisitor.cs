@@ -2,11 +2,17 @@
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.Model;
 using SandpitCompiler.Model.Model;
+using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
 
 public class CodeModelASTVisitor {
-    public CodeModelASTVisitor(IDictionary<ModelFlags, bool> flags) => Flags = flags.ToImmutableDictionary();
+    public SymbolTable SymbolTable { get; }
+
+    public CodeModelASTVisitor(SymbolTable symbolTable,   IDictionary<ModelFlags, bool> flags) {
+        SymbolTable = symbolTable;
+        Flags = flags.ToImmutableDictionary();
+    }
 
     private IDictionary<ModelFlags, bool> Flags { get; }
 
@@ -20,13 +26,23 @@ public class CodeModelASTVisitor {
 
     private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
-    private VarDeclModel BuildVarDeclModel(VarDefnNode vdn) => new(vdn.ID.Text, vdn.Expr.Text);
+    private VarDeclModel BuildVarDeclModel(VarDefnNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
 
-    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) => new(vdn.ID.Text, (ValueModel)Visit(vdn.Val));
+    private ConstDeclModel BuildConstDeclModel(ConstDefnNode vdn) {
+        var id = vdn.ID.Text;
+        var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType;
 
-    private FuncModel BuildFuncModel(FuncDefnNode fn) => new(fn.ID.Text, ModelHelpers.TypeLookup(fn.Type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+        return new ConstDeclModel(id, Visit(vdn.Val), new TypeModel(type));
+    }
 
-    private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, ldn.Expr.Text);
+    private FuncModel BuildFuncModel(FuncDefnNode fn) {
+        var id = fn.ID.Text;
+        var type = SymbolTable.GlobalScope.Resolve(id)?.SymbolType ?? throw new ArgumentNullException();
+
+        return new(id, new TypeModel(type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+    }
+
+    private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, Visit(ldn.Expr));
 
     private ProcModel BuildProcModel(ProcDefnNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 

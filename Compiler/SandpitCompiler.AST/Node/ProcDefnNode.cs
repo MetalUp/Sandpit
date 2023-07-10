@@ -1,4 +1,5 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -14,6 +15,7 @@ public class ProcDefnNode : ASTNode, IProc {
     public IList<StatNode> ProcedureBlock { get; }
 
     public ValueNode ID { get; }
+    public ISymbolType? SymbolType => null;
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {ProcedureBlock.AsString()})";
