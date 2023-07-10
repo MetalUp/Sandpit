@@ -1,4 +1,5 @@
 ﻿using SandpitCompiler.AST.Node;
+using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST;
 
@@ -11,14 +12,11 @@ public static class CompilerRules {
         return node;
     }
 
-    public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node)
-    {
-        if (node is WhileStatNode wn)
-        {
-            return wn.Condition switch
-            {
+    public static ASTNode ExpressionTypeIsBooleanRule(ASTNode node) {
+        if (node is WhileStatNode wn) {
+            return wn.Condition switch {
                 // TODO rework to 'resolve' the type of the expression
-                ScalarValueNode { InferredType.TokenName: "BOOL_VALUE" } => node,
+                ScalarValueNode { SymbolType: BuiltInType { Name : "Bool" } } => node,
                 BinaryValueNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
                 _ => throw new CompileErrorException("control expression must be bool")
             };
