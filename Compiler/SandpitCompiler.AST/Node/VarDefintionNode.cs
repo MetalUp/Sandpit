@@ -1,6 +1,5 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
-using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -14,9 +13,9 @@ public class VarDefintionNode : ASTNode, IStatement, IDefinition {
 
     public ValueNode ID { get; }
     public IExpression Expr { get; }
-
-    public override IList<IASTNode> Children { get; }
     public string Id => ID.Text;
     public ISymbolType SymbolType { get; }
+
+    public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expr.ToStringTree()})";
 }

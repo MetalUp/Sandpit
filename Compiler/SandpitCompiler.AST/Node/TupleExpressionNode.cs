@@ -11,12 +11,12 @@ public class TupleExpressionNode : ASTNode, IExpression {
 
     public override IList<IASTNode> Children { get; }
 
+    public ISymbolType SymbolType => new TupleType(ValueNodes.Select(n => n.SymbolType).ToArray());
+
+    public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
+
     public override string ToString() {
         var typeName = GetType().Name;
         return typeName;
     }
-
-    public ISymbolType SymbolType => new TupleType(ValueNodes.Select(n => n.SymbolType).ToArray());
-
-    public override string ToStringTree() => $"({ToString()} {ValueNodes.AsString()})";
 }

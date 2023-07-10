@@ -10,6 +10,6 @@ public class TupleTypeNode : TypeNode {
     public IList<TypeNode> Items { get; }
 
     public override IList<IASTNode> Children => Items.OfType<IASTNode>().ToList();
-    public override string ToStringTree() => ToString();
     public override ISymbolType SymbolType => new TupleType(Items.Select(i => i.SymbolType).ToArray());
+    public override string ToStringTree() => ToString();
 }

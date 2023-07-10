@@ -4,7 +4,7 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class TernaryExpressionNode : ASTNode, IExpression {
-    public TernaryExpressionNode(IExpression control, IExpression lhs, IExpression rhs)  {
+    public TernaryExpressionNode(IExpression control, IExpression lhs, IExpression rhs) {
         Control = control;
         Lhs = lhs;
         Rhs = rhs;
@@ -16,7 +16,7 @@ public class TernaryExpressionNode : ASTNode, IExpression {
     public IExpression Rhs { get; }
 
     public override IList<IASTNode> Children { get; }
-  
+
     public override string ToStringTree() => $"({ToString()}{Control.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
-    public ISymbolType SymbolType => throw new NotImplementedException() ;
+    public ISymbolType SymbolType => throw new NotImplementedException();
 }

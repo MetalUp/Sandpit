@@ -17,10 +17,10 @@ public abstract class ValueNode : ASTNode, IExpression {
 
     public abstract ISymbolType SymbolType { get; }
 
+    public override string ToStringTree() => ToString();
+
     public override string ToString() {
         var typeName = GetType().Name;
         return $"<{typeName}, '{Token.Text}'>";
     }
-
-    public override string ToStringTree() => ToString();
 }

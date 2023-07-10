@@ -303,7 +303,7 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, KvpContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LambdaContext context) {
-        var args =  context.argumentList().expression().Select(visitor.Visit<ValueNode>);
+        var args = context.argumentList().expression().Select(visitor.Visit<ValueNode>);
 
         return new LambdaExpressionNode(args.ToArray(), visitor.Visit<IExpression>(context.expression()));
     }
@@ -374,9 +374,8 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureSignatureContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PropertyContext context) => throw new NotImplementedException();
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PropertyNameContext context) {
-        return visitor.Visit<ValueNode>(context.IDENTIFIER());
-    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PropertyNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, RangeContext context) {
         var prefix = context.children.First() is ITerminalNode;

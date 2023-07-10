@@ -13,9 +13,9 @@ public class ProcedureDefinitionNode : ASTNode, IProcedure {
 
     public ParameterDefinitionNode[] Parameters { get; }
     public IList<IStatement> ProcedureBlock { get; }
+    public ISymbolType? SymbolType => null;
 
     public ValueNode ID { get; }
-    public ISymbolType? SymbolType => null;
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()} {Parameters.AsString()} {ProcedureBlock.AsString()})";

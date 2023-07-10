@@ -7,13 +7,11 @@ public class TypeModel : ITypeModel {
 
     public ISymbolType? SymbolType { get; }
 
+    public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType);
+
     public bool HasMain { get; }
 
     public override string ToString() => ModelHelpers.TypeLookup(SymbolType);
 
     public string Prefix => ModelHelpers.PrefixLookup(SymbolType);
-
-    public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType);
 }
-
-

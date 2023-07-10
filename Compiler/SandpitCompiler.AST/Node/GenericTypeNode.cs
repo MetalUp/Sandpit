@@ -1,5 +1,4 @@
-﻿using Antlr4.Runtime;
-using SandpitCompiler.AST.RoleInterface;
+﻿using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
 using SandpitCompiler.Symbols;
 
@@ -11,6 +10,6 @@ public class GenericTypeNode : TypeNode {
     public TypeNode ParameterizedType { get; }
 
     public override IList<IASTNode> Children => new List<IASTNode> { ParameterizedType };
-    public override string ToStringTree() => throw new NotImplementedException();
     public override ISymbolType SymbolType => new ListType(ParameterizedType.SymbolType);
+    public override string ToStringTree() => throw new NotImplementedException();
 }

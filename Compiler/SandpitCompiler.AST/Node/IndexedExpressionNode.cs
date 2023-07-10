@@ -15,7 +15,7 @@ public class IndexedExpressionNode : ASTNode, IExpression {
     public IExpression Index { get; }
 
     public override IList<IASTNode> Children { get; }
-  
+
     public override string ToStringTree() => $"({ToString()}{Expr.ToStringTree()}{Index.ToStringTree()})";
-    public ISymbolType SymbolType => throw new NotImplementedException() ;
+    public ISymbolType SymbolType => throw new NotImplementedException();
 }

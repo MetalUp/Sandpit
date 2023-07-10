@@ -1,7 +1,6 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using SandpitCompiler.AST;
-using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler;

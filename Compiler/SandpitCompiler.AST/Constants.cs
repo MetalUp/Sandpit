@@ -20,9 +20,6 @@ public static class Constants {
         Unknown
     }
 
-    public static string LITERAL_INTEGER_TOKEN = "LITERAL_INTEGER";
-    public static string LITERAL_STRING_TOKEN = "LITERAL_STRING";
-
     public const string Bacon_Integer = "Int";
     public const string Bacon_String = "String";
     public const string Bacon_Bool = "Bool";
@@ -30,4 +27,7 @@ public static class Constants {
     public const string Bacon_Iterable = "Iterable";
     public const string Bacon_List = "List";
     public const string Bacon_Char = "Char";
+
+    public static string LITERAL_INTEGER_TOKEN = "LITERAL_INTEGER";
+    public static string LITERAL_STRING_TOKEN = "LITERAL_STRING";
 }

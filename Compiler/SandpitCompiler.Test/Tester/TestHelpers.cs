@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler.Test;

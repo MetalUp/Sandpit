@@ -8,6 +8,6 @@ public class BuiltInTypeNode : TypeNode {
     public BuiltInTypeNode(IToken nodeSymbol) : base(nodeSymbol) { }
 
     public override IList<IASTNode> Children => Array.Empty<IASTNode>();
-    public override string ToStringTree() => ToString();
     public override ISymbolType SymbolType => ASTHelpers.TokenToType(Token ?? throw new ArgumentNullException());
+    public override string ToStringTree() => ToString();
 }

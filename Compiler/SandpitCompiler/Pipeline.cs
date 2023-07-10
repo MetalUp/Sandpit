@@ -1,7 +1,6 @@
 ﻿using Antlr4.Runtime;
 using CSharpCompiler;
 using SandpitCompiler.AST;
-using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Model;
 using SandpitCompiler.Model.Model;
@@ -69,7 +68,7 @@ public static class Pipeline {
     }
 
     private static IModel GenerateModel(IASTNode astNode, SymbolTable symbolTable) {
-        var astVisitor = new CodeModelASTVisitor(symbolTable,  SetFlags(symbolTable));
+        var astVisitor = new CodeModelASTVisitor(symbolTable, SetFlags(symbolTable));
         return astVisitor.Visit(astNode);
     }
 

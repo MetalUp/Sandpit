@@ -20,5 +20,4 @@ public class BinaryExpressionNode : ASTNode, IExpression {
     public override string ToStringTree() => $"({ToString()}{Op.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 
     public ISymbolType SymbolType => throw new NotImplementedException();
-
 }

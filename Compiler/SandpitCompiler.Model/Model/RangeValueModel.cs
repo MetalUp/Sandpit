@@ -9,7 +9,7 @@ public class RangeValueModel : IModel {
 
     public RangeValueModel(bool prefix, IModel from, IModel? to) {
         this.prefix = prefix ? ".." : "";
-        this.suffix = prefix ? "" : "..";
+        suffix = prefix ? "" : "..";
         this.from = from;
         this.to = to is null ? "" : $"({to})";
     }

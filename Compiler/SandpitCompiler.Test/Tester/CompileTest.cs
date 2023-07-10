@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.Test.CodeUnderTest;
 using static SandpitCompiler.Test.TestHelpers;
@@ -93,7 +92,6 @@ public class CompileTest {
         var codeFields = typeof(GoodCode).GetFields().Where(f => f.Name == name);
         TestGoodCode(codeFields.Single());
     }
-
 
     [TestMethod]
     public void DebugTestAST() {

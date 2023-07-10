@@ -1,7 +1,6 @@
 ﻿using Antlr4.Runtime;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
-using System.Net.NetworkInformation;
 
 namespace SandpitCompiler.Test.CodeUnderTest;
 
@@ -347,8 +346,7 @@ public static class Program {
     main
       print(""test string"")
     end main
-    "
-    ;
+    ";
 
     public const string Code19Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
@@ -599,7 +597,7 @@ function setAttemptIfYellow(attempt String, target String, n Int) as String ->
       }
     }";
 
-       public const string Code28 = @"
+    public const string Code28 = @"
 function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
 
 function setChar(word String, n Int, newChar Char) as String -> 
@@ -673,7 +671,7 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
       }
     }";
 
-           public const string Code29 = @"
+    public const string Code29 = @"
 function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
 
 function setChar(word String, n Int, newChar Char) as String -> 
@@ -794,7 +792,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     public static readonly ASTNode Code19AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(PSN("print", "\"test string\""))));
 
-    public static readonly ASTNode Code20AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_NE,  "is not"), SVN("a"), SVN("2")), VDN("b", "1")))));
+    public static readonly ASTNode Code20AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_NE, "is not"), SVN("a"), SVN("2")), VDN("b", "1")))));
 
     #region AST DSL
 
@@ -830,12 +828,11 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
 
     private static TypeNode TN(string v) => new BuiltInTypeNode(new CommonToken(SandpitParser.LITERAL_INTEGER, v));
 
-    private static OperatorValueNode OVN(int type, string v) => new OperatorValueNode(new CommonToken(type, v));
+    private static OperatorValueNode OVN(int type, string v) => new(new CommonToken(type, v));
 
     private static ListExpressionNode LN(params string[] vs) => new(vs.Select(SVN).ToArray());
 
     private static IExpression BON(OperatorValueNode op, IExpression lhs, IExpression rhs) => new BinaryExpressionNode(op, lhs, rhs);
 
     #endregion
-
 }
