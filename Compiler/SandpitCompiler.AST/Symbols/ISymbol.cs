@@ -1,6 +1,4 @@
-﻿using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public interface ISymbol {
     public ISymbolType? SymbolType { get; }

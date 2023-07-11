@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class SymbolTable {
     public SymbolTable() {

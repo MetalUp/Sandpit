@@ -3,15 +3,21 @@
 namespace SandpitCompiler.Model.Model;
 
 public class TypeModel : ITypeModel {
-    public TypeModel(ISymbolType? symbolType) => SymbolType = symbolType;
+    public TypeModel(ISymbolType? symbolType, IScope scope) {
+        SymbolType = symbolType;
+        Scope = scope;
+    }
 
     public ISymbolType? SymbolType { get; }
+    public IScope Scope { get; }
 
-    public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType);
+    public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType, Scope);
 
     public bool HasMain { get; }
 
-    public override string ToString() => ModelHelpers.TypeLookup(SymbolType);
+    public override string ToString() => ModelHelpers.TypeLookup(SymbolType, Scope);
 
     public string Prefix => ModelHelpers.PrefixLookup(SymbolType);
+
+    public bool IsTuple => ModelHelpers.IsTuple(SymbolType, Scope);
 }

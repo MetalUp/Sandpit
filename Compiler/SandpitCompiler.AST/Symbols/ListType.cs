@@ -1,6 +1,4 @@
-﻿using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.Symbols;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class ListType : ISymbolType {
     public ListType(ISymbolType elementType) => ElementType = elementType;

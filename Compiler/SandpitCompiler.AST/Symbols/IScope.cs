@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public interface IScope {
     public string ScopeName { get; }

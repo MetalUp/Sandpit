@@ -1,7 +1,6 @@
 ﻿using Antlr4.Runtime;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
-using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST;
 

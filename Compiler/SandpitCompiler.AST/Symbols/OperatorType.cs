@@ -1,7 +1,4 @@
-﻿using SandpitCompiler.AST;
-using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.Symbols;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class OperatorType : ISymbolType {
     public OperatorType(Constants.Operators op) => Op = op;

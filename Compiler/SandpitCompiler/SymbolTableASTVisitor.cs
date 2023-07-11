@@ -1,6 +1,6 @@
 ﻿using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
-using SandpitCompiler.SymbolTree;
+using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler;
 

@@ -1,6 +1,4 @@
-﻿using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class BuiltInTypeSymbol : ISymbol {
     public BuiltInTypeSymbol(string name) => Name = name;

@@ -2,10 +2,9 @@
 using CSharpCompiler;
 using SandpitCompiler.AST;
 using SandpitCompiler.AST.RoleInterface;
+using SandpitCompiler.AST.Symbols;
 using SandpitCompiler.Model;
 using SandpitCompiler.Model.Model;
-using SandpitCompiler.Symbols;
-using SandpitCompiler.SymbolTree;
 
 namespace SandpitCompiler;
 

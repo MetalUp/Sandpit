@@ -17,10 +17,6 @@ public class FunctionExpressionNode : ASTNode, IExpression {
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}  {Parameters.AsString()} )";
-    public ISymbolType SymbolType => throw new NotImplementedException();
+    public ISymbolType SymbolType => new UnresolvedType(ID.Text);
 
-    public void InsertExtensionParameter(IExpression parameter) {
-        Parameters = Parameters.Prepend(parameter).ToArray();
-        //Children = new List<IASTNode> { Id }.Union(Parameters).ToList(); //TODO
-    }
 }

@@ -1,4 +1,4 @@
-﻿namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public abstract class BaseScope : IScope {
     private readonly Dictionary<string, ISymbol> symbols = new();

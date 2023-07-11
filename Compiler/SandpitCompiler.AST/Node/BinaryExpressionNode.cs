@@ -1,6 +1,5 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
-using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -22,6 +21,7 @@ public class BinaryExpressionNode : ASTNode, IExpression {
 
     public ISymbolType SymbolType => Op.Operator switch {
         Constants.Operators.Eq or Constants.Operators.Ne => new BuiltInType("Bool"), // TODO get from Symbol table ? 
+        Constants.Operators.Add => Lhs.SymbolType,
         _ => throw new NotImplementedException()
     };
 }

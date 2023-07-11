@@ -1,7 +1,6 @@
 ﻿using SandpitCompiler.AST;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.Symbols;
-using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.Model;
 
@@ -53,20 +52,29 @@ public static class ModelHelpers {
         };
     }
 
-    public static string TypeLookup(ISymbolType? st) {
+    public static string TypeLookup(ISymbolType? st, IScope scope) {
         return st switch {
             BuiltInType n => TypeLookup(n.Name),
-            ListType n => $"IList<{TypeLookup(n.ElementType)}>",
-            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(TypeLookup).ToArray())})",
+            ListType n => $"IList<{TypeLookup(n.ElementType, scope)}>",
+            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1,scope)).ToArray())})",
+            UnresolvedType u =>  TypeLookup(u.Resolve(scope), scope), 
             _ => throw new NotImplementedException()
         };
     }
 
-    public static string ImplTypeLookup(ISymbolType? st) {
+    public static bool IsTuple(ISymbolType? st, IScope scope) {
+        return st switch {
+            TupleType n => true,
+            UnresolvedType u => IsTuple(u.Resolve(scope), scope),
+            _ => false
+        };
+    }
+
+    public static string ImplTypeLookup(ISymbolType? st, IScope scope) {
         return st switch {
             BuiltInType n => TypeLookup(n.Name),
-            ListType n => $"List<{TypeLookup(n.ElementType)}>",
-            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(TypeLookup).ToArray())})",
+            ListType n => $"List<{TypeLookup(n.ElementType, scope)}>",
+            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1, scope)).ToArray())})",
             _ => throw new NotImplementedException()
         };
     }

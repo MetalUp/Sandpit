@@ -1,6 +1,4 @@
-﻿using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.Symbols;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class TupleType : ISymbolType {
     public TupleType(ISymbolType[] elementTypes) => ElementTypes = elementTypes;

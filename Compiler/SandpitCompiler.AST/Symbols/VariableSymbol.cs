@@ -1,6 +1,4 @@
-﻿using SandpitCompiler.AST.Symbols;
-
-namespace SandpitCompiler.SymbolTree;
+﻿namespace SandpitCompiler.AST.Symbols;
 
 public class VariableSymbol : ISymbol {
     public VariableSymbol(string name, ISymbolType symbolType) {
