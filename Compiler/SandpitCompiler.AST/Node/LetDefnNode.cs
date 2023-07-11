@@ -3,18 +3,19 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class LetDefnNode : ASTNode, IStatement, IExpression, IDefinition {
-    public LetDefnNode(ValueNode id, IExpression expr) {
+public class LetDefnNode : ASTNode, IStatement, IExpression {
+    public LetDefnNode(IValue id, IExpression expr, IExpression returnExpression) {
         ID = id;
         Expr = expr;
+        ReturnExpression = returnExpression;
         Children = new List<IASTNode> { ID, Expr };
         SymbolType = expr.SymbolType;
     }
 
-    public ValueNode ID { get; }
+    public IValue ID { get; }
     public IExpression Expr { get; }
+    public IExpression ReturnExpression { get; }
 
-    public string Id => ID.Text;
     public ISymbolType SymbolType { get; }
 
     public override IList<IASTNode> Children { get; }

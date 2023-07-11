@@ -1,5 +1,6 @@
 ﻿using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
+using SandpitCompiler.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
@@ -19,5 +20,8 @@ public class BinaryExpressionNode : ASTNode, IExpression {
 
     public override string ToStringTree() => $"({ToString()}{Op.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 
-    public ISymbolType SymbolType => throw new NotImplementedException();
+    public ISymbolType SymbolType => Op.Operator switch {
+        Constants.Operators.Eq or Constants.Operators.Ne => new BuiltInType("Bool"), // TODO get from Symbol table ? 
+        _ => throw new NotImplementedException()
+    };
 }

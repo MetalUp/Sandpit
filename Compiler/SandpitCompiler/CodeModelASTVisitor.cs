@@ -43,7 +43,7 @@ public class CodeModelASTVisitor {
         return new FuncModel(id, new TypeModel(type), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
     }
 
-    private VarDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.ID.Text, Visit(ldn.Expr));
+    private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(Visit(ldn.ID), Visit(ldn.Expr), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType));
 
     private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
@@ -72,6 +72,7 @@ public class CodeModelASTVisitor {
             DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expression), Visit(dn.ID)),
             WhileStatementNode sn => BuildWhileModel(sn),
             ProcedureStatementNode sn => BuildProcStatModel(sn),
+            ValuesNode vn => new ValueModel(vn.Values.Select(Visit).ToArray()),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };

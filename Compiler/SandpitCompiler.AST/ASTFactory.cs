@@ -125,7 +125,19 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArithmeticOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArrayTypeContext context) => throw new NotImplementedException();
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignableValueContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignableValueContext context) {
+        if (context.tupleDecomp() is { } td) {
+            return visitor.Visit(td);
+        }
+
+        if (context.listDecomp() is { } ld) {
+            return visitor.Visit(ld);
+        }
+        // indexed value
+
+        throw new NotImplementedException();
+    }
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentOpContext context) => throw new NotImplementedException();
 
@@ -200,6 +212,16 @@ public static class ASTFactory {
             var range = visitor.Visit<IExpression>(indexContext);
 
             return new IndexedExpressionNode(expr, range);
+        }
+
+        if (context.letIn() is { } letInContext) {
+            var av =  visitor.Visit<IValue>(letInContext.assignableValue().First());
+            var expr1 =  visitor.Visit<IExpression>(letInContext.expression().First());
+
+            var returnExpr = visitor.Visit<IExpression>(context.expression().First());
+
+
+            return new LetDefnNode(av, expr1, returnExpr);
         }
 
         return visitor.Visit(context.valueRead());
@@ -399,7 +421,10 @@ public static class ASTFactory {
         return new TupleExpressionNode(items.ToArray());
     }
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TupleDecompContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TupleDecompContext context) {
+
+        return new ValuesNode(context.valueName().Select(visitor.Visit<ValueNode>).ToArray());
+    }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TupleTypeContext context) => new TupleTypeNode(context.type().Select(visitor.Visit<TypeNode>));
 

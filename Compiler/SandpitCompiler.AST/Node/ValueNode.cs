@@ -4,7 +4,7 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public abstract class ValueNode : ASTNode, IExpression {
+public abstract class ValueNode : ASTNode, IExpression, IValue {
     protected ValueNode(IToken token) => Token = token;
 
     public IToken Token { get; }
