@@ -832,6 +832,9 @@ function possibleAnswersAfterAttempt(prior Iterable<String>, attempt String, mar
 function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attempt String) as Int ->
     let groups = possibleAnswers.groupBy(lambda w -> markAttempt(attempt, w)) in 
     groups.max(lambda g -> g.count())
+
+function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<String>) as Iterable<(String, Int)> ->
+    possAttempts.map(lambda w -> (w, wordCountRemainingAfterAttempt(possAnswers, w)))
     ";
 
     public const string Code32Result = @"using System.Collections.Generic;
@@ -905,7 +908,11 @@ function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attemp
             return max(groups, (g) => count(g));
         })();
       }
-    }";
+
+      public static IEnumerable<(string, int)> allRemainingWordCounts(IList<string> possAnswers, IEnumerable<string> possAttempts) {
+        return map(possAttempts, (w) => (w, wordCountRemainingAfterAttempt(possAnswers, w))); 
+        } 
+      }";
 
     public static readonly ASTNode Code1AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"))));
 

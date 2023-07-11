@@ -34,6 +34,12 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
+    private static readonly string mapFunction = @"
+    public static IEnumerable<TResult> map<TSource, TResult>(IEnumerable<TSource> source, System.Func<TSource, TResult> predicate) {
+        return System.Linq.Enumerable.Select(source, predicate);
+    }
+";
+
     private static readonly string  groupByFunction = @"
     public static IEnumerable<IEnumerable<TSource>> groupBy<TSource, TKey>(IEnumerable<TSource> source, System.Func<TSource, TKey> keySelector) {
         return System.Linq.Enumerable.GroupBy(source, keySelector);
@@ -52,6 +58,10 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
+    public static IEnumerable<TResult> map<TSource, TResult>(IEnumerable<TSource> source, System.Func<TSource, TResult> predicate) {
+        return System.Linq.Enumerable.Select(source, predicate);
+    }
+
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{
 {assertFunction}
@@ -64,5 +74,6 @@ public static partial class GlobalConstants {{
 {groupByFunction}
 {maxFunction}
 {countFunction}
+{mapFunction}
 }}".Trim();
 }
