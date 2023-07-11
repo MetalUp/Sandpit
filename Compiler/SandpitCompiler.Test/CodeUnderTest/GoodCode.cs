@@ -825,6 +825,9 @@ function evaluateYellows(attempt String, target String) as (String, String) ->
 function markAttempt(attempt String, target String) as String ->
     let (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target) in
     attemptAfterGreens.evaluateYellows(targetAfterGreens)[0]
+
+function possibleAnswersAfterAttempt(prior Iterable<String>, attempt String, mark String) as Iterable<String> -> 
+    prior.filter(lambda w -> markAttempt(attempt, w) is mark)
     ";
 
     public const string Code32Result = @"using System.Collections.Generic;
@@ -886,6 +889,10 @@ function markAttempt(attempt String, target String) as String ->
            var (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target);
            return evaluateYellows(attemptAfterGreens, targetAfterGreens);
          })().Item1;
+      }
+
+      public static IEnumerable<string> possibleAnswersAfterAttempt(IEnumerable<string> prior, string attempt, string mark) { 
+         return filter(prior, (w) => markAttempt(attempt, w) == mark);
       }
     }";
 

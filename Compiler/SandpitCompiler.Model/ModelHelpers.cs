@@ -56,8 +56,9 @@ public static class ModelHelpers {
         return st switch {
             BuiltInType n => TypeLookup(n.Name),
             ListType n => $"IList<{TypeLookup(n.ElementType, scope)}>",
+            IterableType n => $"IEnumerable<{TypeLookup(n.ElementType, scope)}>",
             TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1,scope)).ToArray())})",
-            UnresolvedType u =>  TypeLookup(u.Resolve(scope), scope), 
+            UnresolvedType u =>  TypeLookup(u.Resolve(scope), scope),
             _ => throw new NotImplementedException()
         };
     }

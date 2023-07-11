@@ -28,6 +28,12 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
+    private static readonly string filterFunction = @"
+    public static IEnumerable<TSource> filter<TSource>(IEnumerable<TSource> source, System.Func<TSource, bool> predicate) {
+        return System.Linq.Enumerable.Where(source, predicate);
+    }
+";
+
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{
 {assertFunction}
@@ -36,5 +42,6 @@ public static partial class GlobalConstants {{
 {indexOfFunction}
 {rangeFunction}
 {reduceFunction}
+{filterFunction}
 }}".Trim();
 }
