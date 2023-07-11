@@ -8,9 +8,11 @@ public class SymbolTable {
     public GlobalScope GlobalScope { get; } = new();
 
     protected void InitTypeSystem() {
-        GlobalScope.Define(new BuiltInTypeSymbol("Integer"));
+        GlobalScope.Define(new BuiltInTypeSymbol("Int"));
         GlobalScope.Define(new BuiltInTypeSymbol("String"));
         GlobalScope.Define(new BuiltInTypeSymbol("Boolean"));
+
+        GlobalScope.Define(new MethodSymbol("max", new BuiltInType("Int"), GlobalScope));
     }
 
     private IList<IScope> ChildScopes(IEnumerable<IScope> scopes) {

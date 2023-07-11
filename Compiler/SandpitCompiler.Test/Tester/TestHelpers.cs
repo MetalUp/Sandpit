@@ -26,8 +26,23 @@ public static partial class TestHelpers {
         }
         catch (AssertFailedException) {
             Console.WriteLine($"{fn} failed");
-            Console.WriteLine(expected + " EXPECTED");
-            Console.WriteLine(code + " ACTUAL");
+            //Console.WriteLine(expected + " EXPECTED");
+            //Console.WriteLine(code + " ACTUAL");
+
+            for (int i = 0; i < code.Length; i++)
+            {
+                var c = code[i];
+                var e = expected[i];
+
+                if (c != e) {
+                    Console.WriteLine(code[i..] + " CODE");
+                    Console.WriteLine(expected[i..] + " EXPECTED");
+                    break;
+                }
+
+
+            }
+
             throw;
         }
     }

@@ -125,6 +125,7 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArithmeticOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArrayTypeContext context) => throw new NotImplementedException();
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignableValueContext context) {
         if (context.tupleDecomp() is { } td) {
             return visitor.Visit(td);
@@ -133,9 +134,14 @@ public static class ASTFactory {
         if (context.listDecomp() is { } ld) {
             return visitor.Visit(ld);
         }
-        // indexed value
 
-        throw new NotImplementedException();
+        if (context.index() is { } idx) {
+            // indexed value
+
+            throw new NotImplementedException();
+        }
+
+        return visitor.Visit(context.valueName());
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
@@ -259,7 +265,7 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionCallContext context) {
         var id = visitor.Visit<ValueNode>(context.functionName());
-        var pps = context.argumentList().expression().Select(visitor.Visit<IExpression>);
+        var pps = context.argumentList()?.expression().Select(visitor.Visit<IExpression>) ?? Array.Empty<IExpression>();
 
         return new FunctionExpressionNode(id, pps.ToArray());
     }
