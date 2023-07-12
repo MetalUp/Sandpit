@@ -11,7 +11,7 @@ public class LetDeclModel : IModel {
         this.type = type;
     }
 
-    public (IModel id, IModel expr)[] Lets { get; }
+    private (IModel id, IModel expr)[] Lets { get; }
 
     public override string ToString() => $@"new System.Func<{type}>(() => {{
        {Lets.Aggregate("", (a, t) => $@"{a}

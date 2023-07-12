@@ -7,7 +7,7 @@ public class ValueModel : IModel {
 
     public ValueModel(IModel[] val) => Val = $"({string.Join(", ", val.Select(v => v.ToString()).ToArray())})";
 
-    public string Val { get; }
+    private string Val { get; }
 
     public bool HasMain => false;
     public override string ToString() => Val;

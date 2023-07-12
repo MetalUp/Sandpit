@@ -8,8 +8,8 @@ public class TypeModel : ITypeModel {
         Scope = scope;
     }
 
-    public ISymbolType? SymbolType { get; }
-    public IScope Scope { get; }
+    private ISymbolType? SymbolType { get; }
+    private IScope Scope { get; }
 
     public string ImplType => ModelHelpers.ImplTypeLookup(SymbolType, Scope);
 

@@ -6,8 +6,8 @@ public class FuncCallModel : IModel {
         Parameters = parameters;
     }
 
-    public string ID { get; }
-    public IModel[] Parameters { get; }
+    private string ID { get; }
+    private IModel[] Parameters { get; }
 
     public override string ToString() =>
         $@"

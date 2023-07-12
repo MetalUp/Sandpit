@@ -935,7 +935,7 @@ function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<
             var groups = groupBy(possibleAnswers, (w) => markAttempt(attempt, w));
             return max(groups, (g) => count(g));
         })();
-    }
+      }
 
       public static IEnumerable<(string, int)> allRemainingWordCounts(IList<string> possAnswers, IEnumerable<string> possAttempts) {
         return map(possAttempts, (w) => (w, wordCountRemainingAfterAttempt(possAnswers, w))); 

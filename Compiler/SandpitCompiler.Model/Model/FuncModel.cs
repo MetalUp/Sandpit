@@ -12,8 +12,8 @@ public class FuncModel : IModel {
     private string ID { get; }
     private IModel Type { get; }
     private IEnumerable<IModel> Parms { get; }
-    public IEnumerable<IModel> Stats { get; }
-    public IModel Ret { get; }
+    private IEnumerable<IModel> Stats { get; }
+    private IModel Ret { get; }
 
     public override string ToString() =>
         $@"public static {Type} {ID}({Parms.AsCommaSeparatedString()}) {{

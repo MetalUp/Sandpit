@@ -3,7 +3,7 @@
 public class MainModel : IModel {
     public MainModel(IEnumerable<IModel> stats) => Stats = stats;
 
-    public IEnumerable<IModel> Stats { get; }
+    private IEnumerable<IModel> Stats { get; }
 
     public override string ToString() =>
         $@"public static class Program {{

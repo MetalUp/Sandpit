@@ -6,8 +6,8 @@ public class LambdaValueModel : IModel {
         Expr = expr;
     }
 
-    public IModel[] Args { get; }
-    public IModel Expr { get; }
+    private IModel[] Args { get; }
+    private IModel Expr { get; }
 
     public bool HasMain => false;
     public override string ToString() => $"({Args.AsCommaSeparatedString()}) => {Expr}";

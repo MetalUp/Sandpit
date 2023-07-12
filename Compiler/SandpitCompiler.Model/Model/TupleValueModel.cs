@@ -3,7 +3,7 @@
 public class TupleValueModel : IModel {
     public TupleValueModel(IModel[] vals) => Vals = vals;
 
-    public IModel[] Vals { get; }
+    private IModel[] Vals { get; }
 
     public bool HasMain => false;
     public override string ToString() => $"({Vals.AsCommaSeparatedString()})";

@@ -9,7 +9,7 @@ public class ProcModel : IModel {
 
     private string ID { get; }
     private IEnumerable<IModel> Parms { get; }
-    public IEnumerable<IModel> Stats { get; }
+    private IEnumerable<IModel> Stats { get; }
 
     public override string ToString() =>
         $@"public static void {ID}({Parms.AsCommaSeparatedString()}) {{

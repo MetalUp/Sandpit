@@ -8,7 +8,7 @@ public class DereferenceModel : IModel {
         Expr = expr;
     }
 
-    public IModel Expr { get; }
+    private IModel Expr { get; }
 
     public bool HasMain => false;
     public override string ToString() => $"{Expr}.{property}";
