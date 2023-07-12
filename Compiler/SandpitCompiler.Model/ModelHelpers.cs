@@ -58,7 +58,7 @@ public static class ModelHelpers {
             ListType n => $"IList<{TypeLookup(n.ElementType, scope)}>",
             IterableType n => $"IEnumerable<{TypeLookup(n.ElementType, scope)}>",
             TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1,scope)).ToArray())})",
-            UnresolvedType u =>  TypeLookup(u.Resolve(scope), scope),
+            IUnresolvedType u =>  TypeLookup(u.Resolve(scope), scope),
             _ => throw new NotImplementedException()
         };
     }
@@ -66,7 +66,7 @@ public static class ModelHelpers {
     public static bool IsTuple(ISymbolType? st, IScope scope) {
         return st switch {
             TupleType n => true,
-            UnresolvedType u => IsTuple(u.Resolve(scope), scope),
+            IUnresolvedType u => IsTuple(u.Resolve(scope), scope),
             _ => false
         };
     }

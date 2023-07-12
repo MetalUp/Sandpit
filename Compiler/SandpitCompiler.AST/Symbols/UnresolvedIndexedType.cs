@@ -3,18 +3,18 @@ using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler.AST.Symbols;
 
-public class UnresolvedIndexedType : UnresolvedType, ISymbolType {
+public class UnresolvedIndexedType : IUnresolvedType {
     private readonly IExpression index;
 
-    public UnresolvedIndexedType(ISymbolType symbolType, IExpression index) : base("") {
+    public UnresolvedIndexedType(ISymbolType symbolType, IExpression index) {
         this.index = index;
         SymbolType = symbolType;
     }
 
-    public ISymbolType SymbolType { get; }
+    private ISymbolType SymbolType { get; }
 
-    public override ISymbolType Resolve(IScope scope) {
-        var st = SymbolType is UnresolvedType ut ? ut.Resolve(scope) : SymbolType;
+    public ISymbolType Resolve(IScope scope) {
+        var st = SymbolType is IUnresolvedType ut ? ut.Resolve(scope) : SymbolType;
 
         if (st is TupleType tt) {
             if (index is ScalarValueNode svn) {
