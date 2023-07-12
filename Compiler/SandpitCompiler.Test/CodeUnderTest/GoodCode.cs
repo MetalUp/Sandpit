@@ -865,7 +865,16 @@ function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable
         isEqualAndPossAnswer = w2Count is w1Count and possAnswers.contains(w2)
     in
     if isBetter or isEqualAndPossAnswer then word2 else word1
+
+function bestAttempt(possAnswers List<String>, possAttempts List<String>) as String ->
+   let wordCounts = allRemainingWordCounts(possAnswers, possAttempts) in
+   wordCounts.reduce(lambda bestSoFar, newWord -> betterOf(bestSoFar, newWord, possAnswers))[0]
     ";
+
+    //static string BestAttempt(IEnumerable<string> possAnswers, IEnumerable<string> possAttempts) =>
+    //    AllRemainingWordCounts(possAnswers, possAttempts).Aggregate((bestSoFar, next) => BetterOf(bestSoFar, next, possAnswers)).word;
+
+
 
     public const string Code33Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
@@ -949,6 +958,13 @@ function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable
           var isBetter = w2Count < w1Count;
           var isEqualAndPossAnswer = w2Count == w1Count && contains(possAnswers, w2);
           return isBetter || isEqualAndPossAnswer ? word2 : word1;
+        })();
+      }
+
+      public static string bestAttempt(IList<string> possAnswers, IList<string> possAttempts) {
+        return new System.Func<string>(() => {
+          var wordCounts = allRemainingWordCounts(possAnswers, possAttempts);
+          return reduce(wordCounts, (bestSoFar, newWord) => betterOf(bestSoFar, newWord, possAnswers)).Item1; 
         })();
       }
     }";

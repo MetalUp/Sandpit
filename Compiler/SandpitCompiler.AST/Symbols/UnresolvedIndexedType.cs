@@ -29,6 +29,10 @@ public class UnresolvedIndexedType : IUnresolvedType {
             return lt.ElementType;
         }
 
+        if (st is IterableType it) {
+            return it.ElementType;
+        }
+
         throw new NotImplementedException();
     }
 }

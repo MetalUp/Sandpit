@@ -5,10 +5,6 @@ public static class LibraryFunctions {
 public static void assert(bool b) { if (b) throw new System.Exception(""Assert Failed""); }
 ";
 
-    private static readonly string printFunction = @"
-public static void print(string s) { System.Console.WriteLine(s); }
-";
-
     private static readonly string containsFunction = @"
 public static bool contains<T>(IEnumerable<T> arr, T item) { return System.Linq.Enumerable.Contains(arr, item); }
 ";
@@ -27,6 +23,14 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
         return System.Linq.Enumerable.Aggregate(source, seed, func);
     }
 ";
+
+    private static readonly string reduceFunction1 = @"
+    public static TSource reduce<TSource>(IEnumerable<TSource> source, System.Func<TSource, TSource, TSource> func) {
+      return System.Linq.Enumerable.Aggregate(source, func);
+    }
+";
+
+  
 
     private static readonly string filterFunction = @"
     public static IEnumerable<TSource> filter<TSource>(IEnumerable<TSource> source, System.Func<TSource, bool> predicate) {
@@ -62,11 +66,11 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{
 {assertFunction}
-{printFunction}
 {containsFunction}
 {indexOfFunction}
 {rangeFunction}
 {reduceFunction}
+{reduceFunction1}
 {filterFunction}
 {groupByFunction}
 {maxFunction}

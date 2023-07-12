@@ -13,6 +13,9 @@ public class SymbolTable {
         GlobalScope.Define(new BuiltInTypeSymbol("Boolean"));
 
         GlobalScope.Define(new MethodSymbol("max", new BuiltInType("Int"), GlobalScope));
+
+        // TODO Kludge
+        GlobalScope.Define(new MethodSymbol("reduce", new TupleType(new ISymbolType[] { new BuiltInType("String"), new BuiltInType("Int") }), GlobalScope));
     }
 
     private IList<IScope> ChildScopes(IEnumerable<IScope> scopes) {
