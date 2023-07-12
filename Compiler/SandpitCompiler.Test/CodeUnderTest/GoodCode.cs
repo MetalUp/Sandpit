@@ -789,25 +789,24 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
           
     }";
 
-    //public const string Code32 = @"
-    //    function f(v1 Int, v2 Int, vs Iterable<Int>) as Bool ->
-    //       let bv = v1 is v2 and vs.contains(v2) in
-    //       bv
-    //    ";
+    public const string Code32 = @"
+        function f(v1 Int, v2 Int, vs Iterable<Int>) as Bool ->
+           let bv = v1 is v2 and vs.contains(v2) in
+           bv
+        ";
 
-    //public const string Code32Result = @"using System.Collections.Generic;
-    //using System.Collections.Immutable;
-    //using static GlobalConstants;
+    public const string Code32Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
-    //   public static bool f(int v1, int b2, IEnumerable<int> vs) { 
-    //      return new System.Func<bool>(() => {
-    //        var bv = v1 == v2 && contains(vs, v2);
-    //        return bv;
-    //    })();
-    //   } 
-          
-    //}";
+    public static partial class GlobalConstants {
+       public static bool f(int v1, int v2, IEnumerable<int> vs) { 
+          return new System.Func<bool>(() => {
+            var bv = v1 == v2 && contains(vs, v2);
+            return bv;
+        })();
+       } 
+    }";
 
     public const string Code33 = @"
 function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
@@ -858,14 +857,14 @@ function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attemp
 function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<String>) as Iterable<(String, Int)> ->
     possAttempts.map(lambda w-> (w, wordCountRemainingAfterAttempt(possAnswers, w)))
 
-//function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable< String >) as (String, Int)  ->
-//    let
-//        (w1, w1Count) = word1, 
-//        (w2, w2Count) = word2,  
-//        isBetter = w2Count < w1count, 
-//        isEqualAndPossAnswer = w2count is w1count and possAnswers.contains(w2)
-//    in
-//    if isBetter or isEqualAndPossAnswer then word2 else word1
+function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable< String >) as (String, Int)  ->
+    let
+        (w1, w1Count) = word1, 
+        (w2, w2Count) = word2,  
+        isBetter = w2Count < w1Count, 
+        isEqualAndPossAnswer = w2Count is w1Count and possAnswers.contains(w2)
+    in
+    if isBetter or isEqualAndPossAnswer then word2 else word1
     ";
 
     public const string Code33Result = @"using System.Collections.Generic;
@@ -941,6 +940,16 @@ function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<
 
       public static IEnumerable<(string, int)> allRemainingWordCounts(IList<string> possAnswers, IEnumerable<string> possAttempts) {
         return map(possAttempts, (w) => (w, wordCountRemainingAfterAttempt(possAnswers, w))); 
+      }
+
+      public static (string, int) betterOf((string, int) word1, (string, int) word2, IEnumerable<string> possAnswers) {
+        return new System.Func<(string, int)>(() => {
+          var (w1, w1Count) = word1;
+          var (w2, w2Count) = word2;
+          var isBetter = w2Count < w1Count;
+          var isEqualAndPossAnswer = w2Count == w1Count && contains(possAnswers, w2);
+          return isBetter || isEqualAndPossAnswer ? word2 : word1;
+        })();
       }
     }";
 
