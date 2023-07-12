@@ -5,5 +5,5 @@ public class UnresolvedType : ISymbolType {
 
     public string Name { get; }
 
-    public ISymbolType Resolve(IScope scope) => scope.Resolve(Name)?.SymbolType ?? throw new ArgumentNullException();
+    public virtual ISymbolType Resolve(IScope scope) => scope.Resolve(Name)?.SymbolType ?? throw new ArgumentNullException();
 }
