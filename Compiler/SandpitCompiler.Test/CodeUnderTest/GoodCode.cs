@@ -809,6 +809,15 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     }";
 
     public const string Code33 = @"
+constant allPossibleAnswers = {""ABACK"" } 
+constant validWords = { ""ABACK"", ""..."" }
+
+main
+   var possible = allPossibleAnswers
+   var marking = """"
+   var attempt = """"
+end main
+
 function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
 
 function setChar(word String, n Int, newChar Char) as String -> 
@@ -871,16 +880,13 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
    wordCounts.reduce(lambda bestSoFar, newWord -> betterOf(bestSoFar, newWord, possAnswers))[0]
     ";
 
-    //static string BestAttempt(IEnumerable<string> possAnswers, IEnumerable<string> possAttempts) =>
-    //    AllRemainingWordCounts(possAnswers, possAttempts).Aggregate((bestSoFar, next) => BetterOf(bestSoFar, next, possAnswers)).word;
-
-
-
     public const string Code33Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
 
     public static partial class GlobalConstants {
+      public static readonly IList<string> allPossibleAnswers = new List<string> { ""ABACK"" }.ToImmutableList();
+      public static readonly IList<string> validWords = new List<string> { ""ABACK"", ""..."" }.ToImmutableList();
     
       public static bool isGreen(string attempt, string target, int n) {
         return target[n] == attempt[n];
@@ -966,6 +972,13 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
           var wordCounts = allRemainingWordCounts(possAnswers, possAttempts);
           return reduce(wordCounts, (bestSoFar, newWord) => betterOf(bestSoFar, newWord, possAnswers)).Item1; 
         })();
+      }
+    }
+    public static class Program { 
+      private static void Main(string[] args) {
+        var possible = allPossibleAnswers;
+        var marking = """";
+        var attempt = """";
       }
     }";
 
