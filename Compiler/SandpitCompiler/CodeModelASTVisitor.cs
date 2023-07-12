@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
@@ -110,6 +111,8 @@ public class CodeModelASTVisitor {
             ProcedureStatementNode sn => HandleScope(BuildProcStatModel, sn),
             ValuesNode vn => new ValueModel(vn.Values.Select(Visit).ToArray()),
             SystemPrintNode spn => new PrintModel(Visit(spn.ToPrint), spn.Line),
+            AssignmentNode an => new AssignmentModel(an.ID.Text, Visit(an.Expr)),
+            SystemInputNode sin => new InputModel(Visit(sin.ID), Visit(sin.ToPrint), sin.Line),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };

@@ -54,6 +54,7 @@ public static class ASTFactory {
             IfExpressionContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
             IndexContext c => visitor.Build(c),
+            InputContext c => visitor.Build(c),
             IterableTypeContext c => visitor.Build(c),
             KvpContext c => visitor.Build(c),
             LambdaContext c => visitor.Build(c),
@@ -85,6 +86,7 @@ public static class ASTFactory {
             RepeatContext c => visitor.Build(c),
             SwitchContext c => visitor.Build(c),
             SystemCallContext c => visitor.Build(c),
+            SystemInContext c => visitor.Build(c),
             SystemOutContext c => visitor.Build(c),
             TryContext c => visitor.Build(c),
             TupleContext c => visitor.Build(c),
@@ -138,7 +140,13 @@ public static class ASTFactory {
         return visitor.Visit(context.valueName());
     }
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentContext context) {
+        var id = visitor.Visit<ValueNode>(context.assignableValue());
+        var expr = visitor.Visit<IExpression>(context.expression());
+
+        return new AssignmentNode(id, expr);
+    }
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentOpContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, BinaryOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
@@ -307,6 +315,10 @@ public static class ASTFactory {
         return visitor.Visit<IExpression>(context.expression().First());
     }
 
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, InputContext context) {
+        return visitor.Visit<IExpression>(context.expression());
+    }
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, IterableTypeContext context) {
         var pt = visitor.Visit<TypeNode>(context.generic());
         var t = visitor.Visit<TypeNode>(context.ITERABLE());
@@ -426,7 +438,18 @@ public static class ASTFactory {
             return visitor.Visit(so);
         }
 
+        if (context.assignableValue() is { } av) {
+            var id = visitor.Visit<ValueNode>(av);
+            var inp = visitor.Visit<IExpression>(context.systemIn());
+            return new SystemInputNode(id, inp, false);
+        }
+
+
         throw new NotImplementedException();
+    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SystemInContext context) {
+        return visitor.Visit(context.children.First());
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SystemOutContext context) {

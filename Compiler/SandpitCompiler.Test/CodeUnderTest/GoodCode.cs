@@ -816,6 +816,12 @@ main
    var possible = allPossibleAnswers
    var marking = """"
    var attempt = """"
+   while marking is not ""*****""
+      attempt = bestAttempt(possible, validWords)
+      print(attempt)
+      marking = input(""Please mark the attempt"")
+      possible = possibleAnswersAfterAttempt(possible, attempt, marking).asList()
+   end while
 end main
 
 function isGreen(attempt String, target String, n Int) as Bool -> target[n] is attempt[n]
@@ -979,6 +985,13 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
         var possible = allPossibleAnswers;
         var marking = """";
         var attempt = """";
+        while (marking != ""*****"") { 
+         attempt = bestAttempt(possible, validWords);
+         System.Console.Write(attempt);
+         System.Console.WriteLine(""Please mark the attempt"");
+         marking = System.Console.ReadLine();
+         possible = asList(possibleAnswersAfterAttempt(possible, attempt, marking));
+        }
       }
     }";
 

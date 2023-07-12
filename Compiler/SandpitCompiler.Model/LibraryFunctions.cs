@@ -62,6 +62,11 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
+    private static readonly string asListFunction = @"
+    public static IList<TSource> asList<TSource>(IEnumerable<TSource> source) {
+        return System.Linq.Enumerable.ToList(source);
+    }
+";
 
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{
@@ -76,5 +81,6 @@ public static partial class GlobalConstants {{
 {maxFunction}
 {countFunction}
 {mapFunction}
+{asListFunction}
 }}".Trim();
 }
