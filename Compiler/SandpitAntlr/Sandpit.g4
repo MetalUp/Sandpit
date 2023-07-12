@@ -65,7 +65,7 @@ procedureDef:
 
 procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-procedureBlock:  ( constantDef | varDef | assignment | proceduralControlFlow | systemCall |  procedureCall)*;
+procedureBlock:  ( systemCall | procedureCall |constantDef | varDef | assignment | proceduralControlFlow)*;
 
 functionBlock:  (constantDef | varDef | assignment | functionalControlFlow)* ;
 
@@ -78,6 +78,11 @@ systemCall:
 	| NL assignableValue ASSIGN systemIn
 	| NL systemOut
 	; 
+
+procedureCall:  
+	procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
+	| expression // TODO: should be closedExpression DOT procedureCall, but won't work until we have symbol table distingushing procs from functionSignature
+	;
 
 systemIn: input | openRead | openWrite | readLine | endOfFile | today | now | newRandom | randomNext;
 
@@ -98,8 +103,6 @@ newRandom: NEW_RANDOM OPEN_BRACKET expression? CLOSE_BRACKET;
 randomNext: value DOT RANDOM_NEXT OPEN_BRACKET argumentList? CLOSE_BRACKET;
 
 assignableValue: ((PROP|PARAM)?  valueName index?) | tupleDecomp | listDecomp;
-
-procedureCall: NL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
 functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
@@ -230,20 +233,26 @@ caseDefault_functional:
 	;
 
 expression
-	: value  
-	| expression index
+	: closedExpression  //Not clear how this works in relation 
 	| unaryOp expression
 	| expression binaryOp expression
-	| functionCall 
-	| expression DOT functionCall 
-	| expression DOT propertyName
 	| newInstance
 	| ifExpression
 	| lambda
 	| letIn expression 
-	| OPEN_BRACKET expression CLOSE_BRACKET
 	| NL expression // so that any expression may be broken over multiple lines at its 'natural joints' i.e. before any sub-expression
 	;
+
+closedExpression:
+	  bracketedExpression
+	| functionCall
+	| value
+	| closedExpression index
+	| closedExpression DOT functionCall
+	| closedExpression DOT propertyName
+	;
+
+bracketedExpression: OPEN_BRACKET expression CLOSE_BRACKET ; //made into rule so that compiler can add the brackets explicitly
 
 ifExpression: NL? IF expression NL? THEN expression NL? ELSE expression;
 

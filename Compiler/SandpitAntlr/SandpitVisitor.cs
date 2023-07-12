@@ -158,6 +158,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitSystemCall([NotNull] SandpitParser.SystemCallContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.procedureCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitProcedureCall([NotNull] SandpitParser.ProcedureCallContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.systemIn"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -253,12 +259,6 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAssignableValue([NotNull] SandpitParser.AssignableValueContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.procedureCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitProcedureCall([NotNull] SandpitParser.ProcedureCallContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.functionCall"/>.
 	/// </summary>
@@ -409,6 +409,18 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitExpression([NotNull] SandpitParser.ExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.closedExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitClosedExpression([NotNull] SandpitParser.ClosedExpressionContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.bracketedExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBracketedExpression([NotNull] SandpitParser.BracketedExpressionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.ifExpression"/>.
 	/// </summary>

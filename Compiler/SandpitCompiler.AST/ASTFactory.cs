@@ -30,6 +30,7 @@ public static class ASTFactory {
             CaseContext c => visitor.Build(c),
             ClassDefContext c => visitor.Build(c),
             ClassNameContext c => visitor.Build(c),
+            ClosedExpressionContext c => visitor.Build(c),
             ConditionalOpContext c => visitor.Build(c),
             ConstantDefContext c => visitor.Build(c),
             ConstantNameContext c => visitor.Build(c),
@@ -180,31 +181,6 @@ public static class ASTFactory {
             return visitor.Visit<IExpression>(ifExpr);
         }
 
-        if (context.DOT() is { } dot) {
-            if (context.functionCall() is { } fc) {
-                var fn = visitor.Visit<FunctionExpressionNode>(fc);
-                var p = visitor.Visit<IExpression>(context.expression().First());
-                return new FunctionExpressionNode(fn, p);
-            }
-
-            if (context.propertyName() is { } pn) {
-                var id = visitor.Visit<ValueNode>(pn);
-                var expr = visitor.Visit<IExpression>(context.expression().First());
-                return new DereferenceExpressionNode(expr, id);
-            }
-        }
-
-        if (context.functionCall() is { } f) {
-            return visitor.Visit<IExpression>(f);
-        }
-
-        if (context.index() is { } indexContext) {
-            var expr = visitor.Visit<IExpression>(context.expression().First());
-            var range = visitor.Visit<IExpression>(indexContext);
-
-            return new IndexedExpressionNode(expr, range);
-        }
-
         if (context.letIn() is { } letInContext) {
             var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
             var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
@@ -214,6 +190,37 @@ public static class ASTFactory {
             var returnExpr = visitor.Visit<IExpression>(context.expression().First());
 
             return new LetDefnNode(lets, returnExpr);
+        }
+
+        return visitor.Visit(context.closedExpression());
+    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ClosedExpressionContext context) {
+        
+
+        if (context.DOT() is { } dot) {
+            if (context.functionCall() is { } fc) {
+                var fn = visitor.Visit<FunctionExpressionNode>(fc);
+                var p = visitor.Visit<IExpression>(context.closedExpression());
+                return new FunctionExpressionNode(fn, p);
+            }
+
+            if (context.propertyName() is { } pn) {
+                var id = visitor.Visit<ValueNode>(pn);
+                var expr = visitor.Visit<IExpression>(context.closedExpression());
+                return new DereferenceExpressionNode(expr, id);
+            }
+        }
+
+        if (context.functionCall() is { } f) {
+            return visitor.Visit<IExpression>(f);
+        }
+
+        if (context.index() is { } indexContext) {
+            var expr = visitor.Visit<IExpression>(context.closedExpression());
+            var range = visitor.Visit<IExpression>(indexContext);
+
+            return new IndexedExpressionNode(expr, range);
         }
 
         return visitor.Visit(context.value());
@@ -372,10 +379,17 @@ public static class ASTFactory {
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureCallContext context) {
-        var id = visitor.Visit<ValueNode>(context.procedureName());
-        var pps = context.argumentList()?.expression().Select(visitor.Visit<ValueNode>) ?? Array.Empty<ValueNode>();
+        if (context.procedureName() is { } pn) {
+            var id = visitor.Visit<ValueNode>(context.procedureName());
+            var pps = context.argumentList()?.expression().Select(visitor.Visit<IExpression>) ?? Array.Empty<IExpression>();
 
-        return new ProcedureStatementNode(id, pps.ToArray());
+            return new ProcedureStatementNode(id, pps.ToArray());
+        }
+        // this is a horrible kludge
+
+        var fc = visitor.Visit<FunctionExpressionNode>(context.expression());
+
+        return new ProcedureStatementNode(fc.ID, fc.Parameters.ToArray());
     }
 
     private static ProcedureDefinitionNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureDefContext context) {
