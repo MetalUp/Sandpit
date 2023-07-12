@@ -100,6 +100,6 @@ public class CompileTest {
 
     [TestMethod]
     public void DebugTestGoodCode() {
-        DebugHelperTestGoodCode("Code32");
+        DebugHelperTestGoodCode("Code33");
     }
 }

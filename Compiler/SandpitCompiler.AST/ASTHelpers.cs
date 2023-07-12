@@ -18,6 +18,10 @@ public static class ASTHelpers {
             "OP_EQ" => new OperatorType(Constants.Operators.Eq),
             "OP_NE" => new OperatorType(Constants.Operators.Ne),
             "PLUS" => new OperatorType(Constants.Operators.Add),
+            "LT" => new OperatorType(Constants.Operators.Lt),
+            "OP_AND" => new OperatorType(Constants.Operators.And),
+            "OP_OR" => new OperatorType(Constants.Operators.Or),
+            "OP_XOR" => new OperatorType(Constants.Operators.Xor),
             _ => throw new NotSupportedException()
         };
 
@@ -26,6 +30,10 @@ public static class ASTHelpers {
             "OP_EQ" => Constants.Operators.Eq,
             "OP_NE" => Constants.Operators.Ne,
             "PLUS" => Constants.Operators.Add,
+            "LT" => Constants.Operators.Lt,
+            "OP_AND" => Constants.Operators.And,
+            "OP_OR"=> Constants.Operators.Or,
+            "OP_XOR"=> Constants.Operators.Xor,
             _ => Constants.Operators.Unknown
         };
     }

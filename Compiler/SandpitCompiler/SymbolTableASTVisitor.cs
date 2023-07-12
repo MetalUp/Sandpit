@@ -17,6 +17,7 @@ public class SymbolTableASTVisitor {
             IBlock bn => VisitBlockNode(bn),
             IProcedure pn => VisitProcNode(pn),
             IFunction fn => VisitFunctionNode(fn),
+            LetDefnNode ln => VisitLetNode(ln),
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
             WhileStatementNode sn => VisitChildren(sn),
@@ -24,6 +25,21 @@ public class SymbolTableASTVisitor {
             null => throw new NotImplementedException("null"),
             _ => VisitChildren(astNode)
         };
+    }
+
+    private IASTNode VisitLetNode(LetDefnNode ln) {
+        var ms = new MethodSymbol("", ln.SymbolType, currentScope);
+        currentScope.Define(ms);
+        currentScope = ms;
+
+        foreach (var (id, expr) in ln.Values) {
+            var vs = new VariableSymbol(id.Text, expr.SymbolType);
+            currentScope.Define(vs);
+        }
+
+
+        currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
+        return ln;
     }
 
     private IASTNode VisitDeclNode(IDefinition dn) {

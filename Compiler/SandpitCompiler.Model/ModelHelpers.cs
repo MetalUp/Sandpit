@@ -101,6 +101,15 @@ public static class ModelHelpers {
             Constants.Operators.Eq => "==",
             Constants.Operators.Ne => "!=",
             Constants.Operators.Add => "+",
+            Constants.Operators.Minus => "-",
+            Constants.Operators.Multiply => "*",
+            Constants.Operators.Divide => "/",
+            Constants.Operators.Lt => "<",
+            Constants.Operators.Gt => ">",
+            Constants.Operators.And => "&&",
+            Constants.Operators.Or => "||",
+            Constants.Operators.Xor => "^",
+            Constants.Operators.Unknown => throw new NotImplementedException(),
             _ => throw new NotImplementedException()
         };
     }

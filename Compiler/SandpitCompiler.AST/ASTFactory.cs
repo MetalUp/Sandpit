@@ -179,6 +179,14 @@ public static class ASTFactory {
             return visitor.Visit<IExpression>(context.expression().First());
         }
 
+        if (context.binaryOp() is { } opContext) {
+            var e1 = visitor.Visit<IExpression>(context.expression().First());
+            var e2 = visitor.Visit<IExpression>(context.expression().Last());
+            var op = visitor.Visit<OperatorValueNode>(opContext);
+
+            return new BinaryExpressionNode(op, e1, e2);
+        }
+
         if (context.lambda() is { } lambda) {
             return visitor.Visit<IExpression>(lambda);
         }
@@ -205,14 +213,6 @@ public static class ASTFactory {
             return visitor.Visit<IExpression>(f);
         }
 
-        if (context.binaryOp() is { } opContext) {
-            var e1 = visitor.Visit<IExpression>(context.expression().First());
-            var e2 = visitor.Visit<IExpression>(context.expression().Last());
-            var op = visitor.Visit<OperatorValueNode>(opContext);
-
-            return new BinaryExpressionNode(op, e1, e2);
-        }
-
         if (context.index() is { } indexContext) {
             var expr = visitor.Visit<IExpression>(context.expression().First());
             var range = visitor.Visit<IExpression>(indexContext);
@@ -221,13 +221,15 @@ public static class ASTFactory {
         }
 
         if (context.letIn() is { } letInContext) {
-            var av =  visitor.Visit<IValue>(letInContext.assignableValue().First());
-            var expr1 =  visitor.Visit<IExpression>(letInContext.expression().First());
+            var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
+            var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
+
+            var lets = avs.Zip(exprs).ToArray();
 
             var returnExpr = visitor.Visit<IExpression>(context.expression().First());
 
 
-            return new LetDefnNode(av, expr1, returnExpr);
+            return new LetDefnNode(lets, returnExpr);
         }
 
         return visitor.Visit(context.valueRead());
@@ -359,7 +361,8 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LiteralValueContext context) => visitor.Visit(context.children.First());
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LogicalOpContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LogicalOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
+
     private static MainNode Build(this SandpitBaseVisitor<IASTNode> visitor, MainContext context) => new(visitor.Visit<AggregateNode<IStatement>>(context.procedureBlock()));
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MutableClassContext context) => throw new NotImplementedException();
 

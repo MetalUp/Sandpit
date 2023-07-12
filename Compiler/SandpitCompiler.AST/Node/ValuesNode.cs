@@ -13,4 +13,5 @@ public  class ValuesNode : ASTNode, IValue {
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => throw new NotImplementedException();
+    public string Text  => ""; // TODO what should this be ? 
 }

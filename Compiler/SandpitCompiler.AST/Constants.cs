@@ -8,7 +8,12 @@ public static class Constants {
         Minus,
         Multiply,
         Divide,
-        Unknown
+        Lt,
+        Gt,
+        Unknown,
+        And,
+        Or,
+        Xor
     }
 
     public enum Types {

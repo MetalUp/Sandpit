@@ -20,7 +20,7 @@ public class BinaryExpressionNode : ASTNode, IExpression {
     public override string ToStringTree() => $"({ToString()}{Op.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
 
     public ISymbolType SymbolType => Op.Operator switch {
-        Constants.Operators.Eq or Constants.Operators.Ne => new BuiltInType("Bool"), // TODO get from Symbol table ? 
+        Constants.Operators.Eq or Constants.Operators.Ne or Constants.Operators.Lt => new BuiltInType("Bool"), // TODO get from Symbol table ? 
         Constants.Operators.Add => Lhs.SymbolType,
         _ => throw new NotImplementedException()
     };

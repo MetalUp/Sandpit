@@ -58,9 +58,6 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
-    public static IEnumerable<TResult> map<TSource, TResult>(IEnumerable<TSource> source, System.Func<TSource, TResult> predicate) {
-        return System.Linq.Enumerable.Select(source, predicate);
-    }
 
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{

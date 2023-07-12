@@ -18,5 +18,5 @@ public class TernaryExpressionNode : ASTNode, IExpression {
     public override IList<IASTNode> Children { get; }
 
     public override string ToStringTree() => $"({ToString()}{Control.ToStringTree()}{Lhs.ToStringTree()}{Rhs.ToStringTree()})";
-    public ISymbolType SymbolType => throw new NotImplementedException();
+    public ISymbolType SymbolType => Lhs.SymbolType;
 }

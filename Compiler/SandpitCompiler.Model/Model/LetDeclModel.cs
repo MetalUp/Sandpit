@@ -1,23 +1,23 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class LetDeclModel : IModel {
-    private readonly IModel expr1;
-    private readonly IModel expr2;
+    private readonly IModel returnExpression;
     private readonly ITypeModel type;
 
-    public LetDeclModel(IModel id, IModel expr1, IModel expr2,  ITypeModel type) {
-        this.expr1 = expr1;
-        this.expr2 = expr2;
+    public LetDeclModel((IModel id, IModel expr)[] lets, IModel returnExpression, ITypeModel type) {
+        Lets = lets;
+
+        this.returnExpression = returnExpression;
         this.type = type;
-        ID = id;
     }
 
-   
-    private IModel ID { get; }
+    public (IModel id, IModel expr)[] Lets { get; }
 
     public override string ToString() => $@"new System.Func<{type}>(() => {{
-       var {ID} = {expr1};
-       return {expr2};
+       {Lets.Aggregate("", (a, t) => $@"{a}
+var {t.id} = {t.expr};")}
+       return {returnExpression};
     }})()".Trim();
+
     public bool HasMain => false;
 }

@@ -1,3 +1,5 @@
-﻿namespace SandpitCompiler.AST.RoleInterface; 
+﻿namespace SandpitCompiler.AST.RoleInterface;
 
-public interface IValue : IASTNode { }
+public interface IValue : IASTNode {
+    public string Text { get;  }
+}

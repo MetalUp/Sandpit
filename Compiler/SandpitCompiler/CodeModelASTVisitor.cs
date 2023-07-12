@@ -31,11 +31,14 @@ public class CodeModelASTVisitor {
             case IFunction f:
                 currentScope = currentScope.Resolve(f.ID.Text) as IScope ?? throw new ArgumentNullException();
                 break;
+            case LetDefnNode l:
+                currentScope = currentScope.ChildScopes.FirstOrDefault() ?? throw new ArgumentNullException();
+                break;
         }
     }
 
     private void Exit(IASTNode node) {
-        if (node is IBlock or IProcedure or IFunction) {
+        if (node is IBlock or IProcedure or IFunction or LetDefnNode) {
             currentScope = currentScope.EnclosingScope ?? throw new ArgumentNullException();
         }
     }
@@ -76,7 +79,7 @@ public class CodeModelASTVisitor {
         return new FuncModel(id, new TypeModel(type, currentScope), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
     }
 
-    private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(Visit(ldn.ID), Visit(ldn.Expr), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType, currentScope));
+    private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new( ldn.Values.Select(t => (Visit(t.id), Visit(t.expr))).ToArray(), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType, currentScope));
 
     private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 

@@ -4,20 +4,18 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class LetDefnNode : ASTNode, IStatement, IExpression {
-    public LetDefnNode(IValue id, IExpression expr, IExpression returnExpression) {
-        ID = id;
-        Expr = expr;
+    public LetDefnNode((IValue id, IExpression expr)[] values, IExpression returnExpression) {
+        Values = values;
         ReturnExpression = returnExpression;
-        Children = new List<IASTNode> { ID, Expr };
-        SymbolType = expr.SymbolType;
+        Children = new List<IASTNode> { returnExpression };
+        SymbolType = returnExpression.SymbolType;
     }
 
-    public IValue ID { get; }
-    public IExpression Expr { get; }
+    public (IValue id, IExpression expr)[] Values { get; }
     public IExpression ReturnExpression { get; }
 
     public ISymbolType SymbolType { get; }
 
     public override IList<IASTNode> Children { get; }
-    public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expr.ToStringTree()})";
+    public override string ToStringTree() => $"({ToString()} {ReturnExpression.ToStringTree()})";
 }
