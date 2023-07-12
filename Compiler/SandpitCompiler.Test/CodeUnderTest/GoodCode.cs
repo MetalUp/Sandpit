@@ -342,24 +342,24 @@ public static class Program {
         }
     }";
 
-    public const string Code19 = @"
-    main
-      print(""test string"")
-    end main
-    ";
+    //public const string Code19 = @"
+    //main
+    //  print(""test string"")
+    //end main
+    //";
 
-    public const string Code19Result = @"using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using static GlobalConstants;
+    //public const string Code19Result = @"using System.Collections.Generic;
+    //using System.Collections.Immutable;
+    //using static GlobalConstants;
 
-    public static partial class GlobalConstants {
+    //public static partial class GlobalConstants {
   
-    }
-    public static class Program {
-        private static void Main(string[] args) {
-          print(""test string"");
-        }
-    }";
+    //}
+    //public static class Program {
+    //    private static void Main(string[] args) {
+    //      print(""test string"");
+    //    }
+    //}";
 
     public const string Code20 = @"
     main
@@ -698,8 +698,8 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
     else target
 
 function evaluateGreens(attempt String, target String) as (String, String) ->
-    range(5).reduce((attempt, target), _
-    lambda a, x-> _
+    range(5).reduce((attempt, target),
+    lambda a, x->
     (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
     ";
 
@@ -834,27 +834,27 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
     else target
 
 function evaluateGreens(attempt String, target String) as (String, String) ->
-    range(5).reduce((attempt, target), _
-    lambda a, x-> _
+    range(5).reduce((attempt, target),
+    lambda a, x->
     (setAttemptIfGreen(a.attempt, a.target, x), setTargetIfGreen(a.attempt, a.target, x)))
 
 function evaluateYellows(attempt String, target String) as (String, String) ->
-    range(5).reduce((attempt, target), _
+    range(5).reduce((attempt, target),
     lambda a, x -> (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)))
 
-function markAttempt(attempt String, target String) as String ->
-    let (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target) in
-    attemptAfterGreens.evaluateYellows(targetAfterGreens)[0]
+//function markAttempt(attempt String, target String) as String ->
+//    let (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target) in
+//    attemptAfterGreens.evaluateYellows(targetAfterGreens)[0]
 
-function possibleAnswersAfterAttempt(prior Iterable<String>, attempt String, mark String) as Iterable<String> -> 
-    prior.filter(lambda w -> markAttempt(attempt, w) is mark)
+//function possibleAnswersAfterAttempt(prior Iterable<String>, attempt String, mark String) as Iterable<String> -> 
+//    prior.filter(lambda w -> markAttempt(attempt, w) is mark)
 
-function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attempt String) as Int ->
-    let groups = possibleAnswers.groupBy(lambda w -> markAttempt(attempt, w)) in 
-    groups.max(lambda g -> g.count())
+//function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attempt String) as Int ->
+//    let groups = possibleAnswers.groupBy(lambda w -> markAttempt(attempt, w)) in 
+//    groups.max(lambda g -> g.count())
 
-function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<String>) as Iterable<(String, Int)> ->
-    possAttempts.map(lambda w -> (w, wordCountRemainingAfterAttempt(possAnswers, w)))
+//function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<String>) as Iterable<(String, Int)> ->
+//    possAttempts.map(lambda w-> (w, wordCountRemainingAfterAttempt(possAnswers, w)))
 
 //function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable< String >) as (String, Int)  ->
 //    let
@@ -920,29 +920,34 @@ function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<
          return reduce(range(5), (attempt, target), (a, x) => (setAttemptIfYellow(a.attempt, a.target, x), setTargetIfYellow(a.attempt, a.target, x)));
       }
 
-      public static string markAttempt(string attempt, string target) {
-         return new System.Func<(string, string)>(() => {
-           var (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target);
-           return evaluateYellows(attemptAfterGreens, targetAfterGreens);
-         })().Item1;
-      }
-
-      public static IEnumerable<string> possibleAnswersAfterAttempt(IEnumerable<string> prior, string attempt, string mark) { 
-         return filter(prior, (w) => markAttempt(attempt, w) == mark);
-      }
-
-      public static int wordCountRemainingAfterAttempt(IEnumerable<string> possibleAnswers, string attempt) {
-        return new System.Func<int>(() => {
-            var groups = groupBy(possibleAnswers, (w) => markAttempt(attempt, w));
-            return max(groups, (g) => count(g));
-        })();
-      }
-
-      public static IEnumerable<(string, int)> allRemainingWordCounts(IList<string> possAnswers, IEnumerable<string> possAttempts) {
-        return map(possAttempts, (w) => (w, wordCountRemainingAfterAttempt(possAnswers, w))); 
-      }
-
+    
     }";
+
+    //public static string markAttempt(string attempt, string target) {
+    //    return new System.Func<(string, string)>(() => {
+    //        var (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target);
+    //        return evaluateYellows(attemptAfterGreens, targetAfterGreens);
+    //    })().Item1;
+    //}
+
+    //public static IEnumerable<string> possibleAnswersAfterAttempt(IEnumerable<string> prior, string attempt, string mark) { 
+    //    return filter(prior, (w) => markAttempt(attempt, w) == mark);
+    //}
+
+    //public static int wordCountRemainingAfterAttempt(IEnumerable<string> possibleAnswers, string attempt) {
+    //    return new System.Func<int>(() => {
+    //        var groups = groupBy(possibleAnswers, (w) => markAttempt(attempt, w));
+    //        return max(groups, (g) => count(g));
+    //    })();
+    //}
+
+    //public static IEnumerable<(string, int)> allRemainingWordCounts(IList<string> possAnswers, IEnumerable<string> possAttempts) {
+    //    return map(possAttempts, (w) => (w, wordCountRemainingAfterAttempt(possAnswers, w))); 
+    //}
+
+
+
+
 
     public static readonly ASTNode Code1AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"))));
 

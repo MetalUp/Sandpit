@@ -15,7 +15,7 @@ var b = 1
 end main
 ";
 
-    public const string Code2Message = "line 1:0 extraneous input 'main' expecting {<EOF>, SOL}";
+    public const string Code2Message = "line 1:0 extraneous input 'main' expecting {<EOF>, NL}";
 
     public const string Code3 = @"main
     var a = 1
@@ -23,7 +23,7 @@ end main
     end main
     ";
 
-    public const string Code3Message = "line 1:0 extraneous input 'main' expecting {<EOF>, SOL}";
+    public const string Code3Message = "line 1:0 extraneous input 'main' expecting {<EOF>, NL}";
 
     public const string Code4 = @"
     procedure p()
@@ -72,5 +72,5 @@ end main
 
     public static readonly string Code5Message = $"line 4:16 no viable alternative at input '{NL}endprocedure{NL}'";
 
-    public static readonly string Code6Message = $"line 2:15 no viable alternative at input '{NL}functionp()'";
+    public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 }

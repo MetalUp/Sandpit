@@ -115,7 +115,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitInherits([NotNull] SandpitParser.InheritsContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.procedureMethod"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.constructor"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -123,9 +123,9 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitProcedureMethod([NotNull] SandpitParser.ProcedureMethodContext context) { return VisitChildren(context); }
+	public virtual Result VisitConstructor([NotNull] SandpitParser.ConstructorContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.functionMethod"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.property"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -133,7 +133,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFunctionMethod([NotNull] SandpitParser.FunctionMethodContext context) { return VisitChildren(context); }
+	public virtual Result VisitProperty([NotNull] SandpitParser.PropertyContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.functionDef"/>.
 	/// <para>
@@ -195,26 +195,6 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitProcedureSignature([NotNull] SandpitParser.ProcedureSignatureContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.constructor"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitConstructor([NotNull] SandpitParser.ConstructorContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.property"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitProperty([NotNull] SandpitParser.PropertyContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.procedureBlock"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -234,26 +214,6 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitFunctionBlock([NotNull] SandpitParser.FunctionBlockContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.systemCall"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitSystemCall([NotNull] SandpitParser.SystemCallContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.systemKeyword"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitSystemKeyword([NotNull] SandpitParser.SystemKeywordContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.varDef"/>.
 	/// <para>
@@ -275,6 +235,166 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitAssignment([NotNull] SandpitParser.AssignmentContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.systemCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSystemCall([NotNull] SandpitParser.SystemCallContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.systemIn"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSystemIn([NotNull] SandpitParser.SystemInContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.systemOut"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSystemOut([NotNull] SandpitParser.SystemOutContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.print"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitPrint([NotNull] SandpitParser.PrintContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.printLine"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitPrintLine([NotNull] SandpitParser.PrintLineContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.input"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitInput([NotNull] SandpitParser.InputContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.openRead"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitOpenRead([NotNull] SandpitParser.OpenReadContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.openWrite"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitOpenWrite([NotNull] SandpitParser.OpenWriteContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.readLine"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitReadLine([NotNull] SandpitParser.ReadLineContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.writeLine"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitWriteLine([NotNull] SandpitParser.WriteLineContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.endOfFile"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitEndOfFile([NotNull] SandpitParser.EndOfFileContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.closeFile"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitCloseFile([NotNull] SandpitParser.CloseFileContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.today"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitToday([NotNull] SandpitParser.TodayContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.now"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNow([NotNull] SandpitParser.NowContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.newRandom"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNewRandom([NotNull] SandpitParser.NewRandomContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.randomNext"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitRandomNext([NotNull] SandpitParser.RandomNextContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.assignableValue"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -285,36 +405,6 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitAssignableValue([NotNull] SandpitParser.AssignableValueContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.valueRead"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitValueRead([NotNull] SandpitParser.ValueReadContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.tupleDecomp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitTupleDecomp([NotNull] SandpitParser.TupleDecompContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.listDecomp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitListDecomp([NotNull] SandpitParser.ListDecompContext context) { return VisitChildren(context); }
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.procedureCall"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -324,6 +414,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitProcedureCall([NotNull] SandpitParser.ProcedureCallContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionCall"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitFunctionCall([NotNull] SandpitParser.FunctionCallContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.argumentList"/>.
 	/// <para>
@@ -355,7 +455,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitParameter([NotNull] SandpitParser.ParameterContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.assignmentOp"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.proceduralControlFlow"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -363,9 +463,9 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitAssignmentOp([NotNull] SandpitParser.AssignmentOpContext context) { return VisitChildren(context); }
+	public virtual Result VisitProceduralControlFlow([NotNull] SandpitParser.ProceduralControlFlowContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.unaryOp"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.functionalControlFlow"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -373,57 +473,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitUnaryOp([NotNull] SandpitParser.UnaryOpContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.binaryOp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitBinaryOp([NotNull] SandpitParser.BinaryOpContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.arithmeticOp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitArithmeticOp([NotNull] SandpitParser.ArithmeticOpContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.logicalOp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitLogicalOp([NotNull] SandpitParser.LogicalOpContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.conditionalOp"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitConditionalOp([NotNull] SandpitParser.ConditionalOpContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.controlFlowStatement"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitControlFlowStatement([NotNull] SandpitParser.ControlFlowStatementContext context) { return VisitChildren(context); }
+	public virtual Result VisitFunctionalControlFlow([NotNull] SandpitParser.FunctionalControlFlowContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.if"/>.
 	/// <para>
@@ -435,6 +485,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitIf([NotNull] SandpitParser.IfContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.if_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitIf_functional([NotNull] SandpitParser.If_functionalContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.for"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -444,6 +504,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitFor([NotNull] SandpitParser.ForContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.for_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitFor_functional([NotNull] SandpitParser.For_functionalContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.forIn"/>.
 	/// <para>
@@ -455,6 +525,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitForIn([NotNull] SandpitParser.ForInContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.forIn_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitForIn_functional([NotNull] SandpitParser.ForIn_functionalContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.while"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -464,6 +544,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitWhile([NotNull] SandpitParser.WhileContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.while_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitWhile_functional([NotNull] SandpitParser.While_functionalContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.repeat"/>.
 	/// <para>
@@ -475,6 +565,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRepeat([NotNull] SandpitParser.RepeatContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.repeat_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitRepeat_functional([NotNull] SandpitParser.Repeat_functionalContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.try"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -484,6 +584,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitTry([NotNull] SandpitParser.TryContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.try_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitTry_functional([NotNull] SandpitParser.Try_functionalContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.switch"/>.
 	/// <para>
@@ -495,6 +605,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitSwitch([NotNull] SandpitParser.SwitchContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.switch_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitSwitch_functional([NotNull] SandpitParser.Switch_functionalContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.case"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -505,7 +625,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitCase([NotNull] SandpitParser.CaseContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.case_default"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.case_functional"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -513,7 +633,27 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitCase_default([NotNull] SandpitParser.Case_defaultContext context) { return VisitChildren(context); }
+	public virtual Result VisitCase_functional([NotNull] SandpitParser.Case_functionalContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.caseDefault"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitCaseDefault([NotNull] SandpitParser.CaseDefaultContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.caseDefault_functional"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitCaseDefault_functional([NotNull] SandpitParser.CaseDefault_functionalContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.expression"/>.
 	/// <para>
@@ -575,7 +715,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRange([NotNull] SandpitParser.RangeContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.literalValue"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.value"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -583,67 +723,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitLiteralValue([NotNull] SandpitParser.LiteralValueContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.bool"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitBool([NotNull] SandpitParser.BoolContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.integer"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitInteger([NotNull] SandpitParser.IntegerContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.float"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitFloat([NotNull] SandpitParser.FloatContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.decimal"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitDecimal([NotNull] SandpitParser.DecimalContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.char"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitChar([NotNull] SandpitParser.CharContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.string"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitString([NotNull] SandpitParser.StringContext context) { return VisitChildren(context); }
+	public virtual Result VisitValue([NotNull] SandpitParser.ValueContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.dataStructure"/>.
 	/// <para>
@@ -665,6 +745,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitTuple([NotNull] SandpitParser.TupleContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.tupleDecomp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitTupleDecomp([NotNull] SandpitParser.TupleDecompContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.list"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
@@ -674,6 +764,16 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitList([NotNull] SandpitParser.ListContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.listDecomp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitListDecomp([NotNull] SandpitParser.ListDecompContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.dictionary"/>.
 	/// <para>
@@ -695,7 +795,7 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <return>The visitor result.</return>
 	public virtual Result VisitKvp([NotNull] SandpitParser.KvpContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.functionCall"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.assignmentOp"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -703,9 +803,9 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitFunctionCall([NotNull] SandpitParser.FunctionCallContext context) { return VisitChildren(context); }
+	public virtual Result VisitAssignmentOp([NotNull] SandpitParser.AssignmentOpContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.instantiation"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.unaryOp"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -713,7 +813,67 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitInstantiation([NotNull] SandpitParser.InstantiationContext context) { return VisitChildren(context); }
+	public virtual Result VisitUnaryOp([NotNull] SandpitParser.UnaryOpContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.binaryOp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitBinaryOp([NotNull] SandpitParser.BinaryOpContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.arithmeticOp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitArithmeticOp([NotNull] SandpitParser.ArithmeticOpContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.logicalOp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLogicalOp([NotNull] SandpitParser.LogicalOpContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.conditionalOp"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitConditionalOp([NotNull] SandpitParser.ConditionalOpContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.literalValue"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLiteralValue([NotNull] SandpitParser.LiteralValueContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.newInstance"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitNewInstance([NotNull] SandpitParser.NewInstanceContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.withClause"/>.
 	/// <para>
@@ -734,6 +894,26 @@ public partial class SandpitBaseVisitor<Result> : AbstractParseTreeVisitor<Resul
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitType([NotNull] SandpitParser.TypeContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.enumeration"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitEnumeration([NotNull] SandpitParser.EnumerationContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.enumValue"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitEnumValue([NotNull] SandpitParser.EnumValueContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.dataStructureType"/>.
 	/// <para>

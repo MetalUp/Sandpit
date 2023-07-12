@@ -2,110 +2,278 @@ grammar Sandpit;
 import Sandpit_Lexer;
 
 file
-	: (main |constantDef | classDef | procedureDef | functionDef)* SOL* EOF
+	: (main |constantDef | classDef | functionDef | procedureDef)* NL* EOF
 	;
 
 main 
-    : SOL MAIN
+    : NL MAIN
       procedureBlock
-      SOL END MAIN 
+      NL END MAIN 
     ;
 
-constantDef: SOL CONSTANT constantName ASSIGN expression;
+constantDef: NL CONSTANT constantName ASSIGN expression;
 
 classDef: abstractClass | mutableClass | immutableClass;
 
 mutableClass: 
-	SOL CLASS className inherits?
-    (SOL (constructor | property | functionMethod | procedureMethod | constantDef))*
-    SOL END CLASS
+	NL CLASS className inherits?
+    (constructor | property | functionDef | procedureDef | constantDef)*
+    NL END CLASS
 	;
 
 immutableClass
-	: SOL IMMUTABLE CLASS className inherits?
-    (SOL (constructor | property | functionMethod | constantDef))*
-    SOL END CLASS 
+	: NL IMMUTABLE CLASS className inherits?
+    (constructor | property | functionDef | constantDef)*
+    NL END CLASS 
 	;
 
 abstractClass:
-	SOL ABSTRACT CLASS className inherits?
-    (SOL ( property | functionSignature | procedureSignature))*
-    SOL END CLASS
+	NL ABSTRACT CLASS className inherits?
+    (property | NL FUNCTION functionSignature | NL PROCEDURE procedureSignature)*
+    NL END CLASS
 	;
  
 inherits: INHERITS type (COMMA type)* ;
 
-procedureMethod:
-	SOL PRIVATE? METHOD procedureSignature
-	procedureBlock
-	SOL END METHOD
+constructor: 
+	NL CONSTRUCTOR (OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET)? 
+    functionBlock
+	NL END CONSTRUCTOR
 	;
 
-functionMethod:
-	SOL PRIVATE? METHOD functionSignature  //TODO Doesn't currently permit expression syntax for function methods
-	functionBlock
-	SOL END METHOD
-	;
+property: NL PRIVATE? PROPERTY propertyName ( type | (ASSIGN expression)); 
 
 functionDef: functionWithBody | expressionFunction;
 
 functionWithBody: 
-	SOL FUNCTION functionSignature
+	NL FUNCTION functionSignature
 	functionBlock
-	SOL RETURN expression
-    SOL END FUNCTION
+	NL RETURN expression
+    NL END FUNCTION
 	;
 
 expressionFunction: 
-	SOL FUNCTION functionSignature SOL? ARROW SOL? expression; 
+	NL FUNCTION functionSignature NL? ARROW NL? expression; 
    
-functionSignature: functionName OPEN_BRACKET parameterList CLOSE_BRACKET AS type;
+functionSignature: functionName OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET NL? AS NL? type;
 
 procedureDef:
-	SOL PROCEDURE procedureSignature
+	NL PROCEDURE procedureSignature
 	procedureBlock 
-    SOL END PROCEDURE
+    NL END PROCEDURE
 	;
 
-procedureSignature: procedureName OPEN_BRACKET parameterList? CLOSE_BRACKET;
+procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-constructor: 
-	SOL CONSTRUCTOR (OPEN_BRACKET parameterList? CLOSE_BRACKET)? 
-    functionBlock
-	SOL END CONSTRUCTOR
-	;
+procedureBlock:  ( constantDef | varDef | assignment | proceduralControlFlow | systemCall |  procedureCall)*;
 
-property: SOL PRIVATE? PROPERTY propertyName ( type | (ASSIGN expression)); 
+functionBlock:  (constantDef | varDef | assignment | functionalControlFlow)* ;
 
-procedureBlock:  (systemCall |  procedureCall |  constantDef | varDef | assignment | controlFlowStatement)*;
+varDef: NL VAR variableName ASSIGN expression;
 
-functionBlock:  (constantDef | varDef | assignment | controlFlowStatement)* ;
+assignment: NL assignableValue (ASSIGN | assignmentOp)  expression	;
 
-systemCall:   SOL VAR variableName ASSIGN systemKeyword
-			| SOL assignableValue ASSIGN systemKeyword
-			; 
+systemCall:
+	  NL VAR variableName ASSIGN systemIn
+	| NL assignableValue ASSIGN systemIn
+	| NL systemOut
+	; 
 
-systemKeyword: (INPUT | INPUT_INT | INPUT_FLOAT | RANDOM | TODAY | NOW);
+systemIn: input | openRead | openWrite | readLine | endOfFile | today | now | newRandom | randomNext;
 
-varDef: SOL VAR variableName ASSIGN expression;
+systemOut: print | printLine | writeLine | closeFile;
 
-assignment: SOL assignableValue (ASSIGN | assignmentOp)  expression	;
+print: PRINT OPEN_BRACKET expression CLOSE_BRACKET;
+printLine:  PRINT_LINE OPEN_BRACKET expression? CLOSE_BRACKET;
+input:  INPUT (LT VALUE_TYPE GT)? OPEN_BRACKET expression? CLOSE_BRACKET;
+openRead: OPEN_READ  OPEN_BRACKET expression CLOSE_BRACKET;
+openWrite: OPEN_WRITE OPEN_BRACKET expression CLOSE_BRACKET;
+readLine: value DOT READ_LINE OPEN_BRACKET CLOSE_BRACKET;
+writeLine:  value DOT WRITE_LINE OPEN_BRACKET expression CLOSE_BRACKET;
+endOfFile: value DOT END_OF_FILE OPEN_BRACKET CLOSE_BRACKET;
+closeFile: value DOT CLOSE OPEN_BRACKET CLOSE_BRACKET;
+today: TODAY  OPEN_BRACKET CLOSE_BRACKET;
+now: NOW  OPEN_BRACKET CLOSE_BRACKET;
+newRandom: NEW_RANDOM OPEN_BRACKET expression? CLOSE_BRACKET;
+randomNext: value DOT RANDOM_NEXT OPEN_BRACKET argumentList? CLOSE_BRACKET;
 
 assignableValue: ((PROP|PARAM)?  valueName index?) | tupleDecomp | listDecomp;
 
-valueRead: literalValue | ((PROP|PARAM)? valueName) | dataStructure;
+procedureCall: NL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
-tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
-
-listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
-
-procedureCall: SOL (expression DOT)? procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET; 
+functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
 argumentList: expression (COMMA expression)*;
 
 parameterList: parameter  (COMMA parameter)*;
 
-parameter: SOL? parameterName type; 
+parameter: NL? parameterName type; 
+
+proceduralControlFlow: if  | for |  forIn | while | repeat | try | switch;
+
+functionalControlFlow: if_functional  | for_functional |  forIn_functional | while_functional | repeat_functional | try_functional | switch_functional;
+
+if:	NL IF expression THEN
+    procedureBlock
+    (NL ELSE IF expression THEN
+    procedureBlock)*
+    (NL ELSE
+    procedureBlock)?
+    NL END IF
+	;
+
+if_functional:	NL IF expression THEN
+    functionBlock
+    (NL ELSE IF expression THEN
+    functionBlock)*
+    (NL ELSE
+    functionBlock)?
+    NL END IF
+	;
+
+for: 
+	NL FOR variableName ASSIGN expression TO expression 
+	procedureBlock
+	NL END FOR
+	;
+
+for_functional: 
+	NL FOR variableName ASSIGN expression TO expression 
+	functionBlock
+	NL END FOR
+	;
+
+forIn: 
+	NL FOR variableName IN expression 
+    procedureBlock
+    NL END FOR
+	;
+
+forIn_functional: 
+	NL FOR variableName IN expression 
+    functionBlock
+    NL END FOR
+	;
+          
+while: 
+	NL WHILE expression 
+    procedureBlock
+    NL END WHILE
+	;
+
+while_functional: 
+	NL WHILE expression 
+    functionBlock
+    NL END WHILE
+	;
+          
+repeat: 
+	NL (REPEAT | DO)
+    procedureBlock
+    NL UNTIL expression
+	;
+
+repeat_functional: 
+	NL (REPEAT | DO)
+    functionBlock
+    NL UNTIL expression
+	;
+
+try: 
+	NL TRY 
+    procedureBlock
+    (NL CATCH variableName type 
+	  procedureBlock)?
+    NL END TRY
+	;
+
+try_functional: 
+	NL TRY 
+    functionBlock
+    (NL CATCH variableName type 
+	  functionBlock)?
+    NL END TRY
+	;
+
+switch: 
+	NL SWITCH expression
+	  case*
+      caseDefault?
+	END SWITCH
+	;
+
+switch_functional: 
+	NL SWITCH expression
+	  case_functional*
+      caseDefault_functional?
+	END SWITCH
+	;
+
+case: 
+	NL CASE literalValue
+    procedureBlock
+	;
+
+case_functional: 
+	NL CASE literalValue
+    functionBlock
+	;
+
+caseDefault : 
+	NL DEFAULT
+    procedureBlock
+	;
+
+caseDefault_functional: 
+	NL DEFAULT
+    functionBlock
+	;
+
+expression
+	: value  
+	| expression index
+	| unaryOp expression
+	| expression binaryOp expression
+	| functionCall 
+	| expression DOT functionCall 
+	| expression DOT propertyName
+	| newInstance
+	| ifExpression
+	| lambda
+	| letIn expression 
+	| OPEN_BRACKET expression CLOSE_BRACKET
+	| NL expression // so that any expression may be broken over multiple lines at its 'natural joints' i.e. before any sub-expression
+	;
+
+ifExpression: NL? IF expression NL? THEN expression NL? ELSE expression;
+
+lambda: LAMBDA argumentList ARROW expression; 
+
+letIn: LET NL? assignableValue ASSIGN expression (COMMA assignableValue ASSIGN expression)* NL? IN NL?; 
+
+index: OPEN_SQ_BRACKET (expression | expression COMMA expression | range) CLOSE_SQ_BRACKET;
+
+range
+	: expression DOUBLE_DOT expression 
+	| expression DOUBLE_DOT
+	| DOUBLE_DOT expression 
+	; 
+
+value: literalValue | ((PROP|PARAM)? valueName) | dataStructure;
+
+dataStructure: tuple | list | dictionary;
+
+tuple:  OPEN_BRACKET expression COMMA expression (COMMA expression)* CLOSE_BRACKET; 
+
+tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
+ 
+list: OPEN_BRACE (NL? expression (COMMA expression)* NL?)? CLOSE_BRACE;
+
+listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
+
+dictionary: OPEN_BRACE (NL? kvp (COMMA kvp)* NL?)? CLOSE_BRACE;
+
+kvp: expression COLON expression;
 
 assignmentOp: ASSIGN_ADD | ASSIGN_SUBTRACT | ASSIGN_MULT | ASSIGN_DIV; 
 
@@ -119,127 +287,24 @@ logicalOp: OP_AND | OP_OR | OP_XOR;
 
 conditionalOp: GT | LT | OP_GE | OP_LE | OP_EQ | OP_NE;
 
-controlFlowStatement: if  | for |  forIn | while | repeat | try | switch;
+literalValue:  BOOL_VALUE | LITERAL_INTEGER | LITERAL_FLOAT | LITERAL_DECIMAL| LITERAL_CHAR | LITERAL_STRING;
 
-if:	SOL IF expression THEN
-    procedureBlock
-    (SOL ELSE IF expression THEN
-    procedureBlock)*
-    (SOL ELSE
-    procedureBlock)?
-    SOL END IF
-	;
-
-for: 
-	SOL FOR variableName ASSIGN expression 'to'  expression 
-	procedureBlock
-	SOL ((END FOR) | (NEXT variableName))
-	;
-
-forIn: 
-	SOL FOR variableName IN expression 
-    procedureBlock
-    SOL ((END FOR) | (NEXT variableName))
-	;
-          
-while: 
-	SOL WHILE expression 
-    procedureBlock
-    SOL END WHILE
-	;
-          
-repeat: 
-	SOL REPEAT | DO
-    procedureBlock
-    SOL  UNTIL expression
-	;
-
-try: 
-	SOL TRY 
-    procedureBlock
-    (SOL CATCH'catch' variableName type 
-	  procedureBlock)?
-    SOL END TRY
-	;
-
-switch: 
-	SOL SWITCH expression COLON
-	  case*
-      case_default?
-	END SWITCH
-	;
-
-case: 
-	SOL CASE COLON
-    procedureBlock
-	;
-
-case_default : 
-	SOL DEFAULT COLON
-    procedureBlock
-	;
-
-expression
-	:  LINE_CONTINUATION expression 
-	| valueRead  
-	| unaryOp expression
-	| expression binaryOp expression
-	| functionCall 
-	| expression DOT functionCall 
-	| expression DOT propertyName
-	| instantiation
-	| ifExpression
-	| OPEN_BRACKET expression CLOSE_BRACKET
-	| lambda
-	| letIn expression
-	| expression index 
-	;
-
-ifExpression: SOL? IF SOL? expression SOL? THEN SOL? expression SOL? ELSE SOL? expression;
-
-lambda: LAMBDA argumentList ARROW expression; 
-
-letIn: LET SOL? assignableValue ASSIGN expression (COMMA SOL? assignableValue ASSIGN expression)* SOL? IN SOL?; 
-
-index: OPEN_SQ_BRACKET (expression | expression COMMA expression | range) CLOSE_SQ_BRACKET;
-
-range
-	: expression DOUBLE_DOT expression 
-	| expression DOUBLE_DOT
-	| DOUBLE_DOT expression 
-	; 
-
-literalValue:  bool | integer | float | decimal | char | string;
-
-bool: BOOL_VALUE;
-integer: LITERAL_INTEGER;
-float: LITERAL_FLOAT; 
-decimal : LITERAL_DECIMAL;
-char: LITERAL_CHAR;
-string:  LITERAL_STRING;
-
-dataStructure: tuple | list | dictionary;
-
-tuple:  OPEN_BRACKET expression COMMA expression (COMMA expression)* CLOSE_BRACKET; 
- 
-list: OPEN_BRACE (expression (COMMA expression)*)? CLOSE_BRACE;
-
-dictionary: OPEN_BRACE (kvp (COMMA kvp)*)? CLOSE_BRACE;
-
-kvp: expression COLON expression;
-
-functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
-
-instantiation:
+newInstance:
 	NEW type OPEN_BRACKET (argumentList)? CLOSE_BRACKET (withClause)?
 	| valueName withClause
 	;
 
 withClause: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE;
 
-type:  VALUE_TYPE | dataStructureType | className | funcType ;
+type:  VALUE_TYPE | className | dataStructureType |  funcType | enumeration;
 
-dataStructureType: arrayType | listType | dictionaryType | tupleType | iterableType;
+enumeration: NL ENUMERATION 
+		     (enumValue (COMMA enumValue)*)  
+			 NL END ENUMERATION;
+
+enumValue: IDENTIFIER (ASSIGN LITERAL_INTEGER );
+
+dataStructureType: arrayType | listType | dictionaryType | tupleType | iterableType | RANDOM;
 
 tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
 
@@ -257,7 +322,7 @@ generic: LT type GT;
     
 funcType: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET;
     
-className: TYPENAME;  
+className: IDENTIFIER; 
 valueName: constantName | variableName | letName; 
 constantName: IDENTIFIER;  
 propertyName: IDENTIFIER;  

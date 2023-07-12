@@ -1,14 +1,27 @@
 lexer grammar Sandpit_Lexer;
 
-
 BYTE_ORDER_MARK: '\u00EF\u00BB\u00BF';
 
-SOL: [\r\n\f]+ ;
+NL: [\r\n\f]+ ;
 
-LINE_CONTINUATION: '_' SOL;
+LINE_CONTINUATION: '_' NL;
 
-SINGLE_LINE_COMMENT:('//'|'#')  InputCharacter*    -> skip; // C or Python style comments
+SINGLE_LINE_COMMENT: NL? ('//'|'#')  InputCharacter*    -> skip; // C or Python style comments
 
+//System calls
+INPUT:		   'input';
+PRINT:		   'print';
+PRINT_LINE:	   'printLine';
+OPEN_READ: 	   'openRead';
+OPEN_WRITE:	   'openWrite';
+READ_LINE:	   'readLine';
+WRITE_LINE:	   'writeLine';
+END_OF_FILE:   'endOfFile';
+CLOSE:		   'close';
+TODAY:		   'today';
+NOW:		   'now';
+NEW_RANDOM:    'random';
+RANDOM_NEXT:   'next';
 
 // Keywords
 AS:			   'as';
@@ -22,14 +35,11 @@ DEFAULT: 	   'default'; //for use with switch...case
 DO:            'do'; //Alternate for 'repeat'
 ELSE:          'else';
 END:		   'end'; //used with another keyword to delimit a statement block
-//ENUM:          'enum';
+ENUMERATION:   'enumeration';
 FOR:           'for';
 FUNCTION:	   'function';
 IF:            'if'; 
 IMMUTABLE:	   'immutable';
-INPUT:		   'input';
-INPUT_INT:	   'inputint';
-INPUT_FLOAT:   'inputfloat';
 //IMPORT:		   'import';
 IN:            'in'; //used as for...in
 INHERITS:      'inherits';
@@ -39,16 +49,12 @@ MAIN:		   'main';
 METHOD:		   'method';
 //MODULE: 	   'module';
 NEW:           'new';
-NEXT:		   'next';
-NOW: 		   'now';
 //NULL_:         'null';
 PARAM:		   'param';
 PRIVATE:       'private';
 PROCEDURE:	   'procedure';
 PROP:		   'prop';
 PROPERTY:      'property';
-//READONLY:      'readonly'; // for properties
-RANDOM: 	   'random';
 REPEAT:		   'repeat';
 RETURN:        'return';
 //SELF:		   'self' ; // Shouldn't need this
@@ -56,7 +62,7 @@ SWITCH:        'switch';
 THIS:          'this';
 THEN:		   'then';
 THROW:         'throw';
-TODAY:		   'today';
+TO:			   'to';
 TRY:           'try';
 UNTIL:         'until';
 VAR:		   'var';
@@ -71,6 +77,9 @@ ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
 ITERABLE: 'Iterable';
+RANDOM: 'Random';
+
+
 
 //Operators And Punctuators
 ASSIGN_ADD:        		  '+=';
@@ -87,7 +96,7 @@ OPEN_BRACKET:              '(';
 CLOSE_BRACKET:             ')';
 DOUBLE_DOT:               '..';
 DOT:                      '.';
-COMMA:                    ',';
+COMMA:                    ',' [ \t]* NL?;  //Any comma-separated list (of data, params etc) should be allowed to be split over more than one line.
 COLON:                    ':';
 PLUS:                     '+';
 MINUS:                    '-';
@@ -112,7 +121,7 @@ OP_GE:                    '>=';
 // must be defined after all keywords so the first branch (Available_identifier) does not match keywords
 // https://msdn.microsoft.com/en-us/library/aa664670(v=vs.71).aspx
 
-IDENTIFIER:         IdentifierStartingLC;
+IDENTIFIER:         IdentifierStartingUCorLC; //TODO: Temporarily allowing uc or lc start to aid in error detection
 TYPENAME:           IdentifierStartingUC;
 //B.1.8 Literals
 LITERAL_INTEGER:     [0-9] ('_'* [0-9])*;
@@ -120,7 +129,7 @@ LITERAL_FLOAT:        ([0-9] ('_'* [0-9])*)? '.' [0-9] ('_'* [0-9])* ExponentPar
 LITERAL_DECIMAL:	 LITERAL_FLOAT 'D';
 
 LITERAL_CHAR:                   '\'' (~['\\\r\n\u0085\u2028\u2029] | CommonCharacter) '\'';
-LITERAL_STRING:                      '"'  (~["\\\r\n\u0085\u2028\u2029] | CommonCharacter)* '"'; //Bacon regular string is interpolated and verbatim
+LITERAL_STRING:                      '"'  (~["\u0085\u2028\u2029] | CommonCharacter)* '"'; //Bacon regular string is interpolated and verbatim
 VERBATIM_ONLY_STRING:                    '"""' (~'"' | '""')* '"';
 
 //Must be defined after other uses of it
@@ -219,6 +228,10 @@ fragment UnicodeClassZS
 	| '\u202F' // NARROW NO_BREAK SPACE
 	| '\u3000' // IDEOGRAPHIC SPACE
 	| '\u205F' // MEDIUM MATHEMATICAL SPACE
+	;
+
+fragment IdentifierStartingUCorLC
+	: (UnicodeClassLL|UnicodeClassLU) IdentifierPartCharacter*
 	;
 
 fragment IdentifierStartingLC
