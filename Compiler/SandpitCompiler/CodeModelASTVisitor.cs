@@ -109,6 +109,7 @@ public class CodeModelASTVisitor {
             WhileStatementNode sn => HandleScope(BuildWhileModel, sn),
             ProcedureStatementNode sn => HandleScope(BuildProcStatModel, sn),
             ValuesNode vn => new ValueModel(vn.Values.Select(Visit).ToArray()),
+            SystemPrintNode spn => new PrintModel(Visit(spn.ToPrint), spn.Line),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };

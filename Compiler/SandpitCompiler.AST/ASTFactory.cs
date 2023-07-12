@@ -70,6 +70,8 @@ public static class ASTFactory {
             ParameterContext c => visitor.Build(c),
             ParameterListContext c => visitor.Build(c),
             ParameterNameContext c => visitor.Build(c),
+            PrintContext c => visitor.Build(c),
+            PrintLineContext c => visitor.Build(c),
             ProceduralControlFlowContext c => visitor.Build(c),
             ProcedureBlockContext c => visitor.Build(c),
             ProcedureCallContext c => visitor.Build(c),
@@ -82,6 +84,7 @@ public static class ASTFactory {
             RepeatContext c => visitor.Build(c),
             SwitchContext c => visitor.Build(c),
             SystemCallContext c => visitor.Build(c),
+            SystemOutContext c => visitor.Build(c),
             TryContext c => visitor.Build(c),
             TupleContext c => visitor.Build(c),
             TupleDecompContext c => visitor.Build(c),
@@ -351,6 +354,16 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParameterNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PrintContext context) {
+        var expr = visitor.Visit<IExpression>(context.expression());
+        return new SystemPrintNode(expr, false);
+    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PrintLineContext context) {
+        var expr = visitor.Visit<IExpression>(context.expression());
+        return new SystemPrintNode(expr, true);
+    }
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProceduralControlFlowContext context) => visitor.Visit(context.children.First());
 
     private static AggregateNode<IStatement> Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureBlockContext context) {
@@ -393,7 +406,19 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, RepeatContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SwitchContext context) => throw new NotImplementedException();
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SystemCallContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SystemCallContext context) {
+
+        if (context.systemOut() is { } so) {
+            return visitor.Visit(so);
+        }
+
+        throw new NotImplementedException();
+    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, SystemOutContext context) {
+        return visitor.Visit(context.children.First());
+    }
+
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TryContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TupleContext context) {

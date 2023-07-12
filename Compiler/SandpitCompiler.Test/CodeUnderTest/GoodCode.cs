@@ -342,24 +342,26 @@ public static class Program {
         }
     }";
 
-    //public const string Code19 = @"
-    //main
-    //  print(""test string"")
-    //end main
-    //";
+    public const string Code19 = @"
+    main
+      print(""test string"")
+      printLine(""test string2"")
+    end main
+    ";
 
-    //public const string Code19Result = @"using System.Collections.Generic;
-    //using System.Collections.Immutable;
-    //using static GlobalConstants;
+    public const string Code19Result = @"using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using static GlobalConstants;
 
-    //public static partial class GlobalConstants {
+    public static partial class GlobalConstants {
   
-    //}
-    //public static class Program {
-    //    private static void Main(string[] args) {
-    //      print(""test string"");
-    //    }
-    //}";
+    }
+    public static class Program {
+        private static void Main(string[] args) {
+          System.Console.Write(""test string"");
+          System.Console.WriteLine(""test string2"");
+        }
+    }";
 
     public const string Code20 = @"
     main
@@ -979,7 +981,7 @@ function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<
 
     public static readonly ASTNode Code18AST = FN(E<ConstDefinitionNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FunctionDefinitionNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
-    public static readonly ASTNode Code19AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(PSN("print", "\"test string\""))));
+    //public static readonly ASTNode Code19AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(PSN("print", "\"test string\""))));
 
     public static readonly ASTNode Code20AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_NE, "is not"), SVN("a"), SVN("2")), VDN("b", "1")))));
 
