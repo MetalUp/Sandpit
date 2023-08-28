@@ -17,13 +17,13 @@ classDef: abstractClass | mutableClass | immutableClass;
 
 mutableClass: 
 	NL CLASS className inherits?
-    (constructor | property | functionDef | procedureDef | constantDef)*
+    ( constructor |property | functionDef | procedureDef | constantDef)*	
     NL END CLASS
 	;
 
 immutableClass
 	: NL IMMUTABLE CLASS className inherits?
-    (constructor | property | functionDef | constantDef)*
+    (constructor |property | functionDef | constantDef)*
     NL END CLASS 
 	;
 
@@ -53,7 +53,9 @@ functionWithBody:
 	;
 
 expressionFunction: 
-	NL FUNCTION functionSignature NL? ARROW NL? expression; 
+	NL FUNCTION functionSignature NL? ARROW NL? letIn? expression; 
+
+letIn: LET NL? assignableValue ASSIGN expression (COMMA assignableValue ASSIGN expression)* NL? IN NL?; 
    
 functionSignature: functionName OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET NL? AS NL? type;
 
@@ -65,9 +67,9 @@ procedureDef:
 
 procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-procedureBlock:  ( systemCall | procedureCall |constantDef | varDef | assignment | proceduralControlFlow)*;
+procedureBlock:  ( systemCall | procedureCall |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
 
-functionBlock:  (constantDef | varDef | assignment | functionalControlFlow)* ;
+functionBlock:  (constantDef | varDef | assignment | functionalControlFlow | throwException)* ;
 
 varDef: NL VAR variableName ASSIGN expression;
 
@@ -81,7 +83,7 @@ systemCall:
 
 procedureCall:  
 	procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	| expression // TODO: should be closedExpression DOT procedureCall, but won't work until we have symbol table distingushing procs from functionSignature
+	| expression // TODO: limites
 	;
 
 systemIn: input | openRead | openWrite | readLine | endOfFile | today | now | newRandom | randomNext;
@@ -102,9 +104,9 @@ now: NOW  OPEN_BRACKET CLOSE_BRACKET;
 newRandom: NEW_RANDOM OPEN_BRACKET expression? CLOSE_BRACKET;
 randomNext: value DOT RANDOM_NEXT OPEN_BRACKET argumentList? CLOSE_BRACKET;
 
-assignableValue: ((PROP|PARAM)?  valueName index?) | tupleDecomp | listDecomp;
+assignableValue: ((SELF DOT)?  valueName index?) | RESULT | tupleDecomp | listDecomp;
 
-functionCall: functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
+functionCall: (CURRY|PARTIAL)? functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
 argumentList: expression (COMMA expression)*;
 
@@ -114,7 +116,7 @@ parameter: NL? parameterName type;
 
 proceduralControlFlow: if  | for |  forIn | while | repeat | try | switch;
 
-functionalControlFlow: if_functional  | for_functional |  forIn_functional | while_functional | repeat_functional | try_functional | switch_functional;
+functionalControlFlow: if_functional  | for_functional |  forIn_functional | while_functional | repeat_functional | switch_functional;  //try...catch not permitted
 
 if:	NL IF expression THEN
     procedureBlock
@@ -171,13 +173,13 @@ while_functional:
 	;
           
 repeat: 
-	NL (REPEAT | DO)
+	NL (REPEAT)
     procedureBlock
     NL UNTIL expression
 	;
 
 repeat_functional: 
-	NL (REPEAT | DO)
+	NL (REPEAT)
     functionBlock
     NL UNTIL expression
 	;
@@ -239,7 +241,7 @@ expression
 	| newInstance
 	| ifExpression
 	| lambda
-	| letIn expression 
+	| throwException
 	| NL expression // so that any expression may be broken over multiple lines at its 'natural joints' i.e. before any sub-expression
 	;
 
@@ -258,7 +260,7 @@ ifExpression: NL? IF expression NL? THEN expression NL? ELSE expression;
 
 lambda: LAMBDA argumentList ARROW expression; 
 
-letIn: LET NL? assignableValue ASSIGN expression (COMMA assignableValue ASSIGN expression)* NL? IN NL?; 
+throwException: THROW type (OPEN_BRACKET argumentList CLOSE_BRACKET);
 
 index: OPEN_SQ_BRACKET (expression | expression COMMA expression | range) CLOSE_SQ_BRACKET;
 
@@ -268,7 +270,7 @@ range
 	| DOUBLE_DOT expression 
 	; 
 
-value: literalValue | ((PROP|PARAM)? valueName) | dataStructure;
+value: literalValue | ((SELF DOT)? valueName) | dataStructure | SELF | RESULT;
 
 dataStructure: tuple | list | dictionary;
 

@@ -6,7 +6,7 @@ NL: [\r\n\f]+ ;
 
 LINE_CONTINUATION: '_' NL;
 
-SINGLE_LINE_COMMENT: NL? ('//'|'#')  InputCharacter*    -> skip; // C or Python style comments
+SINGLE_LINE_COMMENT: NL? ('//')  InputCharacter*    -> skip; // C or Python style comments
 
 //System calls
 INPUT:		   'input';
@@ -31,8 +31,8 @@ CATCH:         'catch';
 CLASS:         'class';
 CONSTANT:      'constant';
 CONSTRUCTOR:   'constructor';
+CURRY:   	   'curry';
 DEFAULT: 	   'default'; //for use with switch...case
-DO:            'do'; //Alternate for 'repeat'
 ELSE:          'else';
 END:		   'end'; //used with another keyword to delimit a statement block
 ENUMERATION:   'enumeration';
@@ -40,24 +40,21 @@ FOR:           'for';
 FUNCTION:	   'function';
 IF:            'if'; 
 IMMUTABLE:	   'immutable';
-//IMPORT:		   'import';
 IN:            'in'; //used as for...in
 INHERITS:      'inherits';
 LAMBDA:		   'lambda';
 LET:           'let';
 MAIN:		   'main';
 METHOD:		   'method';
-//MODULE: 	   'module';
 NEW:           'new';
-//NULL_:         'null';
-PARAM:		   'param';
+PARTIAL: 	   'partial';
 PRIVATE:       'private';
 PROCEDURE:	   'procedure';
-PROP:		   'prop';
 PROPERTY:      'property';
 REPEAT:		   'repeat';
+RESULT:		   'result';
 RETURN:        'return';
-//SELF:		   'self' ; // Shouldn't need this
+SELF:		   'self' ;
 SWITCH:        'switch';
 THIS:          'this';
 THEN:		   'then';
@@ -76,7 +73,7 @@ VALUE_TYPE:  'Value' | 'Int' | 'Float' | 'Decimal' | 'Number' | 'Char' | 'String
 ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
-ITERABLE: 'Iterable';
+ITERABLE: 'Iter';
 RANDOM: 'Random';
 
 
@@ -101,7 +98,7 @@ COLON:                    ':';
 PLUS:                     '+';
 MINUS:                    '-';
 MULT:                     '*';
-DIVIDE:                      '/';
+DIVIDE:                   '/';
 POWER:                    '^';
 MOD:                      'mod';
 INT_DIV:				  'div';
@@ -113,7 +110,7 @@ OP_NOT:                   'not';
 OP_OR:                    'or';
 OP_XOR:                   'xor';
 OP_EQ:                    '==' | 'is';
-OP_NE:                    '!='|'<>' | 'is not';
+OP_NE:                    '<>' | ('is' [ \t]* 'not');
 OP_LE:                    '<=';
 OP_GE:                    '>=';
 

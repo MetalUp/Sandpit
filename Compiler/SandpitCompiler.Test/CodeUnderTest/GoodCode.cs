@@ -389,7 +389,7 @@ public static class Program {
     }";
 
     public const string Code21 = @"
-function bestAttempt(possAnswers Iterable<String>, possAttempts List<String>) as String -> """"
+function bestAttempt(possAnswers Iter<String>, possAttempts List<String>) as String -> """"
     ";
 
     public const string Code21Result = @"using System.Collections.Generic;
@@ -790,7 +790,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     }";
 
     public const string Code32 = @"
-        function f(v1 Int, v2 Int, vs Iterable<Int>) as Bool ->
+        function f(v1 Int, v2 Int, vs Iter<Int>) as Bool ->
            let bv = v1 is v2 and vs.contains(v2) in
            bv
         ";
@@ -862,17 +862,17 @@ function markAttempt(attempt String, target String) as String ->
     let (attemptAfterGreens, targetAfterGreens) = evaluateGreens(attempt, target) in
     attemptAfterGreens.evaluateYellows(targetAfterGreens)[0]
 
-function possibleAnswersAfterAttempt(prior Iterable<String>, attempt String, mark String) as Iterable<String> -> 
+function possibleAnswersAfterAttempt(prior Iter<String>, attempt String, mark String) as Iter<String> -> 
     prior.filter(lambda w -> markAttempt(attempt, w) is mark)
 
-function wordCountRemainingAfterAttempt(possibleAnswers Iterable<String>, attempt String) as Int ->
+function wordCountRemainingAfterAttempt(possibleAnswers Iter<String>, attempt String) as Int ->
     let groups = possibleAnswers.groupBy(lambda w -> markAttempt(attempt, w)) in 
     groups.max(lambda g -> g.count())
 
-function allRemainingWordCounts(possAnswers List<String>, possAttempts Iterable<String>) as Iterable<(String, Int)> ->
+function allRemainingWordCounts(possAnswers List<String>, possAttempts Iter<String>) as Iter<(String, Int)> ->
     possAttempts.map(lambda w-> (w, wordCountRemainingAfterAttempt(possAnswers, w)))
 
-function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iterable< String >) as (String, Int)  ->
+function betterOf(word1 (String, Int), word2 (String, Int), possAnswers Iter< String >) as (String, Int)  ->
     let
         (w1, w1Count) = word1, 
         (w2, w2Count) = word2,  

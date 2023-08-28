@@ -52,7 +52,7 @@ end main
     end procedure
     ";
 
-    public const string Code7Message = "line 4:4 mismatched input 'end' expecting 'in'";
+    public const string Code7Message = "line 3:6 mismatched input 'let' expecting 'end'";
 
     public const string Code8 = @"
     main

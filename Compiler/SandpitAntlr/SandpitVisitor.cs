@@ -110,6 +110,12 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitExpressionFunction([NotNull] SandpitParser.ExpressionFunctionContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.letIn"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetIn([NotNull] SandpitParser.LetInContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.functionSignature"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -434,11 +440,11 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLambda([NotNull] SandpitParser.LambdaContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="SandpitParser.letIn"/>.
+	/// Visit a parse tree produced by <see cref="SandpitParser.throwException"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitLetIn([NotNull] SandpitParser.LetInContext context);
+	Result VisitThrowException([NotNull] SandpitParser.ThrowExceptionContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.index"/>.
 	/// </summary>

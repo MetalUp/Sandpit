@@ -189,16 +189,16 @@ public static class ASTFactory {
             return visitor.Visit<IExpression>(ifExpr);
         }
 
-        if (context.letIn() is { } letInContext) {
-            var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
-            var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
+        //if (context.letIn() is { } letInContext) {
+        //    var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
+        //    var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
 
-            var lets = avs.Zip(exprs).ToArray();
+        //    var lets = avs.Zip(exprs).ToArray();
 
-            var returnExpr = visitor.Visit<IExpression>(context.expression().First());
+        //    var returnExpr = visitor.Visit<IExpression>(context.expression().First());
 
-            return new LetDefnNode(lets, returnExpr);
-        }
+        //    return new LetDefnNode(lets, returnExpr);
+        //}
 
         return visitor.Visit(context.closedExpression());
     }
@@ -241,7 +241,21 @@ public static class ASTFactory {
 
         var body = new AggregateNode<IStatement>(Array.Empty<IStatement>());
 
-        var expression = visitor.Visit<IExpression>(context.expression());
+        IExpression expression;
+
+        if (context.letIn() is { } letInContext) {
+            var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
+            var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
+
+            var lets = avs.Zip(exprs).ToArray();
+
+            var returnExpr = visitor.Visit<IExpression>(context.expression());
+
+            expression = new LetDefnNode(lets, returnExpr);
+        }
+        else {
+            expression = visitor.Visit<IExpression>(context.expression());
+        }
 
         return new FunctionDefinitionNode(id, type, pps.ToArray(), body, expression);
     }
