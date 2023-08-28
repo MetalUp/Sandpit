@@ -53,6 +53,30 @@ public static class Pipeline {
     private static string GenerateCSharpCode(string fileName, IModel model) {
         var csCode = model.ToString();
         File.WriteAllText($"{FileNameRoot(fileName)}.cs", csCode);
+
+        var csproj = @$"
+<Project Sdk=""Microsoft.NET.Sdk"">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AssemblyName>{FileNameRoot(fileName)}</AssemblyName>
+	</PropertyGroup>
+
+    <ItemGroup>
+	   <CSFile Include=""wordle.cs""/>
+       <CSFile Include=""lib.cs""/>
+    </ItemGroup>
+</Project>
+";
+
+        File.WriteAllText($"{FileNameRoot(fileName)}.csproj", csproj);
+
+        var libCode =  LibraryFunctions.AllLibraryFunctions;
+
+        File.WriteAllText($"lib.cs", libCode);
+
         return csCode;
     }
 
