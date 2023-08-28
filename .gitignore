@@ -3,3 +3,4 @@
 obj/
 bin/
 Compiler/Compiler.sln.DotSettings.user
+Compiler/SandpitCompiler/Properties/PublishProfiles/FolderProfile.pubxml.user
