@@ -52,7 +52,8 @@ public static class Pipeline {
 
     private static string GenerateCSharpCode(string fileName, IModel model) {
         var csCode = model.ToString();
-        File.WriteAllText($"{FileNameRoot(fileName)}.cs", csCode);
+        var baseName = FileNameRoot(fileName);
+        File.WriteAllText($"{baseName}.cs", csCode);
 
         var csproj = @$"
 <Project Sdk=""Microsoft.NET.Sdk"">
@@ -61,17 +62,17 @@ public static class Pipeline {
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyName>{FileNameRoot(fileName)}</AssemblyName>
+		<AssemblyName>{baseName}</AssemblyName>
 	</PropertyGroup>
 
     <ItemGroup>
-	   <CSFile Include=""wordle.cs""/>
+	   <CSFile Include=""{baseName}.cs""/>
        <CSFile Include=""lib.cs""/>
     </ItemGroup>
 </Project>
 ";
 
-        File.WriteAllText($"{FileNameRoot(fileName)}.csproj", csproj);
+        File.WriteAllText($"{baseName}.csproj", csproj);
 
         var libCode =  LibraryFunctions.AllLibraryFunctions;
 
