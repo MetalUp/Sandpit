@@ -53,7 +53,8 @@ public static class Pipeline {
     private static string GenerateCSharpCode(string fileName, IModel model) {
         var csCode = model.ToString();
         var baseName = FileNameRoot(fileName);
-        File.WriteAllText($"{baseName}.cs", csCode);
+        Directory.CreateDirectory("obj");
+        File.WriteAllText($"obj\\{baseName}.cs", csCode);
 
         var csproj = @$"
 <Project Sdk=""Microsoft.NET.Sdk"">
@@ -72,11 +73,11 @@ public static class Pipeline {
 </Project>
 ";
 
-        File.WriteAllText($"{baseName}.csproj", csproj);
+        File.WriteAllText($"obj\\{baseName}.csproj", csproj);
 
         var libCode =  LibraryFunctions.AllLibraryFunctions;
 
-        File.WriteAllText($"lib.cs", libCode);
+        File.WriteAllText($"obj\\lib.cs", libCode);
 
         return csCode;
     }

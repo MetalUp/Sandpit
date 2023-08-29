@@ -6,5 +6,7 @@ param(
 $file = Get-Item $FileName
 $bn = $file.BaseName
 
+Remove-Item -LiteralPath "obj" -Force -Recurse
+
 C:\Elan\bc.exe $FileName
-dotnet build "$bn.csproj"
+dotnet build "obj\$bn.csproj"
