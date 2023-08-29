@@ -16,7 +16,7 @@ public static partial class TestHelpers {
     public static string ClearWs(string inp) => MyRegex().Replace(inp, " ");
 
     public static void AssertGeneratedCode(string fn, string expected, bool ignoreWhiteSpace = true) {
-        var code = File.ReadAllText($"{fn}.cs");
+        var code = File.ReadAllText($"obj/{fn}.cs");
 
         code = ignoreWhiteSpace ? ClearWs(code) : code;
         expected = ignoreWhiteSpace ? ClearWs(expected) : expected;
