@@ -4,5 +4,6 @@
         "language": "CSharp",
         "listeners": false,
         "visitors": true
-    }
+    },
+    "dotnet.defaultSolution": "Compiler.sln"
 }

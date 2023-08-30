@@ -67,7 +67,7 @@ procedureDef:
 
 procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-procedureBlock:  ( systemCall | procedureCall |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
+procedureBlock:  ( procedureCall |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
 
 functionBlock:  (constantDef | varDef | assignment | functionalControlFlow | throwException)* ;
 
@@ -75,34 +75,10 @@ varDef: NL VAR variableName ASSIGN expression;
 
 assignment: NL assignableValue (ASSIGN | assignmentOp)  expression	;
 
-systemCall:
-	  NL VAR variableName ASSIGN systemIn
-	| NL assignableValue ASSIGN systemIn
-	| NL systemOut
-	; 
-
 procedureCall:  
 	procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	| expression // TODO: limites
+	| closedExpression DOT procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET 
 	;
-
-systemIn: input | openRead | openWrite | readLine | endOfFile | today | now | newRandom | randomNext;
-
-systemOut: print | printLine | writeLine | closeFile;
-
-print: PRINT OPEN_BRACKET expression CLOSE_BRACKET;
-printLine:  PRINT_LINE OPEN_BRACKET expression? CLOSE_BRACKET;
-input:  INPUT (LT VALUE_TYPE GT)? OPEN_BRACKET expression? CLOSE_BRACKET;
-openRead: OPEN_READ  OPEN_BRACKET expression CLOSE_BRACKET;
-openWrite: OPEN_WRITE OPEN_BRACKET expression CLOSE_BRACKET;
-readLine: value DOT READ_LINE OPEN_BRACKET CLOSE_BRACKET;
-writeLine:  value DOT WRITE_LINE OPEN_BRACKET expression CLOSE_BRACKET;
-endOfFile: value DOT END_OF_FILE OPEN_BRACKET CLOSE_BRACKET;
-closeFile: value DOT CLOSE OPEN_BRACKET CLOSE_BRACKET;
-today: TODAY  OPEN_BRACKET CLOSE_BRACKET;
-now: NOW  OPEN_BRACKET CLOSE_BRACKET;
-newRandom: NEW_RANDOM OPEN_BRACKET expression? CLOSE_BRACKET;
-randomNext: value DOT RANDOM_NEXT OPEN_BRACKET argumentList? CLOSE_BRACKET;
 
 assignableValue: ((SELF DOT)?  valueName index?) | RESULT | tupleDecomp | listDecomp;
 

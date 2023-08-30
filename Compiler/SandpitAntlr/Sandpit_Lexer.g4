@@ -8,21 +8,6 @@ LINE_CONTINUATION: '_' NL;
 
 SINGLE_LINE_COMMENT: NL? ('//')  InputCharacter*    -> skip; // C or Python style comments
 
-//System calls
-INPUT:		   'input';
-PRINT:		   'print';
-PRINT_LINE:	   'printLine';
-OPEN_READ: 	   'openRead';
-OPEN_WRITE:	   'openWrite';
-READ_LINE:	   'readLine';
-WRITE_LINE:	   'writeLine';
-END_OF_FILE:   'endOfFile';
-CLOSE:		   'close';
-TODAY:		   'today';
-NOW:		   'now';
-NEW_RANDOM:    'random';
-RANDOM_NEXT:   'next';
-
 // Keywords
 AS:			   'as';
 ABSTRACT:      'abstract';
@@ -47,16 +32,15 @@ LET:           'let';
 MAIN:		   'main';
 METHOD:		   'method';
 NEW:           'new';
-PARTIAL: 	   'partial';
+PARTIAL: 	   'partial'; // partial function application
 PRIVATE:       'private';
 PROCEDURE:	   'procedure';
 PROPERTY:      'property';
 REPEAT:		   'repeat';
-RESULT:		   'result';
+RESULT:		   'result'; // pre-defined variable of the correct type for the function
 RETURN:        'return';
 SELF:		   'self' ;
 SWITCH:        'switch';
-THIS:          'this';
 THEN:		   'then';
 THROW:         'throw';
 TO:			   'to';
@@ -74,9 +58,7 @@ ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
 ITERABLE: 'Iter';
-RANDOM: 'Random';
-
-
+RANDOM: 'Random';  //For pure functional random number generation only
 
 //Operators And Punctuators
 ASSIGN_ADD:        		  '+=';
