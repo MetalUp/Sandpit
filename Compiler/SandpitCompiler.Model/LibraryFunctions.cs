@@ -68,6 +68,25 @@ public static int indexOf<T>(IEnumerable<T> arr, T item) { return System.Linq.En
     }
 ";
 
+    private static readonly string printSystemCall = @"
+    public static void print(string s) {
+        System.Console.Write(s);
+    }
+";
+
+    private static readonly string printLineSystemCall = @"
+    public static void printLine(string s) {
+        System.Console.WriteLine(s);
+    }
+";
+
+    private static readonly string inputSystemCall = @"
+    public static string input(string s) {
+        System.Console.Write(s);
+        return System.Console.ReadLine();
+    }
+";
+
     public static readonly string AllLibraryFunctions = @$"
 public static partial class GlobalConstants {{
 {assertFunction}
@@ -82,5 +101,8 @@ public static partial class GlobalConstants {{
 {countFunction}
 {mapFunction}
 {asListFunction}
+{printSystemCall}
+{printLineSystemCall}
+{inputSystemCall}
 }}".Trim();
 }

@@ -68,9 +68,9 @@ end main
 
     private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
 
-    public static readonly string Code1Message = $"line 5:0 mismatched input '<EOF>' expecting 'end'";
+    public static readonly string Code1Message = $"line 4:7 no viable alternative at input '{NL}endmain{NL}'";
 
-    public static readonly string Code5Message = $"line 5:4 mismatched input '<EOF>' expecting 'end'";
+    public static readonly string Code5Message = $"line 4:16 no viable alternative at input '{NL}endprocedure{NL}'";
 
     public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 }

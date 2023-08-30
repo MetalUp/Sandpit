@@ -76,8 +76,8 @@ varDef: NL VAR variableName ASSIGN expression;
 assignment: NL assignableValue (ASSIGN | assignmentOp)  expression	;
 
 procedureCall:  
-	procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	| closedExpression DOT procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET 
+	NL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
+	| NL closedExpression DOT procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET 
 	;
 
 assignableValue: ((SELF DOT)?  valueName index?) | RESULT | tupleDecomp | listDecomp;

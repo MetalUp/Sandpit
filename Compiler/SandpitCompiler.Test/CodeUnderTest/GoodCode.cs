@@ -358,8 +358,8 @@ public static class Program {
     }
     public static class Program {
         private static void Main(string[] args) {
-          System.Console.Write(""test string"");
-          System.Console.WriteLine(""test string2"");
+          print(""test string"");
+          printLine(""test string2"");
         }
     }";
 
@@ -987,9 +987,8 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
         var attempt = """";
         while (marking != ""*****"") { 
          attempt = bestAttempt(possible, validWords);
-         System.Console.Write(attempt);
-         System.Console.WriteLine(""Please mark the attempt"");
-         marking = System.Console.ReadLine();
+         print(attempt);
+         marking = input(""Please mark the attempt"");
          possible = asList(possibleAnswersAfterAttempt(possible, attempt, marking));
         }
       }
