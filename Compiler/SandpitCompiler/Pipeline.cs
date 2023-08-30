@@ -67,6 +67,10 @@ public static class Pipeline {
     <ItemGroup>
 	   <CSFile Include=""{baseName}.cs""/>
     </ItemGroup>
+
+    <ItemGroup>
+       <Reference Include=""Sandpit.Compiler.Lib.dll""/>
+    </ItemGroup>
 </Project>
 ";
 

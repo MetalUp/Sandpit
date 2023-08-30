@@ -3,7 +3,8 @@
 
 namespace Sandpit.Compiler.Lib;
 
-public class StandardLib {
+public static class StandardLib {
+
     public static void assert(bool b) {
         if (!b) {
             throw new Exception("Assert Failed");
