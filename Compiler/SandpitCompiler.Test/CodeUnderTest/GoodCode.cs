@@ -17,6 +17,7 @@ end main
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
 public static partial class GlobalConstants {
   
@@ -38,6 +39,7 @@ end main
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
 public static partial class GlobalConstants {
  
@@ -58,6 +60,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
         public static partial class GlobalConstants {
          
@@ -73,6 +76,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
         public static partial class GlobalConstants {
          
@@ -91,6 +95,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
         public static partial class GlobalConstants {
        
@@ -115,6 +120,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
         public static partial class GlobalConstants {
        
@@ -137,6 +143,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -153,6 +160,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -171,6 +179,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -189,6 +198,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
       
@@ -207,6 +217,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -226,6 +237,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -245,6 +257,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -263,6 +276,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -277,6 +291,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -295,6 +310,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
      
@@ -320,6 +336,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -347,6 +364,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -371,6 +389,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
   
@@ -395,6 +414,7 @@ public static class Program {
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -416,6 +436,7 @@ function bestAttempt(possAnswers Iter<String>, possAttempts List<String>) as Str
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -432,6 +453,7 @@ function isGreen(attempt String, target String, n Int) as Bool -> target[n] is a
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -450,6 +472,7 @@ function setChar(word String, n Int, newChar Char) as String ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -473,6 +496,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -504,6 +528,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -540,6 +565,7 @@ function isYellow(attempt String, target String, n Int) as Bool -> target.contai
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -590,6 +616,7 @@ function setAttemptIfYellow(attempt String, target String, n Int) as String ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -657,6 +684,7 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -737,6 +765,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
     
@@ -793,6 +822,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
         public static partial class GlobalConstants {
        
@@ -809,6 +839,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
        public static bool f((int, int) tuple) { 
@@ -830,6 +861,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
        public static bool f(int v1, int v2, IEnumerable<int> vs) { 
@@ -922,6 +954,7 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
     using System.Collections.Immutable;
     using static GlobalConstants;
     using static Sandpit.Compiler.Lib.StandardLib;
+    using static Sandpit.Compiler.Lib.SystemCalls;
 
     public static partial class GlobalConstants {
       public static readonly IList<string> allPossibleAnswers = new List<string> { ""ABACK"" }.ToImmutableList();

@@ -31,7 +31,7 @@ end main
     end procedure
     ";
 
-    public const string Code4Message = "(9,19): error CS0103: The name 'b' does not exist in the current context";
+    public const string Code4Message = "(10,19): error CS0103: The name 'b' does not exist in the current context";
 
     public const string Code5 = @"
     procedure p()

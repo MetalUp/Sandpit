@@ -4,7 +4,6 @@
 namespace Sandpit.Compiler.Lib;
 
 public static class StandardLib {
-
     public static void assert(bool b) {
         if (!b) {
             throw new Exception("Assert Failed");
@@ -33,13 +32,4 @@ public static class StandardLib {
     public static int count<TSource>(IEnumerable<TSource> source) => source.Count();
 
     public static IList<TSource> asList<TSource>(IEnumerable<TSource> source) => source.ToList();
-
-    public static void print(string s) => Console.Write(s);
-
-    public static void printLine(string s) => Console.WriteLine(s);
-
-    public static string input(string s) {
-        Console.Write(s);
-        return Console.ReadLine() ?? "";
-    }
 }

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using static GlobalConstants;
 using static Sandpit.Compiler.Lib.StandardLib;
+using static Sandpit.Compiler.Lib.SystemCalls;
 
 public static partial class GlobalConstants {{
 {Constants.AsLineSeparatedString(2)}
