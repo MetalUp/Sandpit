@@ -22,6 +22,7 @@ public class FileModel : IModel {
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using static GlobalConstants;
+using static Sandpit.Compiler.Lib.StandardLib;
 
 public static partial class GlobalConstants {{
 {Constants.AsLineSeparatedString(2)}

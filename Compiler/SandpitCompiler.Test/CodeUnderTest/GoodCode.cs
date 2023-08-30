@@ -16,6 +16,7 @@ end main
     public const string Code1Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
 public static partial class GlobalConstants {
   
@@ -36,6 +37,7 @@ end main
     public const string Code2Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
 public static partial class GlobalConstants {
  
@@ -55,6 +57,7 @@ public static class Program {
     public const string Code3Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
         public static partial class GlobalConstants {
          
@@ -69,6 +72,7 @@ public static class Program {
     public const string Code4Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
         public static partial class GlobalConstants {
          
@@ -86,6 +90,7 @@ public static class Program {
     public const string Code5Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
         public static partial class GlobalConstants {
        
@@ -109,6 +114,7 @@ public static class Program {
     public const string Code6Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
         public static partial class GlobalConstants {
        
@@ -130,6 +136,7 @@ public static class Program {
     public const string Code7Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -145,6 +152,7 @@ public static class Program {
     public const string Code8Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -162,6 +170,7 @@ public static class Program {
     public const string Code9Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -179,6 +188,7 @@ public static class Program {
     public const string Code10Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
       
@@ -196,6 +206,7 @@ public static class Program {
     public const string Code11Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -214,6 +225,7 @@ public static class Program {
     public const string Code12Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -232,6 +244,7 @@ public static class Program {
     public const string Code13Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -249,6 +262,7 @@ public static class Program {
     public const string Code14Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -262,6 +276,7 @@ public static class Program {
     public const string Code15Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -279,6 +294,7 @@ public static class Program {
     public const string Code16Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
      
@@ -303,6 +319,7 @@ public static class Program {
     public const string Code17Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -329,6 +346,7 @@ public static class Program {
     public const string Code18Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -352,6 +370,7 @@ public static class Program {
     public const string Code19Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
   
@@ -375,6 +394,7 @@ public static class Program {
     public const string Code20Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -395,6 +415,7 @@ function bestAttempt(possAnswers Iter<String>, possAttempts List<String>) as Str
     public const string Code21Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -410,6 +431,7 @@ function isGreen(attempt String, target String, n Int) as Bool -> target[n] is a
     public const string Code22Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -427,6 +449,7 @@ function setChar(word String, n Int, newChar Char) as String ->
     public const string Code23Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -449,6 +472,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     public const string Code24Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -479,6 +503,7 @@ function setAttemptIfGreen(attempt String, target String, n Int) as String ->
     public const string Code25Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -514,6 +539,7 @@ function isYellow(attempt String, target String, n Int) as Bool -> target.contai
     public const string Code26Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -563,6 +589,7 @@ function setAttemptIfYellow(attempt String, target String, n Int) as String ->
     public const string Code27Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -629,6 +656,7 @@ function setTargetIfYellow(attempt String, target String, n Int) as String  ->
     public const string Code28Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -708,6 +736,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     public const string Code29Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
     
@@ -763,6 +792,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     public const string Code30Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
         public static partial class GlobalConstants {
        
@@ -778,6 +808,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     public const string Code31Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
        public static bool f((int, int) tuple) { 
@@ -798,6 +829,7 @@ function evaluateGreens(attempt String, target String) as (String, String) ->
     public const string Code32Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
        public static bool f(int v1, int v2, IEnumerable<int> vs) { 
@@ -889,6 +921,7 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
     public const string Code33Result = @"using System.Collections.Generic;
     using System.Collections.Immutable;
     using static GlobalConstants;
+    using static Sandpit.Compiler.Lib.StandardLib;
 
     public static partial class GlobalConstants {
       public static readonly IList<string> allPossibleAnswers = new List<string> { ""ABACK"" }.ToImmutableList();

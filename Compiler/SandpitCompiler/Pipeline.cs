@@ -43,9 +43,7 @@ public static class Pipeline {
     private static string FileNameRoot(string fileName) => fileName.Split('.').First();
 
     private static void CompileCsharpCode(string fn, string csCode, bool console) {
-        var codeWithLib = csCode + LibraryFunctions.AllLibraryFunctions;
-
-        var asm = Compiler.Compile(codeWithLib, console);
+        var asm = Compiler.Compile(csCode, console);
 
         File.WriteAllBytes($"{FileNameRoot(fn)}.dll", asm);
     }
@@ -68,16 +66,11 @@ public static class Pipeline {
 
     <ItemGroup>
 	   <CSFile Include=""{baseName}.cs""/>
-       <CSFile Include=""lib.cs""/>
     </ItemGroup>
 </Project>
 ";
 
         File.WriteAllText($"obj\\{baseName}.csproj", csproj);
-
-        var libCode =  LibraryFunctions.AllLibraryFunctions;
-
-        File.WriteAllText($"obj\\lib.cs", libCode);
 
         return csCode;
     }
