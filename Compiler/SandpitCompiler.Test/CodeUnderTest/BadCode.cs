@@ -1,11 +1,16 @@
 ﻿namespace SandpitCompiler.Test.CodeUnderTest;
 
-public class BadCode {
+public class BadCode
+{
+    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
+
     public const string Code1 = @"
 main
   var a = 1
 endmain
 ";
+
+    public static readonly string Code1Message = $"line 5:0 mismatched input '<EOF>' expecting 'end'";
 
     public const string Code2 = @"main
 var a = 1
@@ -39,12 +44,16 @@ end main
     endprocedure
     ";
 
+    public static readonly string Code5Message = $"line 5:4 mismatched input '<EOF>' expecting 'end'";
+
     public const string Code6 = @"
     function p() : Integer
       var a = 1
       return a
     end function
     ";
+
+    public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 
     public const string Code7 = @"
     procedure p()
@@ -64,13 +73,32 @@ end main
 
     public const string Code8Message = "control expression must be bool";
 
+    public const string Code9 = @"
+    function f() as Int
+      var a = 1
+      p()
+      return a
+    end function
+
+    procedure p()
+      var a = 1
+    end procedure
+    ";
+
+    public const string Code9Message = "Cannot have procedure/system call in function";
+
+    public const string Code10 = @"
+    function f() as Int
+      var a = 1
+      print(""fred"")
+      return a
+    end function
+    ";
+
+    public const string Code10Message = "Cannot have procedure/system call in function";
+
     // code to test starts with <Code> expected message same id but ends with <Message> 
 
-    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
+   
 
-    public static readonly string Code1Message = $"line 5:0 mismatched input '<EOF>' expecting 'end'";
-
-    public static readonly string Code5Message = $"line 5:4 mismatched input '<EOF>' expecting 'end'";
-
-    public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 }

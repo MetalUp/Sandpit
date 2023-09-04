@@ -32,6 +32,13 @@ public static class Pipeline {
 
         var symbolTable = GenerateSymbolTable(ast);
 
+        var secondPassVisitor = SecondPass(ast, symbolTable);
+
+        if (secondPassVisitor.CompileErrors.Count > 0) {
+            throw new AggregateException(secondPassVisitor.CompileErrors.Select(e => new CompileErrorException(e)));
+        }
+
+
         var model = GenerateModel(ast, symbolTable);
         var csCode = GenerateCSharpCode(options.FileName, model);
 
@@ -87,6 +94,12 @@ public static class Pipeline {
         flags[ModelFlags.UsesCollections] = symbolTable.Scopes().SelectMany(s => s.Symbols).Any(s => s.SymbolType is ListType);
 
         return flags;
+    }
+
+    private static SecondPassASTVisitor SecondPass(IASTNode astNode, SymbolTable symbolTable) {
+        var astVisitor = new SecondPassASTVisitor(symbolTable);
+        astVisitor.Visit(new[] { astNode });
+        return astVisitor;
     }
 
     private static IModel GenerateModel(IASTNode astNode, SymbolTable symbolTable) {

@@ -25,4 +25,18 @@ public static class CompilerRules {
 
         return node;
     }
+
+    public static string? NoProcedureInFunctionRule(IASTNode[] nodes, IScope currentScope) {
+        var leafNode = nodes.Last();
+
+        if (leafNode is MethodStatementNode msn) {
+            if (currentScope.Resolve(msn.ID.Text) is MethodSymbol { MethodType: MethodType.Procedure or MethodType.SystemCall }) {
+                if (nodes.Any(n => n is FunctionDefinitionNode)) {
+                    return "Cannot have procedure/system call in function";
+                }
+            }
+        }
+
+        return null;
+    }
 }

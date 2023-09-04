@@ -12,14 +12,15 @@ public static class ASTFactory {
     static ASTFactory() {
         Rules.Add(CompilerRules.OnlyOneMainRule);
         Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
+       
     }
 
     private static T Visit<T>(this SandpitBaseVisitor<IASTNode> visitor, IParseTree pt) where T : IASTNode => (T)visitor.Visit(pt);
 
-    private static IASTNode ApplyRules(IASTNode node) => Rules.Aggregate(node, (current, rule) => rule(current));
+    private static IASTNode ApplyFirstPassRules(IASTNode node) => Rules.Aggregate(node, (current, rule) => rule(current));
 
     public static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParserRuleContext context) =>
-        ApplyRules(context switch {
+        ApplyFirstPassRules(context switch {
             ArgumentListContext c => visitor.Build(c),
             ArithmeticOpContext c => visitor.Build(c),
             ArrayTypeContext c => visitor.Build(c),
