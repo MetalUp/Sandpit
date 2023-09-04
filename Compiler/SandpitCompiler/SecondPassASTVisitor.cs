@@ -27,6 +27,7 @@ public class SecondPassASTVisitor {
         Rules.Add(CompilerRules.OnlyOneMainRule);
         Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
         Rules.Add(CompilerRules.NoProcedureInFunctionRule);
+        Rules.Add(CompilerRules.ExpressionMustBeAssignedRule);
     }
 
     private void Enter(IASTNode node) {

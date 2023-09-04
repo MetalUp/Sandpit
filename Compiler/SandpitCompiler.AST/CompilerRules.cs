@@ -39,4 +39,20 @@ public static class CompilerRules {
 
         return null;
     }
+
+    // TODO this is a hack - really need to understand better the semantics - may require refining the AST
+    public static string? ExpressionMustBeAssignedRule(IASTNode[] nodes, IScope currentScope) {
+        var leafNode = nodes.Last();
+
+        if (leafNode is MethodStatementNode msn && currentScope.Resolve(msn.ID.Text) is MethodSymbol { MethodType: MethodType.Function }) {
+            var otherNodes = nodes.SkipLast(1).ToArray();
+            if (!otherNodes.Any(n => n is AssignmentNode or TernaryExpressionNode or LambdaExpressionNode or LetDefnNode) 
+                && otherNodes.Last() is not FunctionDefinitionNode
+                && otherNodes.Last() is not MethodStatementNode) {
+                return "cannot have unassigned expression";
+            }
+        }
+
+        return null;
+    }
 }
