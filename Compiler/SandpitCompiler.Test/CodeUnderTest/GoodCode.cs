@@ -1111,7 +1111,7 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
 
     private static IStatement WN(IExpression vn, params IStatement[] stats) => new WhileStatementNode(vn, AN(stats));
 
-    private static IStatement PSN(string id, params string[] parms) => new ProcedureStatementNode(SVN(id), parms.Select(SVN).ToArray());
+    private static IStatement PSN(string id, params string[] parms) => new MethodStatementNode(SVN(id), parms.Select(SVN).ToArray());
 
     private static ConstDefinitionNode CDN(string id, string v) => new(SVN(id), SVN(v));
 

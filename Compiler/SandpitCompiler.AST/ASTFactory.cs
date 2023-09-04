@@ -30,7 +30,7 @@ public static class ASTFactory {
             CaseContext c => visitor.Build(c),
             ClassDefContext c => visitor.Build(c),
             ClassNameContext c => visitor.Build(c),
-            ClosedExpressionContext c => visitor.Build(c),
+            //ClosedExpressionContext c => visitor.Build(c),
             ConditionalOpContext c => visitor.Build(c),
             ConstantDefContext c => visitor.Build(c),
             ConstantNameContext c => visitor.Build(c),
@@ -42,14 +42,14 @@ public static class ASTFactory {
             FileContext c => visitor.Build(c),
             ForContext c => visitor.Build(c),
             ForInContext c => visitor.Build(c),
-            FunctionBlockContext c => visitor.Build(c),
-            FunctionCallContext c => visitor.Build(c),
+            //FunctionBlockContext c => visitor.Build(c),
+            //FunctionCallContext c => visitor.Build(c),
             FunctionDefContext c => visitor.Build(c),
             FunctionNameContext c => visitor.Build(c),
             FunctionSignatureContext c => visitor.Build(c),
             FunctionWithBodyContext c => visitor.Build(c),
             FuncTypeContext c => visitor.Build(c),
-            GenericContext c => visitor.Build(c),
+            GenericSpecifierContext c => visitor.Build(c),
             IfContext c => visitor.Build(c),
             IfExpressionContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
@@ -67,13 +67,15 @@ public static class ASTFactory {
             ListContext c => visitor.Build(c),
             LogicalOpContext c => visitor.Build(c),
             MainContext c => visitor.Build(c),
+            MethodCallContext c => visitor.Build(c),
+            MethodNameContext c => visitor.Build(c),
             MutableClassContext c => visitor.Build(c),
             ParameterContext c => visitor.Build(c),
             ParameterListContext c => visitor.Build(c),
             ParameterNameContext c => visitor.Build(c),
             ProceduralControlFlowContext c => visitor.Build(c),
-            ProcedureBlockContext c => visitor.Build(c),
-            ProcedureCallContext c => visitor.Build(c),
+            //ProcedureBlockContext c => visitor.Build(c),
+            //ProcedureCallContext c => visitor.Build(c),
             ProcedureDefContext c => visitor.Build(c),
             ProcedureNameContext c => visitor.Build(c),
             ProcedureSignatureContext c => visitor.Build(c),
@@ -81,6 +83,7 @@ public static class ASTFactory {
             PropertyNameContext c => visitor.Build(c),
             RangeContext c => visitor.Build(c),
             RepeatContext c => visitor.Build(c),
+            StatementBlockContext c => visitor.Build(c),
             SwitchContext c => visitor.Build(c),
             TryContext c => visitor.Build(c),
             TupleContext c => visitor.Build(c),
@@ -183,6 +186,42 @@ public static class ASTFactory {
             return visitor.Visit<IExpression>(ifExpr);
         }
 
+        if (context.value() is { } v) {
+            return visitor.Visit<IExpression>(v);
+        }
+
+     
+
+        if (context.index() is { } indexContext) {
+            var expr = visitor.Visit<IExpression>(context.expression().First());
+            var range = visitor.Visit<IExpression>(indexContext);
+
+            return new IndexedExpressionNode(expr, range);
+        }
+
+        if (context.DOT() is { } dot)
+        {
+            if (context.methodCall() is { } dmc)
+            {
+                var ms = visitor.Visit<MethodStatementNode>(dmc);
+                var p = visitor.Visit<IExpression>(context.expression().First());
+                return new MethodStatementNode(ms, p);
+            }
+
+            if (context.propertyName() is { } pn)
+            {
+                var id = visitor.Visit<ValueNode>(pn);
+                var expr = visitor.Visit<IExpression>(context.expression().First());
+                return new DereferenceExpressionNode(expr, id);
+            }
+        }
+
+        if (context.methodCall() is { } mc) {
+            return visitor.Visit<IExpression>(mc);
+        }
+
+
+
         //if (context.letIn() is { } letInContext) {
         //    var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
         //    var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
@@ -194,39 +233,40 @@ public static class ASTFactory {
         //    return new LetDefnNode(lets, returnExpr);
         //}
 
-        return visitor.Visit(context.closedExpression());
+        //return visitor.Visit(context.closedExpression());
+        throw new NotImplementedException();
     }
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ClosedExpressionContext context) {
+    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ClosedExpressionContext context) {
         
 
-        if (context.DOT() is { } dot) {
-            if (context.functionCall() is { } fc) {
-                var fn = visitor.Visit<FunctionExpressionNode>(fc);
-                var p = visitor.Visit<IExpression>(context.closedExpression());
-                return new FunctionExpressionNode(fn, p);
-            }
+    //    if (context.DOT() is { } dot) {
+    //        if (context.functionCall() is { } fc) {
+    //            var fn = visitor.Visit<FunctionExpressionNode>(fc);
+    //            var p = visitor.Visit<IExpression>(context.closedExpression());
+    //            return new FunctionExpressionNode(fn, p);
+    //        }
 
-            if (context.propertyName() is { } pn) {
-                var id = visitor.Visit<ValueNode>(pn);
-                var expr = visitor.Visit<IExpression>(context.closedExpression());
-                return new DereferenceExpressionNode(expr, id);
-            }
-        }
+    //        if (context.propertyName() is { } pn) {
+    //            var id = visitor.Visit<ValueNode>(pn);
+    //            var expr = visitor.Visit<IExpression>(context.closedExpression());
+    //            return new DereferenceExpressionNode(expr, id);
+    //        }
+    //    }
 
-        if (context.functionCall() is { } f) {
-            return visitor.Visit<IExpression>(f);
-        }
+    //    if (context.functionCall() is { } f) {
+    //        return visitor.Visit<IExpression>(f);
+    //    }
 
-        if (context.index() is { } indexContext) {
-            var expr = visitor.Visit<IExpression>(context.closedExpression());
-            var range = visitor.Visit<IExpression>(indexContext);
+    //    if (context.index() is { } indexContext) {
+    //        var expr = visitor.Visit<IExpression>(context.closedExpression());
+    //        var range = visitor.Visit<IExpression>(indexContext);
 
-            return new IndexedExpressionNode(expr, range);
-        }
+    //        return new IndexedExpressionNode(expr, range);
+    //    }
 
-        return visitor.Visit(context.value());
-    }
+    //    return visitor.Visit(context.value());
+    //}
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ExpressionFunctionContext context) {
         var id = visitor.Visit<ValueNode>(context.functionSignature().functionName());
@@ -266,17 +306,10 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ForContext context) => throw new NotImplementedException();
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ForInContext context) => throw new NotImplementedException();
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionBlockContext context) {
-        var statNodes = context.children?.Select(visitor.Visit<IStatement>) ?? Array.Empty<IStatement>();
-        return new AggregateNode<IStatement>(statNodes);
-    }
-
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionCallContext context) {
-        var id = visitor.Visit<ValueNode>(context.functionName());
-        var pps = context.argumentList()?.expression().Select(visitor.Visit<IExpression>) ?? Array.Empty<IExpression>();
-
-        return new FunctionExpressionNode(id, pps.ToArray());
-    }
+    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionBlockContext context) {
+    //    var statNodes = context.children?.Select(visitor.Visit<IStatement>) ?? Array.Empty<IStatement>();
+    //    return new AggregateNode<IStatement>(statNodes);
+    //}
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionDefContext context) {
         var func = (ParserRuleContext)context.expressionFunction() ?? context.functionWithBody();
@@ -292,7 +325,7 @@ public static class ASTFactory {
         var pps = context.functionSignature().parameterList()?.parameter().Select(visitor.Visit<ParameterDefinitionNode>) ?? Array.Empty<ParameterDefinitionNode>();
         var type = visitor.Visit<TypeNode>(context.functionSignature().type());
 
-        var functionBlock = visitor.Visit<AggregateNode<IStatement>>(context.functionBlock());
+        var functionBlock = visitor.Visit<AggregateNode<IStatement>>(context.statementBlock());
 
         var expression = visitor.Visit<IExpression>(context.expression());
 
@@ -301,7 +334,7 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FuncTypeContext context) => throw new NotImplementedException();
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, GenericContext context) => visitor.Visit<TypeNode>(context.type());
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, GenericSpecifierContext context) => visitor.Visit<TypeNode>(context.type().First());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, IfContext context) => throw new NotImplementedException();
 
@@ -324,7 +357,7 @@ public static class ASTFactory {
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, IterableTypeContext context) {
-        var pt = visitor.Visit<TypeNode>(context.generic());
+        var pt = visitor.Visit<TypeNode>(context.genericSpecifier());
         var t = visitor.Visit<TypeNode>(context.ITERABLE());
 
         return new GenericTypeNode(t, pt);
@@ -343,7 +376,7 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ListDecompContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ListTypeContext context) {
-        var pt = visitor.Visit<TypeNode>(context.generic());
+        var pt = visitor.Visit<TypeNode>(context.genericSpecifier());
         var t = visitor.Visit<TypeNode>(context.LIST());
 
         return new GenericTypeNode(t, pt);
@@ -363,7 +396,7 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LogicalOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
 
-    private static MainNode Build(this SandpitBaseVisitor<IASTNode> visitor, MainContext context) => new(visitor.Visit<AggregateNode<IStatement>>(context.procedureBlock()));
+    private static MainNode Build(this SandpitBaseVisitor<IASTNode> visitor, MainContext context) => new(visitor.Visit<AggregateNode<IStatement>>(context.statementBlock()));
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MutableClassContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParameterContext context) {
@@ -379,30 +412,38 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProceduralControlFlowContext context) => visitor.Visit(context.children.First());
 
-    private static AggregateNode<IStatement> Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureBlockContext context) {
-        var statNodes = context.children.Select(visitor.Visit<IStatement>);
-        return new AggregateNode<IStatement>(statNodes);
-    }
+    //private static AggregateNode<IStatement> Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureBlockContext context) {
+    //    var statNodes = context.children.Select(visitor.Visit<IStatement>);
+    //    return new AggregateNode<IStatement>(statNodes);
+    //}
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureCallContext context) {
-        if (context.procedureName() is { } pn) {
-            var id = visitor.Visit<ValueNode>(context.procedureName());
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MethodCallContext context) {
+        //if (context.methodName() is { } pn)
+        //{
+            var id = visitor.Visit<ValueNode>(context.methodName());
             var pps = context.argumentList()?.expression().Select(visitor.Visit<IExpression>) ?? Array.Empty<IExpression>();
 
-            return new ProcedureStatementNode(id, pps.ToArray());
-        }
-        // this is a horrible kludge
+            return new MethodStatementNode(id, pps.ToArray());
+        //}
+        //// this is a horrible kludge
 
-        var fc = visitor.Visit<FunctionExpressionNode>(context.closedExpression());
+        //var fc = visitor.Visit<FunctionExpressionNode>(context.closedExpression());
 
-        return new ProcedureStatementNode(fc.ID, fc.Parameters.ToArray());
+        //return new MethodStatementNode(fc.ID, fc.Parameters.ToArray());
+
+        //var id = visitor.Visit<ValueNode>(context.functionName());
+        //var pps = context.argumentList()?.expression().Select(visitor.Visit<IExpression>) ?? Array.Empty<IExpression>();
+
+        //return new FunctionExpressionNode(id, pps.ToArray());
+
+       // throw new NotImplementedException();
     }
 
     private static ProcedureDefinitionNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureDefContext context) {
         var id = visitor.Visit<ValueNode>(context.procedureSignature().procedureName());
         var pl = context.procedureSignature().parameterList();
         var pps = context.procedureSignature().parameterList()?.parameter().Select(visitor.Visit<ParameterDefinitionNode>) ?? Array.Empty<ParameterDefinitionNode>();
-        var procedureBlock = visitor.Visit<AggregateNode<IStatement>>(context.procedureBlock());
+        var procedureBlock = visitor.Visit<AggregateNode<IStatement>>(context.statementBlock());
 
         return new ProcedureDefinitionNode(id, pps.ToArray(), procedureBlock);
     }
@@ -455,10 +496,23 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, WhileContext context) {
         var condition = visitor.Visit<IExpression>(context.expression());
-        var body = visitor.Visit<AggregateNode<IStatement>>(context.procedureBlock());
+        var body = visitor.Visit<AggregateNode<IStatement>>(context.statementBlock());
 
         return new WhileStatementNode(condition, body);
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, WithClauseContext context) => throw new NotImplementedException();
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, StatementBlockContext context) {
+        var statNodes = context.children?.Select(visitor.Visit<IStatement>) ?? Array.Empty<IStatement>();
+        return new AggregateNode<IStatement>(statNodes);
+    }
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MethodNameContext context) {
+        if (context.functionName() is { } fn) {
+            return visitor.Visit(fn);
+        }
+
+        return visitor.Visit(context.procedureName());
+    }
 }

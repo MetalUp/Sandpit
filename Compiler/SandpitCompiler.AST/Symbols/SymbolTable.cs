@@ -12,10 +12,23 @@ public class SymbolTable {
         GlobalScope.Define(new BuiltInTypeSymbol("String"));
         GlobalScope.Define(new BuiltInTypeSymbol("Boolean"));
 
-        GlobalScope.Define(new MethodSymbol("max", new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("max", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+
+        GlobalScope.Define(new MethodSymbol("contains", MethodType.Function,   new BuiltInType("Boolean"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("indexOf", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("range", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("filter", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("groupBy", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("count", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("map", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("asList", MethodType.Function,   new BuiltInType("Int"), GlobalScope));
 
         // TODO Kludge
-        GlobalScope.Define(new MethodSymbol("reduce", new TupleType(new ISymbolType[] { new BuiltInType("String"), new BuiltInType("Int") }), GlobalScope));
+        GlobalScope.Define(new MethodSymbol("reduce", MethodType.Function, new TupleType(new ISymbolType[] { new BuiltInType("String"), new BuiltInType("Int") }), GlobalScope));
+
+        GlobalScope.Define(new MethodSymbol("print", MethodType.SystemCall, null, GlobalScope));
+        GlobalScope.Define(new MethodSymbol("printLine", MethodType.SystemCall, null, GlobalScope));
+        GlobalScope.Define(new MethodSymbol("input", MethodType.SystemCall, new BuiltInType("String"), GlobalScope));
     }
 
     private IList<IScope> ChildScopes(IEnumerable<IScope> scopes) {

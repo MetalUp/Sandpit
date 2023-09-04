@@ -7,7 +7,7 @@ file
 
 main 
     : NL MAIN
-      procedureBlock
+      statementBlock
       NL END MAIN 
     ;
 
@@ -37,7 +37,7 @@ inherits: INHERITS type (COMMA type)* ;
 
 constructor: 
 	NL CONSTRUCTOR (OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET)? 
-    functionBlock
+    statementBlock
 	NL END CONSTRUCTOR
 	;
 
@@ -47,7 +47,7 @@ functionDef: functionWithBody | expressionFunction;
 
 functionWithBody: 
 	NL FUNCTION functionSignature
-	functionBlock
+	statementBlock
 	NL RETURN expression
     NL END FUNCTION
 	;
@@ -61,28 +61,22 @@ functionSignature: functionName OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKE
 
 procedureDef:
 	NL PROCEDURE procedureSignature
-	procedureBlock 
+	statementBlock 
     NL END PROCEDURE
 	;
 
 procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-procedureBlock:  ( procedureCall |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
-
-functionBlock:  (constantDef | varDef | assignment | functionalControlFlow | throwException)* ;
+statementBlock:  (expression |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
+// 'expression' above is to cover all variants of an expression ending in a procedure call i.e. not generating a value
 
 varDef: NL VAR variableName ASSIGN expression;
 
-assignment: NL assignableValue (ASSIGN | assignmentOp)  expression	;
-
-procedureCall:  
-	NL procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET
-	| NL closedExpression DOT procedureName OPEN_BRACKET (argumentList)? CLOSE_BRACKET 
-	;
+assignment: NL assignableValue (ASSIGN | assignmentOp)  expression;
 
 assignableValue: ((SELF DOT)?  valueName index?) | RESULT | tupleDecomp | listDecomp;
 
-functionCall: (CURRY|PARTIAL)? functionName OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
+methodCall: (CURRY|PARTIAL)? methodName genericSpecifier? OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
 argumentList: expression (COMMA expression)*;
 
@@ -92,87 +86,44 @@ parameter: NL? parameterName type;
 
 proceduralControlFlow: if  | for |  forIn | while | repeat | try | switch;
 
-functionalControlFlow: if_functional  | for_functional |  forIn_functional | while_functional | repeat_functional | switch_functional;  //try...catch not permitted
-
 if:	NL IF expression THEN
-    procedureBlock
+    statementBlock
     (NL ELSE IF expression THEN
-    procedureBlock)*
+    statementBlock)*
     (NL ELSE
-    procedureBlock)?
-    NL END IF
-	;
-
-if_functional:	NL IF expression THEN
-    functionBlock
-    (NL ELSE IF expression THEN
-    functionBlock)*
-    (NL ELSE
-    functionBlock)?
+    statementBlock)?
     NL END IF
 	;
 
 for: 
 	NL FOR variableName ASSIGN expression TO expression 
-	procedureBlock
-	NL END FOR
-	;
-
-for_functional: 
-	NL FOR variableName ASSIGN expression TO expression 
-	functionBlock
+	statementBlock
 	NL END FOR
 	;
 
 forIn: 
 	NL FOR variableName IN expression 
-    procedureBlock
-    NL END FOR
-	;
-
-forIn_functional: 
-	NL FOR variableName IN expression 
-    functionBlock
+    statementBlock
     NL END FOR
 	;
           
 while: 
 	NL WHILE expression 
-    procedureBlock
-    NL END WHILE
-	;
-
-while_functional: 
-	NL WHILE expression 
-    functionBlock
+    statementBlock
     NL END WHILE
 	;
           
 repeat: 
 	NL (REPEAT)
-    procedureBlock
-    NL UNTIL expression
-	;
-
-repeat_functional: 
-	NL (REPEAT)
-    functionBlock
+    statementBlock
     NL UNTIL expression
 	;
 
 try: 
 	NL TRY 
-    procedureBlock
+    statementBlock
     (NL CATCH variableName type 
-	  procedureBlock)?
-    NL END TRY
-	;
-
-try_functional: 
-	NL TRY 
-    functionBlock
-    (NL CATCH variableName type 
-	  functionBlock)?
+	  statementBlock)?
     NL END TRY
 	;
 
@@ -182,36 +133,23 @@ switch:
       caseDefault?
 	END SWITCH
 	;
-
-switch_functional: 
-	NL SWITCH expression
-	  case_functional*
-      caseDefault_functional?
-	END SWITCH
-	;
-
 case: 
 	NL CASE literalValue
-    procedureBlock
-	;
-
-case_functional: 
-	NL CASE literalValue
-    functionBlock
+    statementBlock
 	;
 
 caseDefault : 
 	NL DEFAULT
-    procedureBlock
-	;
-
-caseDefault_functional: 
-	NL DEFAULT
-    functionBlock
+    statementBlock
 	;
 
 expression
-	: closedExpression  //Not clear how this works in relation 
+	: bracketedExpression
+	| methodCall
+	| value
+	| expression index
+	| expression DOT methodCall
+	| expression DOT propertyName 
 	| unaryOp expression
 	| expression binaryOp expression
 	| newInstance
@@ -219,15 +157,6 @@ expression
 	| lambda
 	| throwException
 	| NL expression // so that any expression may be broken over multiple lines at its 'natural joints' i.e. before any sub-expression
-	;
-
-closedExpression:
-	  bracketedExpression
-	| functionCall
-	| value
-	| closedExpression index
-	| closedExpression DOT functionCall
-	| closedExpression DOT propertyName
 	;
 
 bracketedExpression: OPEN_BRACKET expression CLOSE_BRACKET ; //made into rule so that compiler can add the brackets explicitly
@@ -295,17 +224,19 @@ dataStructureType: arrayType | listType | dictionaryType | tupleType | iterableT
 
 tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
 
-arrayType: ARRAY generic;
+arrayType: ARRAY genericSpecifier;
 
-listType: LIST generic; 
+listType: LIST genericSpecifier; 
 
-dictionaryType: DICTIONARY generic;
+dictionaryType: DICTIONARY genericSpecifier;
 
-iterableType: ITERABLE generic;
+iterableType: ITERABLE genericSpecifier;
 
-genericType: type generic;
+genericType: type genericSpecifier;
     
-generic: LT type GT;
+genericSpecifier: LT type (COMMA type)* GT;
+
+genericDefinition: LT type (COMMA type)* GT;
     
 funcType: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET;
     
@@ -316,5 +247,6 @@ propertyName: IDENTIFIER;
 parameterName: IDENTIFIER;
 variableName: IDENTIFIER;
 letName: IDENTIFIER;
+methodName: procedureName | functionName;
 procedureName: IDENTIFIER;
 functionName: IDENTIFIER;

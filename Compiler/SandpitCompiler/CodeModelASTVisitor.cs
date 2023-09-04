@@ -108,7 +108,7 @@ public class CodeModelASTVisitor {
             LambdaExpressionNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
             DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expression), Visit(dn.ID)),
             WhileStatementNode sn => HandleScope(BuildWhileModel, sn),
-            ProcedureStatementNode sn => HandleScope(BuildProcStatModel, sn),
+            MethodStatementNode sn => HandleScope(BuildProcStatModel, sn),
             ValuesNode vn => new ValueModel(vn.Values.Select(Visit).ToArray()),
             AssignmentNode an => new AssignmentModel(an.ID.Text, Visit(an.Expr)),
             null => throw new NotImplementedException("null"),
@@ -122,7 +122,21 @@ public class CodeModelASTVisitor {
         return new ValueModel(ln.Texts, new TypeModel(type, currentScope));
     }
 
-    private IModel BuildProcStatModel(ProcedureStatementNode psn) => new ProcStatModel(psn.ID.Text, psn.Parameters.Select(Visit).ToArray());
+    private IModel BuildProcStatModel(MethodStatementNode psn) {
+        var id = psn.ID.Text;
+
+        if (currentScope.Resolve(id) is MethodSymbol ms) {
+            return ms.MethodType switch {
+                MethodType.Function => new FuncCallModel(id, psn.Parameters.Select(Visit).ToArray()),
+                MethodType.Procedure => new ProcStatModel(id, psn.Parameters.Select(Visit).ToArray()),
+                MethodType.SystemCall when ms.SymbolType is null => new ProcStatModel(id, psn.Parameters.Select(Visit).ToArray()),
+                MethodType.SystemCall => new FuncCallModel(id, psn.Parameters.Select(Visit).ToArray()),
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        throw new NotImplementedException();
+    }
 
     private IModel BuildWhileModel(WhileStatementNode sn) => new WhileModel(Visit(sn.Condition), sn.ProcedureBlock.Select(Visit));
 }

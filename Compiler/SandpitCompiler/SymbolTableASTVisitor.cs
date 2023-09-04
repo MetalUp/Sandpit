@@ -21,14 +21,14 @@ public class SymbolTableASTVisitor {
             FileNode fn => VisitChildren(fn),
             ValueNode vn => VisitChildren(vn),
             WhileStatementNode sn => VisitChildren(sn),
-            ProcedureStatementNode sn => VisitChildren(sn),
+            MethodStatementNode sn => VisitChildren(sn),
             null => throw new NotImplementedException("null"),
             _ => VisitChildren(astNode)
         };
     }
 
     private IASTNode VisitLetNode(LetDefnNode ln) {
-        var ms = new MethodSymbol("", ln.SymbolType, currentScope);
+        var ms = new MethodSymbol("", MethodType.Function, ln.SymbolType, currentScope);
         currentScope.Define(ms);
         currentScope = ms;
 
@@ -49,7 +49,7 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitBlockNode(IBlock bn) {
-        var ms = new MethodSymbol("main", null, currentScope);
+        var ms = new MethodSymbol("main", MethodType.Procedure, null, currentScope);
         currentScope.Define(ms);
         currentScope = ms;
         VisitChildren(bn);
@@ -58,7 +58,7 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitProcNode(IProcedure pn) {
-        var ms = new MethodSymbol(pn.ID.Text, null, currentScope);
+        var ms = new MethodSymbol(pn.ID.Text, MethodType.Procedure, null, currentScope);
         currentScope.Define(ms);
         currentScope = ms;
         VisitChildren(pn);
@@ -67,7 +67,7 @@ public class SymbolTableASTVisitor {
     }
 
     private IASTNode VisitFunctionNode(IFunction pn) {
-        var ms = new MethodSymbol(pn.ID.Text, pn.SymbolType, currentScope);
+        var ms = new MethodSymbol(pn.ID.Text, MethodType.Function, pn.SymbolType, currentScope);
         currentScope.Define(ms);
         currentScope = ms;
         VisitChildren(pn);
