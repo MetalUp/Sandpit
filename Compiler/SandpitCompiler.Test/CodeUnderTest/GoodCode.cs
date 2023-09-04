@@ -1059,7 +1059,6 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
         }
       }
     }";
-
     
     public static readonly ASTNode Code1AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"))));
 

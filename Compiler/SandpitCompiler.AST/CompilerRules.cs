@@ -1,4 +1,5 @@
-﻿using SandpitCompiler.AST.Node;
+﻿using System.Diagnostics.CodeAnalysis;
+using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
 
@@ -46,8 +47,7 @@ public static class CompilerRules {
 
         if (leafNode is MethodStatementNode msn && currentScope.Resolve(msn.ID.Text) is MethodSymbol { MethodType: MethodType.Function }) {
             var otherNodes = nodes.SkipLast(1).ToArray();
-            if (!otherNodes.Any(n => n is AssignmentNode or TernaryExpressionNode or LambdaExpressionNode or LetDefnNode) 
-                && otherNodes.Last() is not FunctionDefinitionNode
+            if (!otherNodes.Any(n => n is AssignmentNode or TernaryExpressionNode or LambdaExpressionNode or LetDefnNode or VarDefinitionNode || n is FunctionDefinitionNode fdn && fdn.ReturnExpression == leafNode) 
                 && otherNodes.Last() is not MethodStatementNode) {
                 return "cannot have unassigned expression";
             }

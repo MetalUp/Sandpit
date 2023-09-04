@@ -97,6 +97,19 @@ end main
 
     public const string Code10Message = "Cannot have procedure/system call in function";
 
+    public const string Code11 = @"
+    function f() as Int
+      return 1
+    end function
+
+    function g() as Int
+      f()
+      return 1
+    end function
+    ";
+
+    public const string Code11Message = "cannot have unassigned expression";
+
     // code to test starts with <Code> expected message same id but ends with <Message> 
 
    
