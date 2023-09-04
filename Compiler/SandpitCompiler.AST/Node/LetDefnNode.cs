@@ -7,7 +7,7 @@ public class LetDefnNode : ASTNode, IStatement, IExpression {
     public LetDefnNode(AssignmentNode[] values, IExpression returnExpression) {
         Values = values;
         ReturnExpression = returnExpression;
-        Children = new List<IASTNode> { returnExpression };
+        Children = values.Cast<IASTNode>().Append(returnExpression).ToList();
         SymbolType = returnExpression.SymbolType;
     }
 
