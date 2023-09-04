@@ -103,7 +103,6 @@ public class CodeModelASTVisitor {
             IndexedExpressionNode ivn => new IndexedValueModel(Visit(ivn.Expr), Visit(ivn.Index), new TypeModel(ivn.Expr.SymbolType, currentScope)),
             RangeExpressionNode rvn => new RangeValueModel(rvn.Prefix, Visit(rvn.From), rvn.To is { } to ? Visit(to) : null),
             TernaryExpressionNode tvn => new TernaryValueModel(Visit(tvn.Control), Visit(tvn.Lhs), Visit(tvn.Rhs)),
-            FunctionExpressionNode fn => new FuncCallModel(fn.ID.Text, fn.Parameters.Select(Visit).ToArray()),
             TupleExpressionNode tvn => new TupleValueModel(tvn.ValueNodes.Select(Visit).ToArray()),
             LambdaExpressionNode lvn => new LambdaValueModel(lvn.Args.Select(Visit).ToArray(), Visit(lvn.Expr)),
             DereferenceExpressionNode dn => new DereferenceModel(Visit(dn.Expression), Visit(dn.ID)),
