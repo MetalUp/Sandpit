@@ -7,20 +7,10 @@ using static SandpitParser;
 namespace SandpitCompiler.AST;
 
 public static class ASTFactory {
-    private static readonly IList<Func<IASTNode, IASTNode>> Rules = new List<Func<IASTNode, IASTNode>>();
-
-    static ASTFactory() {
-        Rules.Add(CompilerRules.OnlyOneMainRule);
-        Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
-       
-    }
-
     private static T Visit<T>(this SandpitBaseVisitor<IASTNode> visitor, IParseTree pt) where T : IASTNode => (T)visitor.Visit(pt);
 
-    private static IASTNode ApplyFirstPassRules(IASTNode node) => Rules.Aggregate(node, (current, rule) => rule(current));
-
     public static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParserRuleContext context) =>
-        ApplyFirstPassRules(context switch {
+        context switch {
             ArgumentListContext c => visitor.Build(c),
             ArithmeticOpContext c => visitor.Build(c),
             ArrayTypeContext c => visitor.Build(c),
@@ -95,7 +85,7 @@ public static class ASTFactory {
             WithClauseContext c => visitor.Build(c),
 
             _ => throw new NotImplementedException(context?.GetType().FullName ?? null)
-        });
+        };
 
     public static IASTNode BuildTerminal(this SandpitBaseVisitor<IASTNode> visitor, ITerminalNode node) {
         if (ASTHelpers.MapSymbolToOperator(ASTHelpers.GetTokenName(node.Symbol.Type)) is not Constants.Operators.Unknown) {

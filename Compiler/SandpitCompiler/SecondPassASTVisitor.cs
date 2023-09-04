@@ -24,6 +24,8 @@ public class SecondPassASTVisitor {
     private static IList<Func<IASTNode[], IScope, string?>> Rules { get; } = new List<Func<IASTNode[], IScope, string?>>();
 
     static SecondPassASTVisitor() {
+        Rules.Add(CompilerRules.OnlyOneMainRule);
+        Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
         Rules.Add(CompilerRules.NoProcedureInFunctionRule);
     }
 

@@ -38,7 +38,6 @@ public static class Pipeline {
             throw new AggregateException(secondPassVisitor.CompileErrors.Select(e => new CompileErrorException(e)));
         }
 
-
         var model = GenerateModel(ast, symbolTable);
         var csCode = GenerateCSharpCode(options.FileName, model);
 

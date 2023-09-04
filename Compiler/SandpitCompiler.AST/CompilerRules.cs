@@ -5,25 +5,25 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST;
 
 public static class CompilerRules {
-    public static IASTNode OnlyOneMainRule(IASTNode node) {
-        if (node is FileNode { MainNode.Length: > 1 }) {
-            throw new CompileErrorException("more than one main");
-        }
+    public static string? OnlyOneMainRule(IASTNode[] nodes, IScope currentScope) {
+        var node = nodes.Last();
 
-        return node;
+        return node is FileNode { MainNode.Length: > 1 } ? "more than one main" : null;
     }
 
-    public static IASTNode ExpressionTypeIsBooleanRule(IASTNode node) {
+    public static string? ExpressionTypeIsBooleanRule(IASTNode[] nodes, IScope currentScope) {
+        var node = nodes.Last();
+
         if (node is WhileStatementNode wn) {
             return wn.Condition switch {
                 // TODO rework to 'resolve' the type of the expression
-                ScalarValueNode { SymbolType: BuiltInType { Name : "Bool" } } => node,
-                BinaryExpressionNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => node,
-                _ => throw new CompileErrorException("control expression must be bool")
+                ScalarValueNode { SymbolType: BuiltInType { Name : "Bool" } } => null,
+                BinaryExpressionNode { Op.Operator: Constants.Operators.Eq or Constants.Operators.Ne } => null,
+                _ => "control expression must be bool"
             };
         }
 
-        return node;
+        return null;
     }
 
     public static string? NoProcedureInFunctionRule(IASTNode[] nodes, IScope currentScope) {
