@@ -4,14 +4,14 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class AssignmentNode : ASTNode, IStatement {
-    public AssignmentNode(ValueNode id, IExpression expr) {
+    public AssignmentNode(IValue id, IExpression expr) {
         ID = id;
         Expr = expr;
         Children = new List<IASTNode> { id, expr };
         SymbolType = expr.SymbolType;
     }
 
-    public ValueNode ID { get; }
+    public IValue ID { get; }
     public IExpression Expr { get; }
     public string Id => ID.Text;
     public ISymbolType SymbolType { get; }

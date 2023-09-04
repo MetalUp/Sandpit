@@ -217,7 +217,7 @@ public static class ASTFactory {
             var avs = letInContext.assignableValue().Select(visitor.Visit<IValue>);
             var exprs = letInContext.expression().Select(visitor.Visit<IExpression>);
 
-            var lets = avs.Zip(exprs).ToArray();
+            var lets = avs.Zip(exprs).Select(t => new AssignmentNode(t.First, t.Second)).ToArray();
 
             var returnExpr = visitor.Visit<IExpression>(context.expression());
 

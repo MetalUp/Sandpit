@@ -32,8 +32,8 @@ public class SymbolTableASTVisitor {
         currentScope.Define(ms);
         currentScope = ms;
 
-        foreach (var (id, expr) in ln.Values) {
-            var vs = new VariableSymbol(id.Text, expr.SymbolType);
+        foreach (var assignment in ln.Values) {
+            var vs = new VariableSymbol(assignment.Id, assignment.SymbolType);
             currentScope.Define(vs);
         }
 

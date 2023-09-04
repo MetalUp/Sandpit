@@ -4,14 +4,14 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public class LetDefnNode : ASTNode, IStatement, IExpression {
-    public LetDefnNode((IValue id, IExpression expr)[] values, IExpression returnExpression) {
+    public LetDefnNode(AssignmentNode[] values, IExpression returnExpression) {
         Values = values;
         ReturnExpression = returnExpression;
         Children = new List<IASTNode> { returnExpression };
         SymbolType = returnExpression.SymbolType;
     }
 
-    public (IValue id, IExpression expr)[] Values { get; }
+    public AssignmentNode[] Values { get; }
     public IExpression ReturnExpression { get; }
 
     public ISymbolType SymbolType { get; }
