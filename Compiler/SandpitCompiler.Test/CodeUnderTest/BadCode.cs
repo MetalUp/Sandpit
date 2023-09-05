@@ -108,7 +108,7 @@ end main
     end function
     ";
 
-    public const string Code11Message = "cannot have unassigned expression";
+    public const string Code11Message = "Cannot have unassigned expression";
 
     // code to test starts with <Code> expected message same id but ends with <Message> 
 

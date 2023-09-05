@@ -1,14 +1,14 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class ParamModel : IModel {
-    public ParamModel(string id, string type) {
+    public ParamModel(IModel id, string type) {
         Type = type;
-        ID = id;
+        Id = id;
     }
 
     private string Type { get; }
-    private string ID { get; }
+    private IModel Id { get; }
 
-    public override string ToString() => $"{Type} {ID}".Trim();
+    public override string ToString() => $"{Type} {Id}".Trim();
     public bool HasMain => false;
 }

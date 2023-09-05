@@ -1,17 +1,17 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class ProcStatModel : IModel {
-    public ProcStatModel(string id, IModel[] parameters) {
-        ID = id;
+    public ProcStatModel(IModel id, IModel[] parameters) {
+        Id = id;
         Parameters = parameters;
     }
 
-    private string ID { get; }
+    private IModel Id { get; }
     private IModel[] Parameters { get; }
 
     public override string ToString() =>
         $@"
-        {ID}({Parameters.AsCommaSeparatedString()});
+        {Id}({Parameters.AsCommaSeparatedString()});
         ".Trim();
 
     public bool HasMain => false;

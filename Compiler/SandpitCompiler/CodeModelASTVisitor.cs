@@ -64,27 +64,27 @@ public class CodeModelASTVisitor {
 
     private MainModel BuildMainModel(MainNode mn) => new(mn.ProcedureBlock.Select(Visit));
 
-    private VarDeclModel BuildVarDeclModel(VarDefinitionNode vdn) => new(vdn.ID.Text, Visit(vdn.Expr));
+    private VarDeclModel BuildVarDeclModel(VarDefinitionNode vdn) => new(Visit(vdn.ID), Visit(vdn.Expr));
 
     private ConstDeclModel BuildConstDeclModel(ConstDefinitionNode vdn) {
-        var id = vdn.ID.Text;
-        var type = currentScope.Resolve(id)?.SymbolType;
+        var id = Visit(vdn.ID);
+        var type = currentScope.Resolve(vdn.Id)?.SymbolType;
 
         return new ConstDeclModel(id, Visit(vdn.Expression), new TypeModel(type, currentScope));
     }
 
     private FuncModel BuildFuncModel(FunctionDefinitionNode fn) {
         var id = fn.ID.Text;
-        var type = currentScope.Resolve(id)?.SymbolType ?? throw new ArgumentNullException();
+        var type = currentScope.Resolve(fn.Id)?.SymbolType ?? throw new ArgumentNullException();
 
-        return new FuncModel(id, new TypeModel(type, currentScope), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
+        return new FuncModel(Visit(fn.ID), new TypeModel(type, currentScope), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
     }
 
     private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new( ldn.Values.Select(a => Visit(a)).ToArray(), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType, currentScope));
 
-    private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(pn.ID.Text, pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
+    private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(Visit(pn.ID), pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 
-    private ParamModel BuildParamModel(ParameterDefinitionNode pn) => new(pn.ID.Text, ModelHelpers.TypeLookup(pn.Type));
+    private ParamModel BuildParamModel(ParameterDefinitionNode pn) => new(Visit(pn.ID), ModelHelpers.TypeLookup(pn.Type));
 
     public IModel Visit(IASTNode astNode) {
         return astNode switch {
@@ -126,10 +126,10 @@ public class CodeModelASTVisitor {
 
         if (currentScope.Resolve(id) is MethodSymbol ms) {
             return ms.MethodType switch {
-                MethodType.Function => new FuncCallModel(id, psn.Parameters.Select(Visit).ToArray()),
-                MethodType.Procedure => new ProcStatModel(id, psn.Parameters.Select(Visit).ToArray()),
-                MethodType.SystemCall when ms.SymbolType is null => new ProcStatModel(id, psn.Parameters.Select(Visit).ToArray()),
-                MethodType.SystemCall => new FuncCallModel(id, psn.Parameters.Select(Visit).ToArray()),
+                MethodType.Function => new FuncCallModel(Visit(psn.ID), psn.Parameters.Select(Visit).ToArray()),
+                MethodType.Procedure => new ProcStatModel(Visit(psn.ID), psn.Parameters.Select(Visit).ToArray()),
+                MethodType.SystemCall when ms.SymbolType is null => new ProcStatModel(Visit(psn.ID), psn.Parameters.Select(Visit).ToArray()),
+                MethodType.SystemCall => new FuncCallModel(Visit(psn.ID), psn.Parameters.Select(Visit).ToArray()),
                 _ => throw new NotImplementedException()
             };
         }
