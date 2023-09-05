@@ -5,5 +5,12 @@ public class UnresolvedType : IUnresolvedType {
 
     private string Name { get; }
 
-    public virtual ISymbolType Resolve(IScope scope) => scope.Resolve(Name)?.SymbolType ?? throw new ArgumentNullException();
+    public ISymbolType Resolve(IScope scope, int depth = 0) {
+        if (depth >= IUnresolvedType.MaxDepth) {
+            throw new ArgumentException("too deep");
+        }
+
+        var t = scope.Resolve(Name)?.SymbolType ?? throw new ArgumentNullException();
+        return t is IUnresolvedType ut ? ut.Resolve(scope, ++depth) : t;
+    }
 }

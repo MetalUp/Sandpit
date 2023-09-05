@@ -28,10 +28,14 @@ public static class Constants {
     public const string ElanInt = "Int";
     public const string ElanString = "String";
     public const string ElanBool = "Bool";
+    public const string ElanFloat = "Float";
+    public const string ElanDecimal = "Decimal";
+    public const string ElanChar = "Char";
+    public const string ElanNumber = "Number";
 
     public const string ElanIter = "Iter";
     public const string ElanList = "List";
-    public const string ElanChar = "Char";
+   
 
     public static string LITERAL_INTEGER_TOKEN = "LITERAL_INTEGER";
     public static string LITERAL_STRING_TOKEN = "LITERAL_STRING";

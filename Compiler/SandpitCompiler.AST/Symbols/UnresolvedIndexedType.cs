@@ -13,7 +13,11 @@ public class UnresolvedIndexedType : IUnresolvedType {
 
     private ISymbolType SymbolType { get; }
 
-    public ISymbolType Resolve(IScope scope) {
+    public ISymbolType Resolve(IScope scope, int depth = 0) {
+        if (depth >= IUnresolvedType.MaxDepth) {
+            throw new ArgumentException("too deep");
+        }
+
         var st = SymbolType is IUnresolvedType ut ? ut.Resolve(scope) : SymbolType;
 
         if (st is TupleType tt) {
@@ -31,6 +35,10 @@ public class UnresolvedIndexedType : IUnresolvedType {
 
         if (st is IterableType it) {
             return it.ElementType;
+        }
+
+        if (st is IUnresolvedType ut1) {
+            return ut1.Resolve(scope, ++depth);
         }
 
         throw new NotImplementedException();

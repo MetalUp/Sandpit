@@ -93,9 +93,6 @@ public static class CompilerRules {
 
             if (nodeType is IUnresolvedType ut) {
                 nodeType = ut.Resolve(currentScope);
-                if (nodeType is IUnresolvedType ut1) {
-                    nodeType = ut1.Resolve(currentScope);
-                }
             }
 
             if (st is GenericParameterType) {
