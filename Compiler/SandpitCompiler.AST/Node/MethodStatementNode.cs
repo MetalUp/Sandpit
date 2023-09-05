@@ -14,8 +14,8 @@ public class MethodStatementNode : ASTNode, IStatement, IExpression {
 
     public ValueNode ID { get; }
     public IExpression[] Parameters { get; }
+    public ISymbolType SymbolType => new UnresolvedType(ID.Text);
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}  {Parameters.AsString()} )";
-    public ISymbolType SymbolType => new UnresolvedType(ID.Text);
 }

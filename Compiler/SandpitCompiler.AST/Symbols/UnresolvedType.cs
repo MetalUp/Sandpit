@@ -1,6 +1,6 @@
 ﻿namespace SandpitCompiler.AST.Symbols;
 
-public class UnresolvedType :  IUnresolvedType {
+public class UnresolvedType : IUnresolvedType {
     public UnresolvedType(string name) => Name = name;
 
     private string Name { get; }

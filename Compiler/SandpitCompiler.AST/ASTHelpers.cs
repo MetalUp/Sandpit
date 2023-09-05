@@ -32,8 +32,8 @@ public static class ASTHelpers {
             "PLUS" => Constants.Operators.Add,
             "LT" => Constants.Operators.Lt,
             "OP_AND" => Constants.Operators.And,
-            "OP_OR"=> Constants.Operators.Or,
-            "OP_XOR"=> Constants.Operators.Xor,
+            "OP_OR" => Constants.Operators.Or,
+            "OP_XOR" => Constants.Operators.Xor,
             _ => Constants.Operators.Unknown
         };
     }

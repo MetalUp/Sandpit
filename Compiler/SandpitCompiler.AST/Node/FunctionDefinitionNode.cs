@@ -18,9 +18,9 @@ public class FunctionDefinitionNode : ASTNode, IFunction {
     public ParameterDefinitionNode[] Parameters { get; }
     public IList<IStatement> FunctionBlock { get; }
 
-    public ValueNode ID { get; }
-
     public string Id => ID.Text;
+
+    public ValueNode ID { get; }
     public ISymbolType? SymbolType => Type.SymbolType;
 
     public override IList<IASTNode> Children { get; }

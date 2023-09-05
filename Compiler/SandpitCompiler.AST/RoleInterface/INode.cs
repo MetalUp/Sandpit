@@ -1,3 +1,3 @@
-﻿namespace SandpitCompiler.AST.RoleInterface; 
+﻿namespace SandpitCompiler.AST.RoleInterface;
 
 public interface INode { }

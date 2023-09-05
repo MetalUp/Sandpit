@@ -1,17 +1,16 @@
-﻿using Antlr4.Runtime;
-using SandpitCompiler.AST.RoleInterface;
-using SandpitCompiler.AST.Symbols;
+﻿using SandpitCompiler.AST.RoleInterface;
 
 namespace SandpitCompiler.AST.Node;
 
-public  class ValuesNode : ASTNode, IValue {
-    public ValueNode[] Values { get; }
+public class ValuesNode : ASTNode, IValue {
     public ValuesNode(ValueNode[] values) {
         Values = values;
         Children = Values.OfType<IASTNode>().ToList();
     }
 
+    public ValueNode[] Values { get; }
+
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => throw new NotImplementedException();
-    public string Text  => ""; // TODO what should this be ? 
+    public string Text => ""; // TODO what should this be ? 
 }

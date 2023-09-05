@@ -17,5 +17,5 @@ public class IndexedExpressionNode : ASTNode, IExpression {
     public override IList<IASTNode> Children { get; }
 
     public override string ToStringTree() => $"({ToString()}{Expr.ToStringTree()}{Index.ToStringTree()})";
-    public ISymbolType SymbolType => new UnresolvedIndexedType(Expr.SymbolType, Index); 
+    public ISymbolType SymbolType => new UnresolvedIndexedType(Expr.SymbolType, Index);
 }

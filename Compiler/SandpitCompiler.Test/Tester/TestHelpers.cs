@@ -29,8 +29,7 @@ public static partial class TestHelpers {
             Console.WriteLine(expected + " EXPECTED");
             Console.WriteLine(code + " ACTUAL");
 
-            for (int i = 0; i < code.Length; i++)
-            {
+            for (var i = 0; i < code.Length; i++) {
                 var c = code[i];
                 var e = expected[i];
 
@@ -39,8 +38,6 @@ public static partial class TestHelpers {
                     Console.WriteLine(expected[i..] + " EXPECTED");
                     break;
                 }
-
-
             }
 
             throw;

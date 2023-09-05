@@ -37,7 +37,6 @@ public class SymbolTableASTVisitor {
             currentScope.Define(vs);
         }
 
-
         currentScope = currentScope.EnclosingScope ?? throw new Exception("unexpected null scope");
         return ln;
     }

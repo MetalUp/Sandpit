@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
@@ -80,7 +79,7 @@ public class CodeModelASTVisitor {
         return new FuncModel(Visit(fn.ID), new TypeModel(type, currentScope), fn.Parameters.Select(Visit), fn.FunctionBlock.Select(Visit), Visit(fn.ReturnExpression));
     }
 
-    private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new( ldn.Values.Select(a => Visit(a)).ToArray(), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType, currentScope));
+    private LetDeclModel BuildLetDeclModel(LetDefnNode ldn) => new(ldn.Values.Select(a => Visit(a)).ToArray(), Visit(ldn.ReturnExpression), new TypeModel(ldn.ReturnExpression.SymbolType, currentScope));
 
     private ProcModel BuildProcModel(ProcedureDefinitionNode pn) => new(Visit(pn.ID), pn.Parameters.Select(Visit), pn.ProcedureBlock.Select(Visit));
 

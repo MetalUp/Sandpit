@@ -1,16 +1,11 @@
 ﻿namespace SandpitCompiler.Test.CodeUnderTest;
 
-public class BadCode
-{
-    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
-
+public class BadCode {
     public const string Code1 = @"
 main
   var a = 1
 endmain
 ";
-
-    public static readonly string Code1Message = $"line 5:0 mismatched input '<EOF>' expecting 'end'";
 
     public const string Code2 = @"main
 var a = 1
@@ -44,16 +39,12 @@ end main
     endprocedure
     ";
 
-    public static readonly string Code5Message = $"line 5:4 mismatched input '<EOF>' expecting 'end'";
-
     public const string Code6 = @"
     function p() : Integer
       var a = 1
       return a
     end function
     ";
-
-    public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 
     public const string Code7 = @"
     procedure p()
@@ -109,9 +100,13 @@ end main
     ";
 
     public const string Code11Message = "Cannot have unassigned expression";
+    private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
+
+    public static readonly string Code1Message = "line 5:0 mismatched input '<EOF>' expecting 'end'";
+
+    public static readonly string Code5Message = "line 5:4 mismatched input '<EOF>' expecting 'end'";
+
+    public static readonly string Code6Message = $"line 2:17 no viable alternative at input '{NL}functionp():'";
 
     // code to test starts with <Code> expected message same id but ends with <Message> 
-
-   
-
 }

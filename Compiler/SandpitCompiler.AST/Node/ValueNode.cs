@@ -9,8 +9,6 @@ public abstract class ValueNode : ASTNode, IExpression, IValue {
 
     public IToken Token { get; }
 
-    public virtual string Text => Token?.Text ?? "";
-
     public int TokenType => Token?.Type ?? -1;
 
     public string TokenName => ASTHelpers.GetTokenName(TokenType);
@@ -18,6 +16,8 @@ public abstract class ValueNode : ASTNode, IExpression, IValue {
     public abstract ISymbolType SymbolType { get; }
 
     public override string ToStringTree() => ToString();
+
+    public virtual string Text => Token?.Text ?? "";
 
     public override string ToString() {
         var typeName = GetType().Name;

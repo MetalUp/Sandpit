@@ -57,8 +57,8 @@ public static class ModelHelpers {
             BuiltInType n => TypeLookup(n.Name),
             ListType n => $"IList<{TypeLookup(n.ElementType, scope)}>",
             IterableType n => $"IEnumerable<{TypeLookup(n.ElementType, scope)}>",
-            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1,scope)).ToArray())})",
-            IUnresolvedType u =>  TypeLookup(u.Resolve(scope), scope),
+            TupleType n => $"({string.Join(", ", n.ElementTypes.Select(st1 => TypeLookup(st1, scope)).ToArray())})",
+            IUnresolvedType u => TypeLookup(u.Resolve(scope), scope),
             _ => throw new NotImplementedException()
         };
     }
