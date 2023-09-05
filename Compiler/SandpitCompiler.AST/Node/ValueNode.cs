@@ -5,9 +5,9 @@ using SandpitCompiler.AST.Symbols;
 namespace SandpitCompiler.AST.Node;
 
 public abstract class ValueNode : ASTNode, IExpression, IValue {
-    protected ValueNode(IToken token) => Token = token;
+    protected ValueNode(IToken? token) => Token = token;
 
-    public IToken Token { get; }
+    public IToken? Token { get; }
 
     public int TokenType => Token?.Type ?? -1;
 
@@ -21,6 +21,6 @@ public abstract class ValueNode : ASTNode, IExpression, IValue {
 
     public override string ToString() {
         var typeName = GetType().Name;
-        return $"<{typeName}, '{Token.Text}'>";
+        return $"<{typeName}, '{Token?.Text}'>";
     }
 }

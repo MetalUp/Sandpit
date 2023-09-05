@@ -3,5 +3,5 @@
 namespace SandpitCompiler.AST.Node;
 
 public abstract class TypeNode : ValueNode {
-    protected TypeNode(IToken nodeSymbol) : base(nodeSymbol) { }
+    protected TypeNode(IToken? nodeSymbol) : base(nodeSymbol) { }
 }
