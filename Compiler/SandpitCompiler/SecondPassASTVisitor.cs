@@ -10,6 +10,7 @@ public class SecondPassASTVisitor {
     private IScope currentScope;
 
     static SecondPassASTVisitor() {
+        Rules.Add(CompilerRules.ResolveGenericsRule);
         Rules.Add(CompilerRules.OnlyOneMainRule);
         Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
         Rules.Add(CompilerRules.NoProcedureInFunctionRule);

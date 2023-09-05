@@ -1,11 +1,5 @@
 ﻿namespace SandpitCompiler.AST.Symbols;
 
-public enum MethodType {
-    Function,
-    Procedure,
-    SystemCall
-}
-
 public class MethodSymbol : BaseScope, ISymbol {
     public MethodSymbol(string name, MethodType methodType, ISymbolType? symbolType, IScope scope) {
         Name = name;
@@ -22,5 +16,5 @@ public class MethodSymbol : BaseScope, ISymbol {
     public string Name { get; }
     public IScope? Scope { get; set; }
 
-    public override string ToString() => $"method {base.ToString()}";
+    public override string ToString() => $"{MethodType} {Name} {base.ToString()}";
 }

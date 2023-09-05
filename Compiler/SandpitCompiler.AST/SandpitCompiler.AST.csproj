@@ -11,6 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Sandpit.Compiler.Lib\Sandpit.Compiler.Lib.csproj" />
 		<ProjectReference Include="..\SandpitAntlr\SandpitAntlr.csproj" />
 	</ItemGroup>
 

@@ -25,13 +25,13 @@ public static class Constants {
         Unknown
     }
 
-    public const string Bacon_Integer = "Int";
-    public const string Bacon_String = "String";
-    public const string Bacon_Bool = "Bool";
+    public const string ElanInt = "Int";
+    public const string ElanString = "String";
+    public const string ElanBool = "Bool";
 
-    public const string Bacon_Iterable = "Iterable";
-    public const string Bacon_List = "List";
-    public const string Bacon_Char = "Char";
+    public const string ElanIter = "Iter";
+    public const string ElanList = "List";
+    public const string ElanChar = "Char";
 
     public static string LITERAL_INTEGER_TOKEN = "LITERAL_INTEGER";
     public static string LITERAL_STRING_TOKEN = "LITERAL_STRING";

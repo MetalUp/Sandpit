@@ -7,11 +7,11 @@ namespace SandpitCompiler.Model;
 public static class ModelHelpers {
     public static string TypeLookup(string t) {
         return t switch {
-            Constants.Bacon_Integer => "int",
-            Constants.Bacon_String => "string",
-            Constants.Bacon_Bool => "bool",
-            Constants.Bacon_Char => "char",
-            _ => throw new NotImplementedException()
+            Constants.ElanInt => "int",
+            Constants.ElanString => "string",
+            Constants.ElanBool => "bool",
+            Constants.ElanChar => "char",
+            _ => throw new NotImplementedException(t)
         };
     }
 
@@ -19,7 +19,7 @@ public static class ModelHelpers {
         return tn.TokenName switch {
             "ITERABLE" => $"IEnumerable<{TypeLookup(tn.ParameterizedType)}>",
             "LIST" => $"IList<{TypeLookup(tn.ParameterizedType)}>",
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException(tn.TokenName)
         };
     }
 
@@ -39,7 +39,7 @@ public static class ModelHelpers {
             "OP_EQ" => "", // TODO Symbol table lookup ? 
             "OP_NE" => "", // TODO Symbol table lookup ? 
             "PLUS" => "", // TODO Symbol table lookup ? 
-            _ => throw new NotImplementedException()
+            _ => throw new NotImplementedException(tn.TokenName)
         };
     }
 
