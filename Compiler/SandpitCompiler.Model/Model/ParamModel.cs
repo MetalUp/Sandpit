@@ -1,7 +1,7 @@
 ﻿namespace SandpitCompiler.Model.Model;
 
 public class ParamModel : IModel {
-    public ParamModel(IModel id, string type) {
+    public ParamModel(IModel id, string type) { // todo fix type to be model
         Type = type;
         Id = id;
     }
