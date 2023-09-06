@@ -8,13 +8,12 @@ public class VarDefinitionNode : ASTNode, IStatement, IDefinition {
         ID = id;
         Expr = expr;
         Children = new List<IASTNode> { id, expr };
-        SymbolType = expr.SymbolType;
     }
 
     public ValueNode ID { get; }
     public IExpression Expr { get; }
     public string Id => ID.Text;
-    public ISymbolType SymbolType { get; }
+    public ISymbolType SymbolType => Expr.SymbolType;
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ID.ToStringTree()}{Expr.ToStringTree()})";

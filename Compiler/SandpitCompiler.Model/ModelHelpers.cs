@@ -7,10 +7,10 @@ namespace SandpitCompiler.Model;
 public static class ModelHelpers {
     public static string TypeLookup(string t) {
         return t switch {
-            Constants.ElanInt => "int",
-            Constants.ElanString => "string",
-            Constants.ElanBool => "bool",
-            Constants.ElanChar => "char",
+            Constants.ElanIntName => "int",
+            Constants.ElanStringName => "string",
+            Constants.ElanBoolName => "bool",
+            Constants.ElanCharName => "char",
             _ => throw new NotImplementedException(t)
         };
     }

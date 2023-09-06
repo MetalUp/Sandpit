@@ -13,4 +13,6 @@ public class UnresolvedType : IUnresolvedType {
         var t = scope.Resolve(Name)?.SymbolType ?? throw new ArgumentNullException();
         return t is IUnresolvedType ut ? ut.Resolve(scope, ++depth) : t;
     }
+
+    public ISymbolType Clone() => this;
 }

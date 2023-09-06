@@ -43,4 +43,6 @@ public class UnresolvedIndexedType : IUnresolvedType {
 
         throw new NotImplementedException();
     }
+
+    public ISymbolType Clone() => this;
 }

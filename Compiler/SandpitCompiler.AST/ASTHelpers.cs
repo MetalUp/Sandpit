@@ -7,14 +7,26 @@ namespace SandpitCompiler.AST;
 public static class ASTHelpers {
     public static string AsString(this IEnumerable<IASTNode> nodes) => nodes.Aggregate("", (acc, n) => $"{acc}{n.ToStringTree()} ").TrimEnd();
 
+    private static ISymbolType TextToType(string text) =>
+        text switch {
+            Constants.ElanIntName => Constants.ElanInt,
+            Constants.ElanStringName => Constants.ElanString,
+            Constants.ElanBoolName => Constants.ElanBool,
+            Constants.ElanCharName => Constants.ElanChar,
+            Constants.ElanDecimalName => Constants.ElanDecimal,
+            Constants.ElanFloatName => Constants.ElanFloat,
+            Constants.ElanNumberName => Constants.ElanNumber,
+            _ => throw new NotImplementedException(text)
+        };
+
     public static ISymbolType TokenToType(IToken token) =>
         GetTokenName(token.Type) switch {
-            "LITERAL_INTEGER" => new BuiltInType("Int"),
-            "LITERAL_STRING" => new BuiltInType("String"),
+            "LITERAL_INTEGER" => Constants.ElanInt,
+            "LITERAL_STRING" => Constants.ElanString,
+            "BOOL_VALUE" => Constants.ElanBool,
+            "LITERAL_CHAR" => Constants.ElanChar,
+            "VALUE_TYPE" => TextToType(token.Text),
             "IDENTIFIER" => new UnresolvedType(token.Text),
-            "VALUE_TYPE" => new BuiltInType(token.Text),
-            "BOOL_VALUE" => new BuiltInType("Bool"),
-            "LITERAL_CHAR" => new BuiltInType("Char"),
             "OP_EQ" => new OperatorType(Constants.Operators.Eq),
             "OP_NE" => new OperatorType(Constants.Operators.Ne),
             "PLUS" => new OperatorType(Constants.Operators.Add),

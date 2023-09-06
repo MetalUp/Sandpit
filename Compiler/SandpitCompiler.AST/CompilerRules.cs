@@ -1,5 +1,4 @@
-﻿using System.Xml.XPath;
-using SandpitCompiler.AST.Node;
+﻿using SandpitCompiler.AST.Node;
 using SandpitCompiler.AST.RoleInterface;
 using SandpitCompiler.AST.Symbols;
 
@@ -56,22 +55,20 @@ public static class CompilerRules {
         return null;
     }
 
-    private static (int, ISymbolType) MatchParameter(string name, IScope scope) {
+    private static bool Matches(ISymbolType? st, string name) =>
+        st switch {
+            GenericParameterType gpt1 when gpt1.Name == name => true,
+            IHasElementsSymbolType hasElements when hasElements.ElementTypes.Any(et => Matches(et, name)) => true,
+            _ => false
+        };
 
+    private static (int, ISymbolType) MatchParameter(string name, IScope scope) {
         var index = 0;
         foreach (var symbol in scope.Symbols) {
             var st = symbol.SymbolType;
 
-            if (st is GenericParameterType gpt1) {
-                if (gpt1.Name == name) {
-                    return (index, st);
-                }
-            }
-
-            if (st is IterableType { ElementType: GenericParameterType gpt2 }) {
-                if (gpt2.Name == name) {
-                    return  (index, st);
-                }
+            if (Matches(st, name)) {
+                return (index, st!);
             }
 
             index++;
@@ -80,28 +77,128 @@ public static class CompilerRules {
         throw new ArgumentException(name);
     }
 
+    private static GenericParameterType? IsOrUsesGenericParameterType(ISymbolType? st) {
+        if (st is GenericParameterType gpt) {
+            return gpt;
+        }
 
-    public static string? ResolveGenericsRule(IASTNode[] nodes, IScope currentScope) {
+        if (st is IHasElementsSymbolType tt) {
+            return tt.ElementTypes.Select(IsOrUsesGenericParameterType).OfType<GenericParameterType>().FirstOrDefault();
+        }
+
+        return null;
+    }
+
+
+    public static string? ResolveGenericsTransform(IASTNode[] nodes, IScope currentScope) {
         var leafNode = nodes.Last();
 
-        if (leafNode is MethodStatementNode msn && currentScope.Resolve(msn.ID.Text) is GenericMethodSymbol { SymbolType: GenericParameterType gpt } gms) {
-            var (i, st) = MatchParameter(gpt.Name, gms);
+        if (leafNode is MethodStatementNode m && m.ID.Text == "groupBy") {
+            // break
+        }
 
-            var node = msn.Parameters[i];
 
-            var nodeType = node.SymbolType;
+        if (leafNode is MethodStatementNode msn && currentScope.Resolve(msn.ID.Text) is GenericMethodSymbol gms) {
+          
+            var gpt = IsOrUsesGenericParameterType(gms.SymbolType);
+            if (gpt is not null) {
+                var (i, st) = MatchParameter(gpt.Name, gms);
 
-            if (nodeType is IUnresolvedType ut) {
-                nodeType = ut.Resolve(currentScope);
+                var parameterNode = msn.Parameters[i];
+
+                var parameterNodeType = parameterNode.SymbolType;
+
+                if (parameterNodeType is IUnresolvedType ut) {
+                    parameterNodeType = ut.Resolve(currentScope);
+                }
+
+                var parameterDefinition = gms.Symbols.ToArray()[i];
+
+                var actualGenericType = ExtractGenericType(parameterNodeType, parameterDefinition.SymbolType, gpt.Name) ?? throw new ArgumentException();
+
+                var returnType = gms.SymbolType?.Clone() ?? throw new ArgumentException();
+
+                msn.SymbolType = AssignGenericType(returnType, actualGenericType, gpt.Name);
+            }
+        }
+
+        return null;
+    }
+
+    private static ISymbolType AssignGenericType(ISymbolType returnType, ISymbolType actualGenericType, string name) {
+        if (returnType is GenericParameterType gpt) {
+            if (gpt.Name == name) {
+                return actualGenericType;
+            }
+        }
+
+        return AssignGenericType1(returnType, actualGenericType, name);
+    }
+
+    private static ISymbolType AssignGenericType1(ISymbolType returnType, ISymbolType actualGenericType, string name)
+    {
+        if (returnType is IHasElementsSymbolType nodeType) {
+            for (var index = 0; index < nodeType.ElementTypes.Length; index++) {
+                var nt = nodeType.ElementTypes[index];
+                if (nt is GenericParameterType gpt1) {
+                    if (gpt1.Name == name) {
+                        nodeType.ElementTypes[index] = actualGenericType;
+                    }
+                }
+                AssignGenericType(nt, actualGenericType, name);
+            }
+        }
+
+        return returnType;
+    }
+
+
+    private static ISymbolType? ExtractGenericType(ISymbolType parameterNodeType, ISymbolType? parameterDefinitionType, string name) {
+        if (parameterDefinitionType is GenericParameterType gpt) {
+            if (gpt.Name == name) {
+                return parameterNodeType;
+            }
+        }
+
+        if (parameterDefinitionType is IHasElementsSymbolType definition) {
+            if (parameterNodeType is IHasElementsSymbolType nodeType) {
+                var zip = definition.ElementTypes.Zip(nodeType.ElementTypes).ToArray();
+
+                foreach (var (dt, nt) in zip) {
+                    if (dt is GenericParameterType gpt1) {
+                        if (gpt1.Name == name) {
+                            return nt;
+                        }
+                    }
+                }
+
+                return zip.Select(t => ExtractGenericType(t.Second, t.First, name)).Single(i => i is not null);
             }
 
-            if (st is GenericParameterType) {
-                msn.SymbolType = nodeType;
+            throw new ArgumentException("");
+        }
+
+        return null;
+    }
+
+    public static string? TypeAssignmentRule(IASTNode[] nodes, IScope currentScope) {
+        var node = nodes.Last();
+
+        if (node is AssignmentNode an) {
+            var lhsType = currentScope.Resolve(an.Id)?.SymbolType;
+            var rhsType = an.SymbolType;
+
+            if (lhsType is IUnresolvedType ut) {
+                lhsType = ut.Resolve(currentScope);
             }
 
-            if (st is IterableType && nodeType is IterableType it) {
-                msn.SymbolType = it.ElementType;
+            if (rhsType is IUnresolvedType ut1) {
+                rhsType = ut1.Resolve(currentScope);
             }
+
+            //if (lhsType?.Equals(rhsType) == false) {
+            //    return $"Cannot assign {rhsType} to {lhsType}";
+            //}
         }
 
         return null;

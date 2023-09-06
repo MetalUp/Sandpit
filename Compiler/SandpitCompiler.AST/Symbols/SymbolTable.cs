@@ -9,16 +9,14 @@ namespace SandpitCompiler.AST.Symbols;
 public class SymbolTable {
     private static ISymbolType? ConvertToBuiltInSymbol(Type type) =>
         type.Name switch {
-            "Void" => null, 
-            "String" => new BuiltInType("String"), 
-            "Boolean" => new BuiltInType("Bool"), 
-            "Int32" => new BuiltInType("Int"), 
+            "Void" => null,
+            "String" => Constants.ElanString,
+            "Boolean" => Constants.ElanBool,
+            "Int32" => Constants.ElanInt,
             "IEnumerable`1" => new IterableType(ConvertToBuiltInSymbol(type.GenericTypeArguments.First()) ?? throw new ArgumentException()),
-            "IList`1" => new ListType(ConvertToBuiltInSymbol(type.GenericTypeArguments.First())?? throw new ArgumentException()),
-            "Func`1" => new FuncType(),
-            "Func`2" => new FuncType(),
-            "Func`3" => new FuncType(),
-            _  when type.IsGenericParameter  => new GenericParameterType(type.Name), // todo placeholder for generic types 
+            "IList`1" => new ListType(ConvertToBuiltInSymbol(type.GenericTypeArguments.First()) ?? throw new ArgumentException()),
+            _ when type.Name.StartsWith("Func") => new FuncType(type.GenericTypeArguments.Select(ConvertToBuiltInSymbol).OfType<ISymbolType>().ToArray()),
+            _ when type.IsGenericParameter => new GenericParameterType(type.Name), // placeholder for generic types 
             _ => throw new NotImplementedException(type.Name)
         };
 
@@ -31,7 +29,6 @@ public class SymbolTable {
         var pps = method.GetParameters().Select(p => (p.Name, ConvertToBuiltInSymbol(p.ParameterType)));
 
         foreach (var (n, st) in pps) {
-
             ms.Define(new VariableSymbol(n ?? throw new ArgumentException("name must not be null"), st));
         }
 
@@ -56,13 +53,13 @@ public class SymbolTable {
     public GlobalScope GlobalScope { get; } = new();
 
     protected void InitTypeSystem(MethodInfo[] stdLib, MethodInfo[] systemCalls) {
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanBool));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanFloat));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanInt));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanNumber));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanString));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanChar));
-        GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanDecimal));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanBoolName));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanFloat));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanInt));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanNumber));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanStringName));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanCharName));
+        //GlobalScope.Define(new BuiltInTypeSymbol(Constants.ElanDecimal));
 
         foreach (var slf in stdLib.Select(sc => ConvertToMethodSymbol(sc, MethodType.Function))) {
             GlobalScope.Define(slf);

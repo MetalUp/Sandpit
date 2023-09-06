@@ -8,13 +8,12 @@ public class LetDefnNode : ASTNode, IStatement, IExpression {
         Values = values;
         ReturnExpression = returnExpression;
         Children = values.Cast<IASTNode>().Append(returnExpression).ToList();
-        SymbolType = returnExpression.SymbolType;
     }
 
     public AssignmentNode[] Values { get; }
     public IExpression ReturnExpression { get; }
 
-    public ISymbolType SymbolType { get; }
+    public ISymbolType SymbolType => ReturnExpression.SymbolType;
 
     public override IList<IASTNode> Children { get; }
     public override string ToStringTree() => $"({ToString()} {ReturnExpression.ToStringTree()})";

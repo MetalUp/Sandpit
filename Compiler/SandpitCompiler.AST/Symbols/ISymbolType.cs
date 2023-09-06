@@ -1,3 +1,6 @@
 ﻿namespace SandpitCompiler.AST.Symbols;
 
-public interface ISymbolType { }
+public interface ISymbolType {
+
+    ISymbolType Clone();
+}

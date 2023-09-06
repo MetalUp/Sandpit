@@ -16,5 +16,5 @@ public class LambdaExpressionNode : ASTNode, IExpression {
     public override IList<IASTNode> Children { get; }
 
     public override string ToStringTree() => $"({ToString()}{Expr.ToStringTree()})";
-    public ISymbolType SymbolType => throw new NotImplementedException();
+    public ISymbolType SymbolType => Expr.SymbolType;
 }

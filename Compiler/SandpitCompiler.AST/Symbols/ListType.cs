@@ -1,7 +1,9 @@
 ﻿namespace SandpitCompiler.AST.Symbols;
 
-public class ListType : ISymbolType {
-    public ListType(ISymbolType elementType) => ElementType = elementType;
+public class ListType : IterableType {
+    public ListType(ISymbolType elementType) : base(elementType) { }
 
-    public ISymbolType ElementType { get; }
+    public override string ToString() => $"[{ElementType}]";
+
+    public override ISymbolType Clone() => new ListType(ElementType.Clone());
 }

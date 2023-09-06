@@ -10,11 +10,13 @@ public class SecondPassASTVisitor {
     private IScope currentScope;
 
     static SecondPassASTVisitor() {
-        Rules.Add(CompilerRules.ResolveGenericsRule);
+        Transforms.Add(CompilerRules.ResolveGenericsTransform);
+
         Rules.Add(CompilerRules.OnlyOneMainRule);
         Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
         Rules.Add(CompilerRules.NoProcedureInFunctionRule);
         Rules.Add(CompilerRules.ExpressionMustBeAssignedRule);
+        Rules.Add(CompilerRules.TypeAssignmentRule);
     }
 
     public SecondPassASTVisitor(SymbolTable symbolTable) {
@@ -25,6 +27,8 @@ public class SecondPassASTVisitor {
     private SymbolTable SymbolTable { get; }
 
     private static IList<Func<IASTNode[], IScope, string?>> Rules { get; } = new List<Func<IASTNode[], IScope, string?>>();
+
+    private static IList<Func<IASTNode[], IScope, string?>> Transforms { get; } = new List<Func<IASTNode[], IScope, string?>>();
 
     private void Enter(IASTNode node) {
         switch (node) {
@@ -57,19 +61,31 @@ public class SecondPassASTVisitor {
         }
     }
 
-    public void Visit(IASTNode[] nodeHierarchy) {
+    private void ApplyTransforms(IASTNode[] nodes, IScope scope) {
+        foreach (var rule in Transforms) {
+            rule(nodes, scope);
+        }
+    }
+
+    private void Visit(IASTNode[] nodeHierarchy, Action<IASTNode[], IScope> action) {
         var currentNode = nodeHierarchy.Last();
 
         Enter(currentNode);
         try {
-            ApplyRules(nodeHierarchy, currentScope);
+            action(nodeHierarchy, currentScope);
             foreach (var child in currentNode.Children) {
                 var tree = nodeHierarchy.Append(child).ToArray();
-                Visit(tree);
+                Visit(tree, action);
             }
         }
         finally {
             Exit(currentNode);
         }
+    }
+
+
+    public void Visit(IASTNode[] nodeHierarchy) {
+       Visit(nodeHierarchy, ApplyTransforms);
+       Visit(nodeHierarchy, ApplyRules);
     }
 }
