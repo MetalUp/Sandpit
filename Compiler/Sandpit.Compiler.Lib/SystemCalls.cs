@@ -12,4 +12,8 @@ public static class SystemCalls {
         Console.Write(s);
         return Console.ReadLine() ?? "";
     }
+
+    public static void GetReference() {
+       
+    }
 }

@@ -44,6 +44,9 @@ public class SymbolTable {
 
         var sc = lib?.ExportedTypes.ToArray() ?? throw new ArgumentException("no lib");
 
+        StandardLib.GetReference();
+        SystemCalls.GetReference();
+
         var stdLib = sc.Single(t => t.Name == "StandardLib").GetMethods().Where(m => m.DeclaringType != typeof(object)).ToArray();
         var systemCalls = sc.Single(t => t.Name == "SystemCalls").GetMethods().Where(m => m.DeclaringType != typeof(object)).ToArray();
 
