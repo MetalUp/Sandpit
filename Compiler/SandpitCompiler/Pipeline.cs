@@ -46,7 +46,9 @@ public static class Pipeline {
         }
     }
 
-    private static string FileNameRoot(string fileName) => fileName.Split('.').First();
+    private static string FileNameRoot(string fileName) =>  Path.GetFileNameWithoutExtension(fileName);
+
+    private static string DirRoot(string fileName) => fileName.Split('.').First();
 
     private static void CompileCsharpCode(string fn, string csCode, bool console) {
         var asm = Compiler.Compile(csCode, console);
@@ -57,8 +59,9 @@ public static class Pipeline {
     private static string GenerateCSharpCode(string fileName, IModel model) {
         var csCode = model.ToString();
         var baseName = FileNameRoot(fileName);
-        Directory.CreateDirectory("obj");
-        File.WriteAllText($"obj\\{baseName}.cs", csCode);
+        var dir = Path.GetDirectoryName(fileName);
+        Directory.CreateDirectory($"{dir}\\obj");
+        File.WriteAllText($"{dir}\\obj\\{baseName}.cs", csCode);
 
         var csproj = @$"
 <Project Sdk=""Microsoft.NET.Sdk"">
@@ -80,7 +83,7 @@ public static class Pipeline {
 </Project>
 ";
 
-        File.WriteAllText($"obj\\{baseName}.csproj", csproj);
+        File.WriteAllText($"{dir}\\obj\\{baseName}.csproj", csproj);
 
         return csCode;
     }
