@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SandpitCompiler": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\ElanTest\\simple.elan"
+    }
+  }
+}
