@@ -109,6 +109,7 @@ public class CodeModelASTVisitor {
             MethodStatementNode sn => HandleScope(BuildProcStatModel, sn),
             ValuesNode vn => new ValueModel(vn.Values.Select(Visit).ToArray()),
             AssignmentNode an => new AssignmentModel(Visit(an.ID), Visit(an.Expr)),
+            LetVariableDefinitionNode ldn => new AssignmentModel(Visit(ldn.ID), Visit(ldn.Expr)),
             null => throw new NotImplementedException("null"),
             _ => throw new NotImplementedException(astNode.GetType().ToString() ?? "null")
         };
