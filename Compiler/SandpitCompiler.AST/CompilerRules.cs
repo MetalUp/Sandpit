@@ -89,17 +89,10 @@ public static class CompilerRules {
         return null;
     }
 
-
     public static string? ResolveGenericsTransform(IASTNode[] nodes, IScope currentScope) {
         var leafNode = nodes.Last();
 
-        if (leafNode is MethodStatementNode m && m.ID.Text == "groupBy") {
-            // break
-        }
-
-
         if (leafNode is MethodStatementNode msn && currentScope.Resolve(msn.ID.Text) is GenericMethodSymbol gms) {
-          
             var gpt = IsOrUsesGenericParameterType(gms.SymbolType);
             if (gpt is not null) {
                 var (i, st) = MatchParameter(gpt.Name, gms);
@@ -125,6 +118,25 @@ public static class CompilerRules {
         return null;
     }
 
+    public static string? ResolveAssignmentsTransform(IASTNode[] nodes, IScope currentScope) {
+        var leafNode = nodes.Last();
+
+        if (leafNode is VarDefinitionNode vdn) {
+            var st = vdn.SymbolType;
+
+            if (st is IUnresolvedType ut) {
+                try {
+                    st = ut.Resolve(currentScope);
+                }
+                catch (ArgumentNullException) {
+                    return $"Undefined variable {vdn.Id}";
+                }
+            }
+        }
+
+        return null;
+    }
+
     private static ISymbolType AssignGenericType(ISymbolType returnType, ISymbolType actualGenericType, string name) {
         if (returnType is GenericParameterType gpt) {
             if (gpt.Name == name) {
@@ -135,8 +147,7 @@ public static class CompilerRules {
         return AssignGenericType1(returnType, actualGenericType, name);
     }
 
-    private static ISymbolType AssignGenericType1(ISymbolType returnType, ISymbolType actualGenericType, string name)
-    {
+    private static ISymbolType AssignGenericType1(ISymbolType returnType, ISymbolType actualGenericType, string name) {
         if (returnType is IHasElementsSymbolType nodeType) {
             for (var index = 0; index < nodeType.ElementTypes.Length; index++) {
                 var nt = nodeType.ElementTypes[index];
@@ -145,13 +156,13 @@ public static class CompilerRules {
                         nodeType.ElementTypes[index] = actualGenericType;
                     }
                 }
+
                 AssignGenericType(nt, actualGenericType, name);
             }
         }
 
         return returnType;
     }
-
 
     private static ISymbolType? ExtractGenericType(ISymbolType parameterNodeType, ISymbolType? parameterDefinitionType, string name) {
         if (parameterDefinitionType is GenericParameterType gpt) {
@@ -185,6 +196,10 @@ public static class CompilerRules {
         var node = nodes.Last();
 
         if (node is AssignmentNode an) {
+            if (an.Id == "groups") {
+                // debug break
+            }
+
             var lhsType = currentScope.Resolve(an.Id)?.SymbolType;
             var rhsType = an.SymbolType;
 
@@ -196,9 +211,9 @@ public static class CompilerRules {
                 rhsType = ut1.Resolve(currentScope);
             }
 
-            //if (lhsType?.Equals(rhsType) == false) {
-            //    return $"Cannot assign {rhsType} to {lhsType}";
-            //}
+            if (lhsType?.Equals(rhsType) == false) {
+                return $"Cannot assign {rhsType} to {lhsType}";
+            }
         }
 
         return null;

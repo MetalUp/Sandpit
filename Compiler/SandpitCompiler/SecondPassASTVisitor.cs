@@ -10,7 +10,9 @@ public class SecondPassASTVisitor {
     private IScope currentScope;
 
     static SecondPassASTVisitor() {
-        Transforms.Add(CompilerRules.ResolveGenericsTransform);
+        Transforms1.Add(CompilerRules.ResolveGenericsTransform);
+
+        Transforms2.Add(CompilerRules.ResolveAssignmentsTransform);
 
         Rules.Add(CompilerRules.OnlyOneMainRule);
         Rules.Add(CompilerRules.ExpressionTypeIsBooleanRule);
@@ -28,7 +30,9 @@ public class SecondPassASTVisitor {
 
     private static IList<Func<IASTNode[], IScope, string?>> Rules { get; } = new List<Func<IASTNode[], IScope, string?>>();
 
-    private static IList<Func<IASTNode[], IScope, string?>> Transforms { get; } = new List<Func<IASTNode[], IScope, string?>>();
+    private static IList<Func<IASTNode[], IScope, string?>> Transforms1 { get; } = new List<Func<IASTNode[], IScope, string?>>();
+
+    private static IList<Func<IASTNode[], IScope, string?>> Transforms2 { get; } = new List<Func<IASTNode[], IScope, string?>>();
 
     private void Enter(IASTNode node) {
         switch (node) {
@@ -62,7 +66,11 @@ public class SecondPassASTVisitor {
     }
 
     private void ApplyTransforms(IASTNode[] nodes, IScope scope) {
-        foreach (var rule in Transforms) {
+        foreach (var rule in Transforms1) {
+            rule(nodes, scope);
+        }
+
+        foreach (var rule in Transforms2) {
             rule(nodes, scope);
         }
     }

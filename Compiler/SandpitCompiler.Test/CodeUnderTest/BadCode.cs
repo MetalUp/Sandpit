@@ -101,15 +101,15 @@ end main
 
     public const string Code11Message = "Cannot have unassigned expression";
 
-    //public const string Code12 = @"
-    //function f() as Int
-    //  var a = 1
-    //  a = ""fred""
-    //  return a
-    //end function
-    //";
+    public const string Code12 = @"
+    function f() as Int
+      var a = 1
+      a = ""fred""
+      return a
+    end function
+    ";
 
-    //public const string Code12Message = "Cannot assign String to Int";
+    public const string Code12Message = "Cannot assign String to Int";
 
     private static readonly string NL = Environment.GetEnvironmentVariable("APPVEYOR") is "True" ? @"\n" : @"\r\n";
 
