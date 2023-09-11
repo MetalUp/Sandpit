@@ -1,4 +1,6 @@
-﻿namespace SandpitCompiler;
+﻿using System;
+
+namespace SandpitCompiler;
 
 public static class Program {
     private static Options ParseArgs(string[] args) {
@@ -38,6 +40,7 @@ public static class Program {
         }
         catch (Exception ex) {
             Console.WriteLine($"Error: {ex.Message}");
+            Console.WriteLine($"Error: {ex.StackTrace}");
             Console.Error.WriteLine($"Error: {ex.Message}");
         }
     }
