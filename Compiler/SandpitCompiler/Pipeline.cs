@@ -60,6 +60,10 @@ public static class Pipeline {
         var csCode = model.ToString();
         var baseName = FileNameRoot(fileName);
         var dir = Path.GetDirectoryName(fileName);
+        if (dir == "") {
+            dir = Directory.GetCurrentDirectory();
+        }
+
         Directory.CreateDirectory($"{dir}\\obj");
         File.WriteAllText($"{dir}\\obj\\{baseName}.cs", csCode);
 
