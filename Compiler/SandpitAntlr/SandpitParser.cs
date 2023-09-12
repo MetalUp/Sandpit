@@ -2078,7 +2078,9 @@ public partial class SandpitParser : Parser {
 	public partial class VarDefContext : ParserRuleContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode NL() { return GetToken(SandpitParser.NL, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode VAR() { return GetToken(SandpitParser.VAR, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IDENTIFIER() { return GetToken(SandpitParser.IDENTIFIER, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public AssignableValueContext assignableValue() {
+			return GetRuleContext<AssignableValueContext>(0);
+		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ASSIGN() { return GetToken(SandpitParser.ASSIGN, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
@@ -2108,7 +2110,7 @@ public partial class SandpitParser : Parser {
 			State = 406;
 			Match(VAR);
 			State = 407;
-			Match(IDENTIFIER);
+			assignableValue();
 			State = 408;
 			Match(ASSIGN);
 			State = 409;
@@ -5857,7 +5859,7 @@ public partial class SandpitParser : Parser {
 		'+', '\x3', '\x2', '\x2', '\x2', '\x194', '\x195', '\a', '\x4', '\x2', 
 		'\x2', '\x195', '\x196', '\x5', 'X', '-', '\x2', '\x196', '-', '\x3', 
 		'\x2', '\x2', '\x2', '\x197', '\x198', '\a', '\x4', '\x2', '\x2', '\x198', 
-		'\x199', '\a', '*', '\x2', '\x2', '\x199', '\x19A', '\a', 'V', '\x2', 
+		'\x199', '\a', '*', '\x2', '\x2', '\x199', '\x19A', '\x5', '\x32', '\x1A', 
 		'\x2', '\x19A', '\x19B', '\a', '\x37', '\x2', '\x2', '\x19B', '\x19C', 
 		'\x5', 'P', ')', '\x2', '\x19C', '/', '\x3', '\x2', '\x2', '\x2', '\x19D', 
 		'\x19E', '\a', '\x4', '\x2', '\x2', '\x19E', '\x1A1', '\x5', '\x32', '\x1A', 

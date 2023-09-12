@@ -81,7 +81,7 @@ callStatement: NL expression; //Intended for a freestanding procedure/system cal
 
 freestandingException: NL throwException;
 
-varDef: NL VAR IDENTIFIER ASSIGN expression;
+varDef: NL VAR assignableValue ASSIGN expression;
 
 assignment: NL assignableValue (ASSIGN | assignmentOp)  expression;
 
