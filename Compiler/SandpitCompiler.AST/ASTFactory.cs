@@ -18,6 +18,7 @@ public static class ASTFactory {
             AssignmentContext c => visitor.Build(c),
             AssignmentOpContext c => visitor.Build(c),
             BinaryOpContext c => visitor.Build(c),
+            CallStatementContext c => visitor.Build(c),
             CaseContext c => visitor.Build(c),
             ClassDefContext c => visitor.Build(c),
             //ClassNameContext c => visitor.Build(c),
@@ -133,6 +134,8 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignmentOpContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, BinaryOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
+
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, CallStatementContext context) => visitor.Visit<IExpression>(context.expression());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, CaseContext context) => throw new NotImplementedException();
 

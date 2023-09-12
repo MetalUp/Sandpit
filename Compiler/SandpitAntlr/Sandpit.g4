@@ -73,8 +73,13 @@ procedureDef:
 
 procedureSignature: IDENTIFIER OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-statementBlock:  ((NL expression) |constantDef | varDef | assignment | proceduralControlFlow |(NL throwException))*;
-// 'expression' above is to cover all variants of an expression ending in a procedure call i.e. not generating a value
+statementBlock:  (constantDef | varDef | assignment | proceduralControlFlow | callStatement | freestandingException)*;
+
+callStatement: NL expression; //Intended for a freestanding procedure/system call as a statement, 
+// or expression terminated by a procedure or system call that consumes result'.
+// Not possible to specify this as a syntax distinct from an expression. Compile rules will enforce that you can't use a non-consumed expression
+
+freestandingException: NL throwException;
 
 varDef: NL VAR IDENTIFIER ASSIGN expression;
 

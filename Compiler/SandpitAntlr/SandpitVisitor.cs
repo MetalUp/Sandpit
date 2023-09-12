@@ -152,6 +152,18 @@ public interface ISandpitVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitStatementBlock([NotNull] SandpitParser.StatementBlockContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.callStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCallStatement([NotNull] SandpitParser.CallStatementContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="SandpitParser.freestandingException"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFreestandingException([NotNull] SandpitParser.FreestandingExceptionContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="SandpitParser.varDef"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
