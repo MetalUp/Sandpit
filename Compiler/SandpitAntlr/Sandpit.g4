@@ -1,39 +1,45 @@
 grammar Sandpit;
 import Sandpit_Lexer;
 
-file
-	: (main |constantDef | classDef | functionDef | procedureDef)* NL* EOF
-	;
+file: (main | constantDef | enumDef | classDef | functionDef | procedureDef)* NL* EOF;
 
-main 
-    : NL MAIN
-      statementBlock
-      NL END MAIN 
+main: 
+	NL MAIN 
+    statementBlock
+    NL END MAIN 
     ;
 
-constantDef: NL CONSTANT constantName ASSIGN expression;
+constantDef: NL CONSTANT IDENTIFIER ASSIGN expression;
+
+enumDef: 
+	NL ENUMERATION TYPENAME
+	(enumValue (COMMA enumValue)*)  
+	NL END ENUMERATION
+	;
+
+enumValue: IDENTIFIER (ASSIGN LITERAL_INTEGER);
 
 classDef: abstractClass | mutableClass | immutableClass;
 
 mutableClass: 
-	NL CLASS className inherits?
-    ( constructor |property | functionDef | procedureDef | constantDef)*	
+	NL CLASS TYPENAME inherits?
+    (constructor |property | functionDef | procedureDef | constantDef)*	
     NL END CLASS
 	;
 
-immutableClass
-	: NL IMMUTABLE CLASS className inherits?
+immutableClass: 
+	NL IMMUTABLE CLASS TYPENAME inherits?
     (constructor |property | functionDef | constantDef)*
     NL END CLASS 
 	;
 
 abstractClass:
-	NL ABSTRACT CLASS className inherits?
+	NL ABSTRACT CLASS TYPENAME inherits?
     (property | NL FUNCTION functionSignature | NL PROCEDURE procedureSignature)*
     NL END CLASS
 	;
  
-inherits: INHERITS type (COMMA type)* ;
+inherits: INHERITS type (COMMA type)*;
 
 constructor: 
 	NL CONSTRUCTOR (OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET)? 
@@ -41,7 +47,7 @@ constructor:
 	NL END CONSTRUCTOR
 	;
 
-property: NL PRIVATE? PROPERTY propertyName ( type | (ASSIGN expression)); 
+property: NL PRIVATE? PROPERTY IDENTIFIER (type | (ASSIGN expression)); 
 
 functionDef: functionWithBody | expressionFunction;
 
@@ -57,7 +63,7 @@ expressionFunction:
 
 letIn: LET NL? assignableValue ASSIGN expression (COMMA assignableValue ASSIGN expression)* NL? IN NL?; 
    
-functionSignature: functionName OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET NL? AS NL? type;
+functionSignature: IDENTIFIER OPEN_BRACKET NL? parameterList? NL? CLOSE_BRACKET NL? AS NL? type;
 
 procedureDef:
 	NL PROCEDURE procedureSignature
@@ -65,28 +71,29 @@ procedureDef:
     NL END PROCEDURE
 	;
 
-procedureSignature: procedureName OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
+procedureSignature: IDENTIFIER OPEN_BRACKET NL? parameterList? CLOSE_BRACKET;
 
-statementBlock:  (expression |constantDef | varDef | assignment | proceduralControlFlow | throwException)*;
+statementBlock:  ((NL expression) |constantDef | varDef | assignment | proceduralControlFlow |(NL throwException))*;
 // 'expression' above is to cover all variants of an expression ending in a procedure call i.e. not generating a value
 
-varDef: NL VAR variableName ASSIGN expression;
+varDef: NL VAR IDENTIFIER ASSIGN expression;
 
 assignment: NL assignableValue (ASSIGN | assignmentOp)  expression;
 
-assignableValue: ((SELF DOT)?  valueName index?) | RESULT | tupleDecomp | listDecomp;
+assignableValue: ((SELF DOT)?  IDENTIFIER index?) | RESULT | tupleDecomp | listDecomp;
 
-methodCall: (CURRY|PARTIAL)? methodName genericSpecifier? OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
+methodCall: (CURRY|PARTIAL)? IDENTIFIER genericSpecifier? OPEN_BRACKET (argumentList)? CLOSE_BRACKET;
 
 argumentList: expression (COMMA expression)*;
 
 parameterList: parameter  (COMMA parameter)*;
 
-parameter: NL? parameterName type; 
+parameter: NL? IDENTIFIER type; 
 
-proceduralControlFlow: if  | for |  forIn | while | repeat | try | switch;
+proceduralControlFlow: if | for | forIn | while | repeat | try | switch;
 
-if:	NL IF expression THEN
+if:	
+	NL IF expression THEN
     statementBlock
     (NL ELSE IF expression THEN
     statementBlock)*
@@ -96,13 +103,13 @@ if:	NL IF expression THEN
 	;
 
 for: 
-	NL FOR variableName ASSIGN expression TO expression 
+	NL FOR IDENTIFIER ASSIGN expression TO expression 
 	statementBlock
 	NL END FOR
 	;
 
 forIn: 
-	NL FOR variableName IN expression 
+	NL FOR IDENTIFIER IN expression 
     statementBlock
     NL END FOR
 	;
@@ -122,8 +129,8 @@ repeat:
 try: 
 	NL TRY 
     statementBlock
-    (NL CATCH variableName type 
-	  statementBlock)?
+    (NL CATCH IDENTIFIER type 
+	statementBlock)?
     NL END TRY
 	;
 
@@ -133,6 +140,7 @@ switch:
       caseDefault?
 	END SWITCH
 	;
+	
 case: 
 	NL CASE literalValue
     statementBlock
@@ -143,13 +151,13 @@ caseDefault :
     statementBlock
 	;
 
-expression
-	: bracketedExpression
+expression: 
+	  bracketedExpression
 	| methodCall
 	| value
 	| expression index
 	| expression DOT methodCall
-	| expression DOT propertyName 
+	| expression DOT IDENTIFIER 
 	| unaryOp expression
 	| expression binaryOp expression
 	| newInstance
@@ -163,31 +171,27 @@ bracketedExpression: OPEN_BRACKET expression CLOSE_BRACKET ; //made into rule so
 
 ifExpression: NL? IF expression NL? THEN expression NL? ELSE expression;
 
-lambda: LAMBDA argumentList ARROW expression; 
+lambda: LAMBDA argumentList ARROW expression;
 
 throwException: THROW type (OPEN_BRACKET argumentList CLOSE_BRACKET);
 
 index: OPEN_SQ_BRACKET (expression | expression COMMA expression | range) CLOSE_SQ_BRACKET;
 
-range
-	: expression DOUBLE_DOT expression 
-	| expression DOUBLE_DOT
-	| DOUBLE_DOT expression 
-	; 
+range: expression DOUBLE_DOT expression | expression DOUBLE_DOT	| DOUBLE_DOT expression; 
 
-value: literalValue | ((SELF DOT)? valueName) | dataStructure | SELF | RESULT;
+value: literalValue | ((SELF DOT)? IDENTIFIER) | literalDataStructure | SELF | RESULT;
 
-dataStructure: tuple | list | dictionary;
+literalDataStructure: tuple | literalList | literalDictionary;
 
 tuple:  OPEN_BRACKET expression COMMA expression (COMMA expression)* CLOSE_BRACKET; 
 
-tupleDecomp: OPEN_BRACKET valueName (COMMA valueName)+  CLOSE_BRACKET;
+tupleDecomp: OPEN_BRACKET IDENTIFIER (COMMA IDENTIFIER)+  CLOSE_BRACKET;
  
-list: OPEN_BRACE (NL? expression (COMMA expression)* NL?)? CLOSE_BRACE;
+literalList: OPEN_BRACE (NL? expression (COMMA expression)* NL?)? CLOSE_BRACE;
 
-listDecomp: OPEN_BRACE valueName COLON valueName CLOSE_BRACE;
+listDecomp: OPEN_BRACE IDENTIFIER COLON IDENTIFIER CLOSE_BRACE;
 
-dictionary: OPEN_BRACE (NL? kvp (COMMA kvp)* NL?)? CLOSE_BRACE;
+literalDictionary: OPEN_BRACE (NL? kvp (COMMA kvp)* NL?)? CLOSE_BRACE;
 
 kvp: expression COLON expression;
 
@@ -207,46 +211,17 @@ literalValue:  BOOL_VALUE | LITERAL_INTEGER | LITERAL_FLOAT | LITERAL_DECIMAL| L
 
 newInstance:
 	NEW type OPEN_BRACKET (argumentList)? CLOSE_BRACKET (withClause)?
-	| valueName withClause
+	| IDENTIFIER withClause
 	;
 
 withClause: WITH OPEN_BRACE assignment (COMMA assignment)* CLOSE_BRACE;
 
-type:  VALUE_TYPE | className | dataStructureType |  funcType | enumeration;
+type:  VALUE_TYPE | dataStructureType | TYPENAME | TYPENAME genericSpecifier | tupleType |  funcType;
 
-enumeration: NL ENUMERATION 
-		     (enumValue (COMMA enumValue)*)  
-			 NL END ENUMERATION;
+dataStructureType: (ARRAY | LIST | DICTIONARY | ITERABLE ) genericSpecifier;
 
-enumValue: IDENTIFIER (ASSIGN LITERAL_INTEGER );
-
-dataStructureType: arrayType | listType | dictionaryType | tupleType | iterableType | RANDOM;
-
-tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
-
-arrayType: ARRAY genericSpecifier;
-
-listType: LIST genericSpecifier; 
-
-dictionaryType: DICTIONARY genericSpecifier;
-
-iterableType: ITERABLE genericSpecifier;
-
-genericType: type genericSpecifier;
-    
 genericSpecifier: LT type (COMMA type)* GT;
 
-genericDefinition: LT type (COMMA type)* GT;
+tupleType: OPEN_BRACKET type (COMMA type)+ CLOSE_BRACKET; 
     
-funcType: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET;
-    
-className: IDENTIFIER; 
-valueName: constantName | variableName | letName; 
-constantName: IDENTIFIER;  
-propertyName: IDENTIFIER;  
-parameterName: IDENTIFIER;
-variableName: IDENTIFIER;
-letName: IDENTIFIER;
-methodName: procedureName | functionName;
-procedureName: IDENTIFIER;
-functionName: IDENTIFIER;
+funcType: OPEN_BRACKET type (COMMA type)*  ARROW type CLOSE_BRACKET; 

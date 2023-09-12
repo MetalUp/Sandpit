@@ -1094,7 +1094,7 @@ function bestAttempt(possAnswers List<String>, possAttempts List<String>) as Str
 
     public static readonly ASTNode Code17AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(VDN("a", "1"), WN(BON(OVN(SandpitLexer.OP_EQ, "=="), SVN("a"), SVN("1")), VDN("b", "1")))));
 
-    public static readonly ASTNode Code18AST = FN(E<ConstDefinitionNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FunctionDefinitionNode>(), ARR(MN(PSN("printtest", "\"test\""))));
+    //public static readonly ASTNode Code18AST = FN(E<ConstDefinitionNode>(), ARR(PN("printtest", ARR(("s", "String")), VDN("a", "s"))), E<FunctionDefinitionNode>(), ARR(MN(PSN("printtest", "\"test\""))));
 
     //public static readonly ASTNode Code19AST = FN(E<ConstDefinitionNode>(), E<ProcedureDefinitionNode>(), E<FunctionDefinitionNode>(), ARR(MN(PSN("print", "\"test string\""))));
 

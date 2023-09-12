@@ -4,7 +4,7 @@ using SandpitCompiler.AST.Symbols;
 
 namespace SandpitCompiler.AST.Node;
 
-public class ScalarValueNode : ValueNode {
+public class ScalarValueNode : ValueNode, IStatement {
     public ScalarValueNode(IToken nodeSymbol) : base(nodeSymbol) { }
 
     public override IList<IASTNode> Children { get; } = new List<IASTNode>();

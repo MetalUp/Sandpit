@@ -4,9 +4,7 @@ BYTE_ORDER_MARK: '\u00EF\u00BB\u00BF';
 
 NL: [\r\n\f]+ ;
 
-LINE_CONTINUATION: '_' NL;
-
-SINGLE_LINE_COMMENT: NL? ('//')  InputCharacter*    -> skip; // C or Python style comments
+SINGLE_LINE_COMMENT: NL? ('#')  InputCharacter*    -> skip; 
 
 // Keywords
 AS:			   'as';
@@ -25,12 +23,11 @@ FOR:           'for';
 FUNCTION:	   'function';
 IF:            'if'; 
 IMMUTABLE:	   'immutable';
-IN:            'in'; //used as for...in
+IN:            'in'; // for...in
 INHERITS:      'inherits';
 LAMBDA:		   'lambda';
 LET:           'let';
 MAIN:		   'main';
-METHOD:		   'method';
 NEW:           'new';
 PARTIAL: 	   'partial'; // partial function application
 PRIVATE:       'private';
@@ -58,7 +55,6 @@ ARRAY: 'Array';
 LIST:  'List';
 DICTIONARY: 'Dictionary';
 ITERABLE: 'Iter';
-RANDOM: 'Random';  //For pure functional random number generation only
 
 //Operators And Punctuators
 ASSIGN_ADD:        		  '+=';
@@ -73,7 +69,7 @@ OPEN_SQ_BRACKET:          '[';
 CLOSE_SQ_BRACKET:         ']';
 OPEN_BRACKET:              '(';
 CLOSE_BRACKET:             ')';
-DOUBLE_DOT:               '..';
+DOUBLE_DOT:               '..'; // used for ranges
 DOT:                      '.';
 COMMA:                    ',' [ \t]* NL?;  //Any comma-separated list (of data, params etc) should be allowed to be split over more than one line.
 COLON:                    ':';
@@ -97,18 +93,19 @@ OP_LE:                    '<=';
 OP_GE:                    '>=';
 
 //Identifiers
-// must be defined after all keywords so the first branch (Available_identifier) does not match keywords
+// must be defined after all keywords
 // https://msdn.microsoft.com/en-us/library/aa664670(v=vs.71).aspx
 
-IDENTIFIER:         IdentifierStartingUCorLC; //TODO: Temporarily allowing uc or lc start to aid in error detection
 TYPENAME:           IdentifierStartingUC;
+IDENTIFIER:         IdentifierStartingLC;
+
 //B.1.8 Literals
 LITERAL_INTEGER:     [0-9] ('_'* [0-9])*;
 LITERAL_FLOAT:        ([0-9] ('_'* [0-9])*)? '.' [0-9] ('_'* [0-9])* ExponentPart? [FfDdMm]? | [0-9] ('_'* [0-9])* ([FfDdMm] | ExponentPart [FfDdMm]?);
 LITERAL_DECIMAL:	 LITERAL_FLOAT 'D';
 
 LITERAL_CHAR:                   '\'' (~['\\\r\n\u0085\u2028\u2029] | CommonCharacter) '\'';
-LITERAL_STRING:                      '"'  (~["\u0085\u2028\u2029] | CommonCharacter)* '"'; //Bacon regular string is interpolated and verbatim
+LITERAL_STRING:                      '"'  (~["\u0085\u2028\u2029] | CommonCharacter)* '"'; //Elan regular string is interpolated and verbatim
 VERBATIM_ONLY_STRING:                    '"""' (~'"' | '""')* '"';
 
 //Must be defined after other uses of it
