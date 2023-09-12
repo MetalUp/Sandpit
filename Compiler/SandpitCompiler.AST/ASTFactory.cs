@@ -13,7 +13,6 @@ public static class ASTFactory {
         context switch {
             ArgumentListContext c => visitor.Build(c),
             ArithmeticOpContext c => visitor.Build(c),
-            //ArrayTypeContext c => visitor.Build(c),
             AssignableValueContext c => visitor.Build(c),
             AssignmentContext c => visitor.Build(c),
             AssignmentOpContext c => visitor.Build(c),
@@ -21,20 +20,16 @@ public static class ASTFactory {
             CallStatementContext c => visitor.Build(c),
             CaseContext c => visitor.Build(c),
             ClassDefContext c => visitor.Build(c),
-            //ClassNameContext c => visitor.Build(c),
             ConditionalOpContext c => visitor.Build(c),
             ConstantDefContext c => visitor.Build(c),
-            //ConstantNameContext c => visitor.Build(c),
             ConstructorContext c => visitor.Build(c),
             DataStructureTypeContext c => visitor.Build(c),
-            //DictionaryTypeContext c => visitor.Build(c),
             ExpressionContext c => visitor.Build(c),
             ExpressionFunctionContext c => visitor.Build(c),
             FileContext c => visitor.Build(c),
             ForContext c => visitor.Build(c),
             ForInContext c => visitor.Build(c),
             FunctionDefContext c => visitor.Build(c),
-            //FunctionNameContext c => visitor.Build(c),
             FunctionSignatureContext c => visitor.Build(c),
             FunctionWithBodyContext c => visitor.Build(c),
             FuncTypeContext c => visitor.Build(c),
@@ -43,31 +38,23 @@ public static class ASTFactory {
             IfExpressionContext c => visitor.Build(c),
             ImmutableClassContext c => visitor.Build(c),
             IndexContext c => visitor.Build(c),
-            //IterableTypeContext c => visitor.Build(c),
             KvpContext c => visitor.Build(c),
             LambdaContext c => visitor.Build(c),
             LetInContext c => visitor.Build(c),
-            //LetNameContext c => visitor.Build(c),
             ListDecompContext c => visitor.Build(c),
-            //ListTypeContext c => visitor.Build(c),
             LiteralValueContext c => visitor.Build(c),
             LiteralDataStructureContext c => visitor.Build(c),
-            //DictionaryContext c => visitor.Build(c),
             LiteralListContext c => visitor.Build(c),
             LogicalOpContext c => visitor.Build(c),
             MainContext c => visitor.Build(c),
             MethodCallContext c => visitor.Build(c),
-            //MethodNameContext c => visitor.Build(c),
             MutableClassContext c => visitor.Build(c),
             ParameterContext c => visitor.Build(c),
             ParameterListContext c => visitor.Build(c),
-            //ParameterNameContext c => visitor.Build(c),
             ProceduralControlFlowContext c => visitor.Build(c),
             ProcedureDefContext c => visitor.Build(c),
-            //ProcedureNameContext c => visitor.Build(c),
             ProcedureSignatureContext c => visitor.Build(c),
             PropertyContext c => visitor.Build(c),
-            //PropertyNameContext c => visitor.Build(c),
             RangeContext c => visitor.Build(c),
             RepeatContext c => visitor.Build(c),
             StatementBlockContext c => visitor.Build(c),
@@ -78,10 +65,8 @@ public static class ASTFactory {
             TupleTypeContext c => visitor.Build(c),
             TypeContext c => visitor.Build(c),
             UnaryOpContext c => visitor.Build(c),
-            //ValueNameContext c => visitor.Build(c),
             ValueContext c => visitor.Build(c),
             VarDefContext c => visitor.Build(c),
-            //VariableNameContext c => visitor.Build(c),
             WhileContext c => visitor.Build(c),
             WithClauseContext c => visitor.Build(c),
 
@@ -103,8 +88,6 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArgumentListContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArithmeticOpContext context) => visitor.Visit<OperatorValueNode>(context.children.First());
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ArrayTypeContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, AssignableValueContext context) {
         if (context.tupleDecomp() is { } td) {
@@ -140,21 +123,14 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, CaseContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ClassDefContext context) => throw new NotImplementedException();
-   // private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ClassNameContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ConditionalOpContext context) => visitor.Visit(context.children.First());
 
     private static ConstDefinitionNode Build(this SandpitBaseVisitor<IASTNode> visitor, ConstantDefContext context) => new(visitor.Visit<ValueNode>(context.IDENTIFIER()), visitor.Visit<IExpression>(context.expression()));
 
-   // private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ConstantNameContext context) => visitor.Visit(context.IDENTIFIER());
-
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ConstructorContext context) => throw new NotImplementedException();
 
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, DataStructureTypeContext context) {
-        return new GenericTypeNode(visitor.Visit<TypeNode>(context.children.First()), visitor.Visit<TypeNode>(context.children.Last()));
-    }
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, DictionaryTypeContext context) => throw new NotImplementedException();
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, DataStructureTypeContext context) => new GenericTypeNode(visitor.Visit<TypeNode>(context.children.First()), visitor.Visit<TypeNode>(context.children.Last()));
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ExpressionContext context) {
         if (context.NL() is not null) {
@@ -176,8 +152,6 @@ public static class ASTFactory {
         if (context.ifExpression() is { } ifExpr) {
             return visitor.Visit<IExpression>(ifExpr);
         }
-
-   
 
         if (context.value() is { } v) {
             return visitor.Visit<IExpression>(v);
@@ -254,8 +228,6 @@ public static class ASTFactory {
         return visitor.Visit(func);
     }
 
-   // private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
-
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionSignatureContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, FunctionWithBodyContext context) {
@@ -294,13 +266,6 @@ public static class ASTFactory {
         return visitor.Visit<IExpression>(context.expression().First());
     }
 
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, IterableTypeContext context) {
-    //    var pt = visitor.Visit<TypeNode>(context.genericSpecifier());
-    //    var t = visitor.Visit<TypeNode>(context.ITERABLE());
-
-    //    return new GenericTypeNode(t, pt);
-    //}
-
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, KvpContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LambdaContext context) {
@@ -310,22 +275,11 @@ public static class ASTFactory {
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LetInContext context) => throw new NotImplementedException();
-   // private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LetNameContext context) => throw new NotImplementedException();
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ListDecompContext context) => throw new NotImplementedException();
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ListTypeContext context) {
-    //    var pt = visitor.Visit<TypeNode>(context.genericSpecifier());
-    //    var t = visitor.Visit<TypeNode>(context.LIST());
-
-    //    return new GenericTypeNode(t, pt);
-    //}
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LiteralDataStructureContext context) => visitor.Visit(context.children.First());
 
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, DictionaryContext context) => throw new NotImplementedException();
-
-    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LiteralListContext context)
-    {
+    private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, LiteralListContext context) {
         var items = context.expression().Select(visitor.Visit<ValueNode>);
 
         return new ListExpressionNode(items.ToArray());
@@ -347,8 +301,6 @@ public static class ASTFactory {
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParameterListContext context) => throw new NotImplementedException();
 
-   // private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ParameterNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
-
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProceduralControlFlowContext context) => visitor.Visit(context.children.First());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MethodCallContext context) {
@@ -367,13 +319,9 @@ public static class ASTFactory {
         return new ProcedureDefinitionNode(id, pps.ToArray(), procedureBlock);
     }
 
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
-
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ProcedureSignatureContext context) => throw new NotImplementedException();
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PropertyContext context) => throw new NotImplementedException();
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, PropertyNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, RangeContext context) {
         var prefix = context.children.First() is ITerminalNode;
@@ -400,44 +348,35 @@ public static class ASTFactory {
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TupleTypeContext context) => new TupleTypeNode(context.type().Select(visitor.Visit<TypeNode>));
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, TypeContext context) {
-        if (context.VALUE_TYPE() is {} vt) {
+        if (context.VALUE_TYPE() is { } vt) {
             return visitor.Visit<TypeNode>(vt);
         }
 
-        if (context.TYPENAME() is {} tn) {
+        if (context.TYPENAME() is { } tn) {
             return visitor.Visit<TypeNode>(tn);
         }
 
-        if (context.dataStructureType() is {} dt)
-        {
+        if (context.dataStructureType() is { } dt) {
             return visitor.Visit<TypeNode>(dt);
         }
 
-        if (context.funcType() is {} ft)
-        {
+        if (context.funcType() is { } ft) {
             return visitor.Visit<TypeNode>(ft);
         }
 
-        if (context.tupleType() is {} tt)
-        {
+        if (context.tupleType() is { } tt) {
             return visitor.Visit<TypeNode>(tt);
         }
 
         throw new NotImplementedException();
-
-        //return visitor.Visit<TypeNode>(context.children.First());
     }
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, UnaryOpContext context) => throw new NotImplementedException();
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ValueNameContext context) => visitor.Visit(context.children.First());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, ValueContext context) => visitor.Visit(context.children.First());
 
     private static VarDefinitionNode Build(this SandpitBaseVisitor<IASTNode> visitor, VarDefContext context) =>
         new(visitor.Visit<ValueNode>(context.assignableValue()), visitor.Visit<IExpression>(context.expression()));
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, VariableNameContext context) => visitor.Visit<ValueNode>(context.IDENTIFIER());
 
     private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, WhileContext context) {
         var condition = visitor.Visit<IExpression>(context.expression());
@@ -452,12 +391,4 @@ public static class ASTFactory {
         var statNodes = context.children?.Select(visitor.Visit<IStatement>) ?? Array.Empty<IStatement>();
         return new AggregateNode<IStatement>(statNodes);
     }
-
-    //private static IASTNode Build(this SandpitBaseVisitor<IASTNode> visitor, MethodNameContext context) {
-    //    if (context.functionName() is { } fn) {
-    //        return visitor.Visit(fn);
-    //    }
-
-    //    return visitor.Visit(context.procedureName());
-    //}
 }
